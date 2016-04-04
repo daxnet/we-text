@@ -10,10 +10,12 @@ using WeText.Common.Repositories;
 using WeText.DomainRepositories;
 using WeText.Messaging.RabbitMq;
 using WeText.Common.Services;
+using Microsoft.Owin.Hosting;
+using System;
 
 namespace WeText.Service
 {
-    public class Startup
+    internal sealed class WeTextService : Common.Services.Service
     {
         const string SearchPath = "services";
 
@@ -67,6 +69,16 @@ namespace WeText.Service
 
             app.UseAutofacWebApi(config);
             app.UseWebApi(config);
+        }
+
+        public override void Start(object[] args)
+        {
+            var url = "http://+:9023/";
+            using (WebApp.Start<WeTextService>(url: url))
+            {
+                Console.WriteLine("Service started.");
+                Console.ReadLine();
+            }
         }
     }
 }

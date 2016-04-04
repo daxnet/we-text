@@ -20,7 +20,7 @@ namespace WeText.Common.Services
             GC.SuppressFinalize(this);
         }
 
-        public abstract void Start();
+        public abstract void Start(object[] args);
 
         protected virtual void Dispose(bool disposing) { }
     }

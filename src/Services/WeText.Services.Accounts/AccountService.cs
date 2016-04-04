@@ -9,7 +9,7 @@ namespace WeText.Services.Accounts
 {
     public class AccountService : Service
     {
-        public override void Start()
+        public override void Start(object[] args)
         {
             throw new NotImplementedException();
         }

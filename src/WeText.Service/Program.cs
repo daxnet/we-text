@@ -7,12 +7,8 @@ namespace WeText.Service
     {
         static void Main(string[] args)
         {
-            var url = "http://+:9023/";
-            using (WebApp.Start<Startup>(url: url))
-            {
-                Console.WriteLine("Service started.");
-                Console.ReadLine();
-            }
+            var service = new WeTextService();
+            service.Start(args);
         }
     }
 }

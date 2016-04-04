@@ -8,6 +8,6 @@ namespace WeText.Common.Services
 {
     public interface IService : IDisposable
     {
-        void Start();
+        void Start(object[] args);
     }
 }
