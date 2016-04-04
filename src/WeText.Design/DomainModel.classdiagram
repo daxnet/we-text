@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="fbc46584-0488-44a7-930a-d5bb27f21951" name="DomainModel" linkedPackageId="55e7b473-a9a2-4d58-9c7c-353b54640926" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="c236fe92-ea1c-4878-a738-f15667f2db1d">
+      <profileInstance Id="6fb68270-4a44-4bf9-8a90-f04217b5ad51" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="a591508a-5dad-4cec-9508-8db67a15e518">
+      <profileInstance Id="fdd4e1d8-1b30-4a89-b5b2-0657bc3944d4" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="61e58fb1-16ca-4490-bd0b-a12df921513e" name="User" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="c51dda12-d977-410d-9ad4-edd1481ebeec" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="8e63dc06-5fc2-4ad5-9c61-a5b0b0ccd9d9" name="Text" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="c9bef53c-9230-41f5-b5ea-31aea21b2b11" />
+        <targetEnds>
+          <association Id="2a6a5deb-fbf4-4535-a59b-27d2e1b2fbc0" isDerived="false" sourceEndRoleName="Text" targetEndRoleName="User" isLeaf="false" isAbstract="false">
+            <classMoniker Id="61e58fb1-16ca-4490-bd0b-a12df921513e" LastKnownName="User" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="5b4d7754-2ece-4b1f-a7db-a5a1838fa4a6" name="Text" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString Id="0bbdc1ed-ae14-4a0d-923b-11ab95cf2804" name="Lower" value="*">
+                      <elementDefinition Id="993a2796-576e-464e-8085-66f8ff41a138" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="764f5945-be1d-4757-b59a-36e048891fae" name="Upper" value="*">
+                      <elementDefinition Id="c5a65a7d-aa9e-4b00-864a-6f03dafe19bf" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="7c544ec0-7dbb-412c-8496-18d240b66d15" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="cb995f64-212e-4377-a280-bf925ea74efa" name="User" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="32226466-e2e2-4356-accf-307fe20f065d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="1e04414e-6880-418c-a4fb-982f022f23aa" />
+          </association>
+        </targetEnds>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+  </packagedElements>
+  <package Id="55e7b473-a9a2-4d58-9c7c-353b54640926" name="WeText.Design">
+    <elementDefinition Id="6ee8930c-bc0c-4f86-a569-8f8ba24d61f8" />
+  </package>
+</logicalClassDesignerModel>
