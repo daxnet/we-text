@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeText.Common.Messaging
 {
-    public interface IEventBus : IBus
+    public interface ICommandSender : IMessagePublisher
     {
     }
 }

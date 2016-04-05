@@ -8,9 +8,9 @@ namespace WeText.Services.Accounts.ApiControllers
     [RoutePrefix("api")]
     public class AccountController : ApiController
     {
-        private readonly ICommandBus commandBus;
+        private readonly ICommandSender commandBus;
 
-        public AccountController(ICommandBus commandBus)
+        public AccountController(ICommandSender commandBus)
         {
             this.commandBus = commandBus;
         }

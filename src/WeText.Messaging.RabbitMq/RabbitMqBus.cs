@@ -9,7 +9,7 @@ using WeText.Common.Messaging;
 
 namespace WeText.Messaging.RabbitMq
 {
-    public abstract class RabbitMqBus : IBus
+    public abstract class RabbitMqBus : IMessagePublisher
     {
         private readonly string exchangeName;
         private readonly IConnection connection;

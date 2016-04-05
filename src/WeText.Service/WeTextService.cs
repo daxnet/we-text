@@ -45,9 +45,9 @@ namespace WeText.Service
         public void Configuration(IAppBuilder app)
         {
             var builder = new ContainerBuilder();
-            builder.Register(x => new RabbitMqCommandBus("localhost", "wetext_command_exchange")).As<ICommandBus>();
-            builder.Register(x => new RabbitMqEventBus("localhost", "wetext_event_exchange")).As<IEventBus>();
-            builder.Register(x => new MongoDomainRepository(x.Resolve<IEventBus>())).As<IDomainRepository>();
+            builder.Register(x => new RabbitMqCommandBus("localhost", "wetext_command_exchange")).As<ICommandSender>();
+            builder.Register(x => new RabbitMqEventBus("localhost", "wetext_event_exchange")).As<IEventPublisher>();
+            builder.Register(x => new MongoDomainRepository(x.Resolve<IEventPublisher>())).As<IDomainRepository>();
 
             // Loads the microservices.
             LoadServices(builder);

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace WeText.Common.Messaging
 {
-    public interface ICommandBus : IBus
+    public interface IMessagePublisher : IDisposable
     {
+        void Publish<TMessage>(TMessage message);
     }
 }

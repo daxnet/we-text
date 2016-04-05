@@ -7,7 +7,7 @@ using WeText.Common.Messaging;
 
 namespace WeText.Messaging.RabbitMq
 {
-    public class RabbitMqCommandBus : RabbitMqBus, ICommandBus
+    public class RabbitMqCommandBus : RabbitMqBus, ICommandSender
     {
         public RabbitMqCommandBus(string hostName, string exchangeName)
             : base(hostName, exchangeName)

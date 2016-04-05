@@ -14,7 +14,7 @@ namespace WeText.Tests
     [TestFixture]
     public class DomainRepositoryTests
     {
-        private readonly Mock<IBus> bus = new Mock<IBus>();
+        private readonly Mock<IMessagePublisher> bus = new Mock<IMessagePublisher>();
 
         [Test]
         public async Task SaveAggregateRootTest()

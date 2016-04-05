@@ -17,7 +17,7 @@ namespace WeText.DomainRepositories
         private readonly Lazy<MongoClient> client;
         private readonly Lazy<IMongoDatabase> database;
 
-        public MongoDomainRepository(IBus bus) : base(bus)
+        public MongoDomainRepository(IMessagePublisher bus) : base(bus)
         {
             this.client = new Lazy<MongoClient>(() => new MongoClient(setting.ConnectionString));
             this.database = new Lazy<IMongoDatabase>(() => client.Value.GetDatabase(setting.DatabaseName));

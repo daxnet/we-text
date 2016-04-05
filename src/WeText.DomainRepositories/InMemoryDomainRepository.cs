@@ -12,7 +12,7 @@ namespace WeText.DomainRepositories
 {
     public class InMemoryDomainRepository : DomainRepository
     {
-        public InMemoryDomainRepository(IBus bus)
+        public InMemoryDomainRepository(IMessagePublisher bus)
             : base(bus)
         { }
 

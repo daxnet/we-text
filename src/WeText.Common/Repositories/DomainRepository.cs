@@ -11,9 +11,9 @@ namespace WeText.Common.Repositories
 {
     public abstract class DomainRepository : IDomainRepository
     {
-        private readonly IBus bus;
+        private readonly IMessagePublisher bus;
 
-        protected DomainRepository(IBus bus)
+        protected DomainRepository(IMessagePublisher bus)
         {
             this.bus = bus;
         }

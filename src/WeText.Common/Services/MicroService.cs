@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeText.Common.Messaging
+namespace WeText.Common.Services
 {
-    public interface IBus : IDisposable
+    public abstract class MicroService : Service
     {
-        void Publish<TMessage>(TMessage message);
     }
 }
