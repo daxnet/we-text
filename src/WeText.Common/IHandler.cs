@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace WeText.Common
 {
-    public interface IHandler<in T>
+    public interface IHandler
+    {
+        Task HandleAsync(object message);
+    }
+
+    public interface IHandler<in T> : IHandler
     {
         Task HandleAsync(T message);
     }

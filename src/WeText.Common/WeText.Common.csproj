@@ -42,13 +42,22 @@
   <ItemGroup>
     <Compile Include="AggregateRoot.cs" />
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandHandler.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\ICommandHandler.cs" />
     <Compile Include="Events\DomainEvent.cs" />
+    <Compile Include="Events\EventHandler.cs" />
     <Compile Include="Events\IDomainEventHandler.cs" />
     <Compile Include="Events\InlineEventHandlerAttribute.cs" />
     <Compile Include="IAggregateRoot.cs" />
     <Compile Include="IPurgeable.cs" />
+    <Compile Include="Messaging\CommandConsumer.cs" />
+    <Compile Include="Messaging\EventConsumer.cs" />
+    <Compile Include="Messaging\ICommandConsumer.cs" />
+    <Compile Include="Messaging\IEventConsumer.cs" />
+    <Compile Include="Messaging\IMessageConsumer.cs" />
+    <Compile Include="Messaging\IMessageSubscriber.cs" />
+    <Compile Include="Messaging\MessageReceivedEventArgs.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Messaging\IMessagePublisher.cs" />
     <Compile Include="Messaging\ICommandSender.cs" />
@@ -59,7 +68,7 @@
     <Compile Include="Events\IDomainEvent.cs" />
     <Compile Include="IHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\MicroService.cs" />
+    <Compile Include="Services\Microservice.cs" />
     <Compile Include="Services\Service.cs" />
   </ItemGroup>
   <ItemGroup />

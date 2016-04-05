@@ -8,18 +8,18 @@ using WeText.Common.Commands;
 using WeText.Common.Repositories;
 using WeText.Domain;
 
-namespace WeText.Services.Accounts
+namespace WeText.Services.Accounts.CommandHandlers
 {
-    public class CommandHandler : ICommandHandler<CreateUserCommand>
+    public class CreateUserCommandHandler : CommandHandler<CreateUserCommand>
     {
         private readonly IDomainRepository repository;
 
-        public CommandHandler(IDomainRepository repository)
+        public CreateUserCommandHandler(IDomainRepository repository)
         {
             this.repository = repository;
         }
 
-        public async Task HandleAsync(CreateUserCommand message)
+        public override async Task HandleAsync(CreateUserCommand message)
         {
             var user = new User(Guid.NewGuid(), message.Name, message.Email);
             user.ChangeDisplayName(message.DisplayName);

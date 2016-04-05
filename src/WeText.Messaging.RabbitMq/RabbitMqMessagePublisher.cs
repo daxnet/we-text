@@ -9,19 +9,19 @@ using WeText.Common.Messaging;
 
 namespace WeText.Messaging.RabbitMq
 {
-    public abstract class RabbitMqBus : IMessagePublisher
+    public abstract class RabbitMqMessagePublisher : IMessagePublisher
     {
         private readonly string exchangeName;
         private readonly IConnection connection;
         private readonly IModel channel;
         private bool disposed;
 
-        ~RabbitMqBus()
+        ~RabbitMqMessagePublisher()
         {
             Dispose(false);
         }
 
-        protected RabbitMqBus(string hostName, string exchangeName)
+        protected RabbitMqMessagePublisher(string hostName, string exchangeName)
         {
             this.exchangeName = exchangeName;
             var factory = new ConnectionFactory() { HostName = hostName };
@@ -52,7 +52,7 @@ namespace WeText.Messaging.RabbitMq
         {
             channel.ExchangeDeclare(exchange: this.exchangeName, type: "fanout");
 
-            var json = JsonConvert.SerializeObject(message);
+            var json = JsonConvert.SerializeObject(message, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
             var bytes = Encoding.UTF8.GetBytes(json);
 
             channel.BasicPublish(exchange: this.exchangeName, routingKey: "", basicProperties: null, body: bytes);

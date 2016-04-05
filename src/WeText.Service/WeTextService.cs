@@ -18,6 +18,7 @@ namespace WeText.Service
     internal sealed class WeTextService : Common.Services.Service
     {
         const string SearchPath = "services";
+        private IContainer container;
 
         static void LoadServices(ContainerBuilder builder)
         {
@@ -28,11 +29,10 @@ namespace WeText.Service
                 {
                     var assembly = Assembly.LoadFrom(file);
                     var exportedTypes = assembly.GetExportedTypes();
-                    if (exportedTypes.Any(t => typeof(IService).IsAssignableFrom(t)))
+                    if (exportedTypes.Any(t=>t.IsSubclassOf(typeof(Autofac.Module))))
                     {
-
+                        builder.RegisterAssemblyModules(assembly);
                     }
-
                     if (exportedTypes.Any(t => t.IsSubclassOf(typeof(ApiController))))
                     {
                         builder.RegisterApiControllers(assembly).InstancePerRequest();
@@ -45,14 +45,16 @@ namespace WeText.Service
         public void Configuration(IAppBuilder app)
         {
             var builder = new ContainerBuilder();
-            builder.Register(x => new RabbitMqCommandBus("localhost", "wetext_command_exchange")).As<ICommandSender>();
-            builder.Register(x => new RabbitMqEventBus("localhost", "wetext_event_exchange")).As<IEventPublisher>();
+            builder.Register(x => new RabbitMqCommandSender("localhost", "wetext_command_exchange")).As<ICommandSender>();
+            builder.Register(x => new RabbitMqEventPublisher("localhost", "wetext_event_exchange")).As<IEventPublisher>();
+            builder.Register(x => new RabbitMqMessageSubscriber("localhost", "wetext_command_exchange")).As<IMessageSubscriber>().Named<IMessageSubscriber>("command_subscriber");
+            builder.Register(x => new RabbitMqMessageSubscriber("localhost", "wetext_event_exchange")).As<IMessageSubscriber>().Named<IMessageSubscriber>("event_subscriber");
             builder.Register(x => new MongoDomainRepository(x.Resolve<IEventPublisher>())).As<IDomainRepository>();
 
             // Loads the microservices.
             LoadServices(builder);
 
-            var container = builder.Build();
+            container = builder.Build();
             app.UseAutofacMiddleware(container);
 
             HttpConfiguration config = new HttpConfiguration();
@@ -69,6 +71,15 @@ namespace WeText.Service
 
             app.UseAutofacWebApi(config);
             app.UseWebApi(config);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                
+            }
+            base.Dispose(disposing);
         }
 
         public override void Start(object[] args)

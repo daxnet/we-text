@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeText.Common.Messaging;
 using WeText.Common.Services;
 
 namespace WeText.Services.Accounts
 {
-    public class AccountService : Service
+    public class AccountService : Microservice
     {
-        public override void Start(object[] args)
-        {
-            throw new NotImplementedException();
-        }
+        public AccountService(ICommandConsumer commandConsumer, IEventConsumer eventConsumer)
+            : base(commandConsumer, eventConsumer)
+        { }
     }
 }

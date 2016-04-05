@@ -48,10 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RabbitMqBus.cs" />
+    <Compile Include="RabbitMqMessageSubscriber.cs" />
+    <Compile Include="RabbitMqMessagePublisher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RabbitMqCommandBus.cs" />
-    <Compile Include="RabbitMqEventBus.cs" />
+    <Compile Include="RabbitMqCommandSender.cs" />
+    <Compile Include="RabbitMqEventPublisher.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WeText.Common\WeText.Common.csproj">
