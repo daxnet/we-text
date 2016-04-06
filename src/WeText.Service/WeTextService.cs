@@ -12,15 +12,16 @@ using WeText.Messaging.RabbitMq;
 using WeText.Common.Services;
 using Microsoft.Owin.Hosting;
 using System;
+using System.Collections.Generic;
 
 namespace WeText.Service
 {
     internal sealed class WeTextService : Common.Services.Service
     {
-        const string SearchPath = "services";
-        private IContainer container;
+        private const string SearchPath = "services";
+        private static List<IService> microServices = new List<IService>();
 
-        static void LoadServices(ContainerBuilder builder)
+        static void DiscoverServices(ContainerBuilder builder)
         {
             var searchFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), SearchPath);
             foreach (var file in Directory.EnumerateFiles(searchFolder, "*.dll", SearchOption.AllDirectories))
@@ -45,16 +46,21 @@ namespace WeText.Service
         public void Configuration(IAppBuilder app)
         {
             var builder = new ContainerBuilder();
-            builder.Register(x => new RabbitMqCommandSender("localhost", "wetext_command_exchange")).As<ICommandSender>();
-            builder.Register(x => new RabbitMqEventPublisher("localhost", "wetext_event_exchange")).As<IEventPublisher>();
-            builder.Register(x => new RabbitMqMessageSubscriber("localhost", "wetext_command_exchange")).As<IMessageSubscriber>().Named<IMessageSubscriber>("command_subscriber");
-            builder.Register(x => new RabbitMqMessageSubscriber("localhost", "wetext_event_exchange")).As<IMessageSubscriber>().Named<IMessageSubscriber>("event_subscriber");
+            builder.Register(x => new RabbitMqCommandSender("localhost", "WeTextCommandExchange")).As<ICommandSender>();
+            builder.Register(x => new RabbitMqEventPublisher("localhost", "WeTextEventExchange")).As<IEventPublisher>();
+            builder.Register(x => new RabbitMqMessageSubscriber("localhost", "WeTextCommandExchange")).Named<IMessageSubscriber>("CommandSubscriber");
+            builder.Register(x => new RabbitMqMessageSubscriber("localhost", "WeTextEventExchange")).Named<IMessageSubscriber>("EventSubscriber");
             builder.Register(x => new MongoDomainRepository(x.Resolve<IEventPublisher>())).As<IDomainRepository>();
 
-            // Loads the microservices.
-            LoadServices(builder);
+            // Discovers the services.
+            DiscoverServices(builder);
 
-            container = builder.Build();
+            // Create the container by builder.
+            var container = builder.Build();
+
+            // Register the services.
+            microServices.AddRange(container.Resolve<IEnumerable<IService>>());
+
             app.UseAutofacMiddleware(container);
 
             HttpConfiguration config = new HttpConfiguration();
@@ -73,20 +79,12 @@ namespace WeText.Service
             app.UseWebApi(config);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                
-            }
-            base.Dispose(disposing);
-        }
-
         public override void Start(object[] args)
         {
             var url = "http://+:9023/";
             using (WebApp.Start<WeTextService>(url: url))
             {
+                microServices.ForEach(ms => ms.Start(args));
                 Console.WriteLine("Service started.");
                 Console.ReadLine();
             }

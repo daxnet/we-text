@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WeText.Common.Commands;
 
-namespace WeText.Commands
+namespace WeText.Domain.Commands
 {
     public class CreateUserCommand : Command
     {

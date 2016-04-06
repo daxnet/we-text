@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WeText.Commands")]
+[assembly: AssemblyTitle("WeText.Services.Texting")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WeText.Commands")]
+[assembly: AssemblyProduct("WeText.Services.Texting")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("03f0cea4-c310-43e1-a9d4-684931f782eb")]
+[assembly: Guid("177a79d6-70dc-435b-ae7a-b94402969a8b")]
 
 // Version information for an assembly consists of the following four values:
 //

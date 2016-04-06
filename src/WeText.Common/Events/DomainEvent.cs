@@ -21,9 +21,9 @@ namespace WeText.Common.Events
 
         public string AggregateRootType { get; set; }
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
-        public DateTime Timestamp { get; private set; }
+        public DateTime Timestamp { get; set; }
 
     }
 }

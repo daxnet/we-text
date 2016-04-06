@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\services\</OutputPath>
+    <OutputPath>..\..\..\bin\services\accounts\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\bin\services\</OutputPath>
+    <OutputPath>..\..\..\bin\services\accounts\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -63,11 +63,6 @@
     <Compile Include="ApiControllers\AccountController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WeText.Commands\WeText.Commands.csproj">
-      <Project>{03f0cea4-c310-43e1-a9d4-684931f782eb}</Project>
-      <Name>WeText.Commands</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\..\WeText.Common\WeText.Common.csproj">
       <Project>{97c426d5-34aa-43c8-adf9-1206d90a2dcb}</Project>
       <Name>WeText.Common</Name>
@@ -82,6 +77,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EventHandlers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

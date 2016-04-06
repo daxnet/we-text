@@ -7,10 +7,15 @@ using WeText.Common.Commands;
 
 namespace WeText.Common.Messaging
 {
-    public class CommandConsumer : ICommandConsumer
+    /// <summary>
+    /// Represents the default command consumer which will simply iterate
+    /// each registered command handler and handle the command within it.
+    /// </summary>
+    public sealed class CommandConsumer : ICommandConsumer
     {
         private readonly IEnumerable<ICommandHandler> commandHandlers;
         private readonly IMessageSubscriber subscriber;
+        private bool disposed;
 
         ~CommandConsumer()
         {
@@ -41,7 +46,11 @@ namespace WeText.Common.Messaging
         {
             if (disposing)
             {
-                this.subscriber.Dispose();
+                if (!disposed)
+                {
+                    this.subscriber.Dispose();
+                    disposed = true;
+                }
             }
         }
 

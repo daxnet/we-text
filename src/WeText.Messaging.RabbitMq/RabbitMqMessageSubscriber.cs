@@ -51,7 +51,7 @@ namespace WeText.Messaging.RabbitMq
                 channel.BasicAck(e.DeliveryTag, multiple: false);
             };
             channel.BasicConsume(queue: queueName,
-                                 noAck: true,
+                                 noAck: false,
                                  consumer: consumer);
         }
 

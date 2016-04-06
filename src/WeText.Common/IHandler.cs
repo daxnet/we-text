@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace WeText.Common
 {
+    /// <summary>
+    /// Represents that the implemented classes are message handlers.
+    /// </summary>
     public interface IHandler
     {
         Task HandleAsync(object message);

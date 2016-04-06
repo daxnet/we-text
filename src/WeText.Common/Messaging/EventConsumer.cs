@@ -7,10 +7,11 @@ using WeText.Common.Events;
 
 namespace WeText.Common.Messaging
 {
-    public class EventConsumer : IEventConsumer
+    public sealed class EventConsumer : IEventConsumer
     {
         private readonly IEnumerable<IDomainEventHandler> eventHandlers;
         private readonly IMessageSubscriber subscriber;
+        private bool disposed;
 
         ~EventConsumer()
         {
@@ -41,7 +42,11 @@ namespace WeText.Common.Messaging
         {
             if (disposing)
             {
-                this.subscriber.Dispose();
+                if (!disposed)
+                {
+                    this.subscriber.Dispose();
+                    disposed = true;
+                }
             }
         }
 

@@ -13,7 +13,7 @@ namespace WeText.Domain
     {
         public User()
         {
-            ApplyEvent(new UserCreatedEvent());
+            ApplyEvent(new UserCreatedEvent(Guid.Empty));
         }
 
         public User(Guid id)
@@ -34,12 +34,13 @@ namespace WeText.Domain
 
         public void ChangeDisplayName(string displayName)
         {
-            ApplyEvent(new DisplayNameChangedEvent(displayName));
+            ApplyEvent(new DisplayNameChangedEvent(this.Id, displayName));
         }
 
         [InlineEventHandler]
         private void HandleUserCreatedEvent(UserCreatedEvent evnt)
         {
+            this.Id = (Guid)evnt.AggregateRootKey;
             this.Name = evnt.Name;
             this.Email = evnt.Email;
         }

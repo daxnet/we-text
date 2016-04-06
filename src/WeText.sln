@@ -15,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{F7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Tests", "..\tests\WeText.Tests\WeText.Tests.csproj", "{61884B43-E8B2-4715-9A33-B386D2BA7953}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Commands", "WeText.Commands\WeText.Commands.csproj", "{03F0CEA4-C310-43E1-A9D4-684931F782EB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Services.Accounts", "Services\WeText.Services.Accounts\WeText.Services.Accounts.csproj", "{71B2FD92-0D5C-46C9-B939-2C5A5DFF931E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Messaging.RabbitMq", "WeText.Messaging.RabbitMq\WeText.Messaging.RabbitMq.csproj", "{BC971D5A-CA3E-42ED-9859-252B1D80249D}"
@@ -24,7 +22,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Service", "WeText.Service\WeText.Service.csproj", "{336EA554-A51C-4BBF-9EDD-223EF1446E8A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{71B2FD92-0D5C-46C9-B939-2C5A5DFF931E} = {71B2FD92-0D5C-46C9-B939-2C5A5DFF931E}
+		{177A79D6-70DC-435B-AE7A-B94402969A8B} = {177A79D6-70DC-435B-AE7A-B94402969A8B}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Services.Texting", "Services\WeText.Services.Texting\WeText.Services.Texting.csproj", "{177A79D6-70DC-435B-AE7A-B94402969A8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,10 +53,6 @@ Global
 		{61884B43-E8B2-4715-9A33-B386D2BA7953}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61884B43-E8B2-4715-9A33-B386D2BA7953}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61884B43-E8B2-4715-9A33-B386D2BA7953}.Release|Any CPU.Build.0 = Release|Any CPU
-		{03F0CEA4-C310-43E1-A9D4-684931F782EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03F0CEA4-C310-43E1-A9D4-684931F782EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03F0CEA4-C310-43E1-A9D4-684931F782EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03F0CEA4-C310-43E1-A9D4-684931F782EB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{71B2FD92-0D5C-46C9-B939-2C5A5DFF931E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{71B2FD92-0D5C-46C9-B939-2C5A5DFF931E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71B2FD92-0D5C-46C9-B939-2C5A5DFF931E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -68,11 +65,16 @@ Global
 		{336EA554-A51C-4BBF-9EDD-223EF1446E8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{336EA554-A51C-4BBF-9EDD-223EF1446E8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{336EA554-A51C-4BBF-9EDD-223EF1446E8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{177A79D6-70DC-435B-AE7A-B94402969A8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{177A79D6-70DC-435B-AE7A-B94402969A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{177A79D6-70DC-435B-AE7A-B94402969A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{177A79D6-70DC-435B-AE7A-B94402969A8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{71B2FD92-0D5C-46C9-B939-2C5A5DFF931E} = {F7E6FDA2-4F6A-4A0E-B28F-F40D1675CE19}
+		{177A79D6-70DC-435B-AE7A-B94402969A8B} = {F7E6FDA2-4F6A-4A0E-B28F-F40D1675CE19}
 	EndGlobalSection
 EndGlobal

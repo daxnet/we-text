@@ -7,8 +7,7 @@ namespace WeText.Service
     {
         static void Main(string[] args)
         {
-            var service = new WeTextService();
-            service.Start(args);
+            using (var service = new WeTextService()) service.Start(args);
         }
     }
 }

@@ -9,11 +9,11 @@ namespace WeText.Domain.Events
 {
     public class UserCreatedEvent : DomainEvent
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public string Email { get; private set; }
+        public string Email { get; set; }
 
-        public UserCreatedEvent() : base(0) { }
+        public UserCreatedEvent() : base() { }
 
         public UserCreatedEvent(object aggregateRootKey) : base(aggregateRootKey) { }
 

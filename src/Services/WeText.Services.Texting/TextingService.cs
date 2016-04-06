@@ -6,25 +6,21 @@ using System.Threading.Tasks;
 using WeText.Common.Messaging;
 using WeText.Common.Services;
 
-namespace WeText.Services.Accounts
+namespace WeText.Services.Texting
 {
-    public class AccountService : Service
+    public class TextingService : Service
     {
         private readonly ICommandConsumer commandConsumer;
-        private readonly IEventConsumer eventConsumer;
         private bool disposed;
 
-        public AccountService(ICommandConsumer commandConsumer, IEventConsumer eventConsumer)
+        public TextingService(ICommandConsumer commandConsumer)
         {
             this.commandConsumer = commandConsumer;
-            this.eventConsumer = eventConsumer;
         }
-
 
         public override void Start(object[] args)
         {
             this.commandConsumer.Subscriber.Subscribe();
-            this.eventConsumer.Subscriber.Subscribe();
         }
 
         protected override void Dispose(bool disposing)
@@ -34,10 +30,10 @@ namespace WeText.Services.Accounts
                 if (!disposed)
                 {
                     this.commandConsumer.Dispose();
-                    this.eventConsumer.Dispose();
                     this.disposed = true;
                 }
             }
+            base.Dispose(disposing);
         }
     }
 }

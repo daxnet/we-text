@@ -58,6 +58,11 @@
     <Compile Include="Messaging\IMessageConsumer.cs" />
     <Compile Include="Messaging\IMessageSubscriber.cs" />
     <Compile Include="Messaging\MessageReceivedEventArgs.cs" />
+    <Compile Include="Querying\ITableDataGateway.cs" />
+    <Compile Include="Querying\IWhereClauseBuilder.cs" />
+    <Compile Include="Querying\TableDataGateway.cs" />
+    <Compile Include="Querying\WhereClauseBuilder.cs" />
+    <Compile Include="Querying\WhereClauseBuildResult.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Messaging\IMessagePublisher.cs" />
     <Compile Include="Messaging\ICommandSender.cs" />
@@ -68,8 +73,20 @@
     <Compile Include="Events\IDomainEvent.cs" />
     <Compile Include="IHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Microservice.cs" />
     <Compile Include="Services\Service.cs" />
+    <Compile Include="Specifications\AndNotSpecification.cs" />
+    <Compile Include="Specifications\AndSpecification.cs" />
+    <Compile Include="Specifications\AnySpecification.cs" />
+    <Compile Include="Specifications\CompositeSpecification.cs" />
+    <Compile Include="Specifications\ExpressionFuncExtender.cs" />
+    <Compile Include="Specifications\ExpressionSpecification.cs" />
+    <Compile Include="Specifications\ICompositeSpecification.cs" />
+    <Compile Include="Specifications\NoneSpecification.cs" />
+    <Compile Include="Specifications\NotSpecification.cs" />
+    <Compile Include="Specifications\OrSpecification.cs" />
+    <Compile Include="Specifications\ParameterRebinder.cs" />
+    <Compile Include="Specifications\Specification.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -9,9 +9,10 @@ namespace WeText.Domain.Events
 {
     public class DisplayNameChangedEvent : DomainEvent
     {
-        public string DisplayName { get; private set; }
+        public string DisplayName { get; set; }
 
-        public DisplayNameChangedEvent(string displayName)
+        public DisplayNameChangedEvent(object aggregateRootId, string displayName)
+            : base(aggregateRootId)
         {
             this.DisplayName = displayName;
         }

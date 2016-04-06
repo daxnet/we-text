@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Web.Http;
-using WeText.Commands;
 using WeText.Common.Messaging;
+using WeText.Domain.Commands;
 
 namespace WeText.Services.Accounts.ApiControllers
 {
     [RoutePrefix("api")]
     public class AccountController : ApiController
     {
-        private readonly ICommandSender commandBus;
+        private readonly ICommandSender commandSender;
 
-        public AccountController(ICommandSender commandBus)
+        public AccountController(ICommandSender commandSender)
         {
-            this.commandBus = commandBus;
+            this.commandSender = commandSender;
         }
 
         [Route("users/create")]
@@ -26,7 +26,7 @@ namespace WeText.Services.Accounts.ApiControllers
                 Email = model.Email,
                 DisplayName = model.DisplayName
             };
-            commandBus.Publish(createUserCommand);
+            commandSender.Publish(createUserCommand);
             return Ok();
         }
     }
