@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Service", "WeText.Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Services.Texting", "Services\WeText.Services.Texting\WeText.Services.Texting.csproj", "{177A79D6-70DC-435B-AE7A-B94402969A8B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Querying.MySqlClient", "WeText.Querying.MySqlClient\WeText.Querying.MySqlClient.csproj", "{56C1435B-E2CE-4CC3-AD7C-618993A69738}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{177A79D6-70DC-435B-AE7A-B94402969A8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{177A79D6-70DC-435B-AE7A-B94402969A8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{177A79D6-70DC-435B-AE7A-B94402969A8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56C1435B-E2CE-4CC3-AD7C-618993A69738}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56C1435B-E2CE-4CC3-AD7C-618993A69738}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56C1435B-E2CE-4CC3-AD7C-618993A69738}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56C1435B-E2CE-4CC3-AD7C-618993A69738}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
