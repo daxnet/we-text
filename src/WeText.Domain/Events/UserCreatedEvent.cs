@@ -13,7 +13,7 @@ namespace WeText.Domain.Events
 
         public string Email { get; set; }
 
-        public UserCreatedEvent() : base() { }
+        protected UserCreatedEvent() : base() { }
 
         public UserCreatedEvent(object aggregateRootKey) : base(aggregateRootKey) { }
 
