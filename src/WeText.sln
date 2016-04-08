@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Common", "WeText.Common\WeText.Common.csproj", "{97C426D5-34AA-43C8-ADF9-1206D90A2DCB}"
 EndProject
-Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "WeText.Design", "WeText.Design\WeText.Design.modelproj", "{D21B4B1D-4813-4FAF-959A-1ACE15CDA61F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Domain", "WeText.Domain\WeText.Domain.csproj", "{8882C079-11DD-4E25-8132-28D024D3B4E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.DomainRepositories", "WeText.DomainRepositories\WeText.DomainRepositories.csproj", "{F83E2F77-7E82-4A22-9505-F80B79D3563B}"
@@ -39,10 +37,6 @@ Global
 		{97C426D5-34AA-43C8-ADF9-1206D90A2DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97C426D5-34AA-43C8-ADF9-1206D90A2DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97C426D5-34AA-43C8-ADF9-1206D90A2DCB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D21B4B1D-4813-4FAF-959A-1ACE15CDA61F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D21B4B1D-4813-4FAF-959A-1ACE15CDA61F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D21B4B1D-4813-4FAF-959A-1ACE15CDA61F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D21B4B1D-4813-4FAF-959A-1ACE15CDA61F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8882C079-11DD-4E25-8132-28D024D3B4E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8882C079-11DD-4E25-8132-28D024D3B4E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8882C079-11DD-4E25-8132-28D024D3B4E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
