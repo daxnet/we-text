@@ -60,6 +60,7 @@
     <Compile Include="AccountServiceModule.cs" />
     <Compile Include="CommandHandlers\CreateUserCommandHandler.cs" />
     <Compile Include="EventHandlers\UserCreatedEventHandler.cs" />
+    <Compile Include="EventHandlers\UserDisplayNameChangedEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ApiControllers\AccountController.cs" />
     <Compile Include="Querying\UserTableObject.cs" />

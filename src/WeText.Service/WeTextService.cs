@@ -21,6 +21,8 @@ namespace WeText.Service
         private const string SearchPath = "services";
         private static List<IService> microServices = new List<IService>();
 
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
+
         static void DiscoverServices(ContainerBuilder builder)
         {
             var searchFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), SearchPath);
@@ -82,10 +84,15 @@ namespace WeText.Service
         public override void Start(object[] args)
         {
             var url = "http://+:9023/";
+            log.Info("Starting WeText Service...");
             using (WebApp.Start<WeTextService>(url: url))
             {
-                microServices.ForEach(ms => ms.Start(args));
-                Console.WriteLine("Service started.");
+                microServices.ForEach(ms =>
+                {
+                    log.Info($"Starting microservice '{ms.GetType().FullName}'...");
+                    ms.Start(args);
+                });
+                log.Info("WeText Service started successfully.");
                 Console.ReadLine();
             }
         }

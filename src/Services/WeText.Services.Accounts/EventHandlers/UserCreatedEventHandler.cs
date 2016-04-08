@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WeText.Common.Events;
 using WeText.Common.Querying;
 using WeText.Domain.Events;
+using WeText.Services.Accounts.Querying;
 
 namespace WeText.Services.Accounts.EventHandlers
 {
@@ -20,7 +21,13 @@ namespace WeText.Services.Accounts.EventHandlers
 
         public override async Task HandleAsync(UserCreatedEvent message)
         {
-            await Task.CompletedTask;
+            var userTableObject = new UserTableObject
+            {
+                Id = message.AggregateRootKey.ToString(),
+                Name = message.Name,
+                Email = message.Email
+            };
+            await this.gateway.InsertAsync<UserTableObject>(new[] { userTableObject });
         }
     }
 }

@@ -25,7 +25,7 @@ namespace WeText.Services.Accounts
         {
             // Register table data gateway
             builder
-                .Register(x => new MySqlTableDataGateway(""))
+                .Register(x => new MySqlTableDataGateway("server=127.0.0.1;uid=root;pwd=P@ssw0rd;database=wetext;"))
                 .Named<ITableDataGateway>("AccountServiceTableDataGateway");
 
             // Register command handlers

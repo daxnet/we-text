@@ -10,5 +10,13 @@ namespace WeText.Services.Accounts.Querying
     [ToTable("Users")]
     public class UserTableObject
     {
+        [Key(false)]
+        public string Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string Email { get; set; }
+
+        public string DisplayName { get; set; }
     }
 }
