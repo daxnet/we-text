@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using WeText.Common.Events;
 using WeText.Common.Querying;
 using WeText.Domain.Events;
+using WeText.Services.Accounts.Querying;
 
 namespace WeText.Services.Accounts.EventHandlers
 {
@@ -18,9 +20,12 @@ namespace WeText.Services.Accounts.EventHandlers
             this.gateway = gateway;
         }
 
-        public override Task HandleAsync(UserEmailChangedEvent message)
+        public override async Task HandleAsync(UserEmailChangedEvent message)
         {
-            return Task.CompletedTask;
+            var accountId = message.AggregateRootKey.ToString();
+            var updateCriteria = new UpdateCriteria<AccountTableObject> { { x => x.Email, message.Email } };
+            Expression<Func<AccountTableObject, bool>> updateSpecification = x => x.Id == accountId;
+            await gateway.UpdateAsync<AccountTableObject>(updateCriteria, updateSpecification);
         }
     }
 }

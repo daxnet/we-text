@@ -71,6 +71,7 @@ namespace WeText.Web.Controllers
                 DisplayName = user.DisplayName,
                 Email = user.Email,
             };
+
             return View(model);
         }
 

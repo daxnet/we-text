@@ -22,15 +22,21 @@ namespace WeText.Services.Accounts.CommandHandlers
         public override async Task HandleAsync(UpdateUserCommand message)
         {
             var user = await domainRepository.GetByKeyAsync<Guid, User>(message.UserId);
-            if (!string.IsNullOrEmpty(message.DisplayName))
+            bool updated = false;
+            if (!string.IsNullOrEmpty(message.DisplayName) && user.DisplayName != message.DisplayName)
             {
                 user.ChangeDisplayName(message.DisplayName);
+                updated = true;
             }
-            if (!string.IsNullOrEmpty(message.Email))
+            if (!string.IsNullOrEmpty(message.Email) && user.Email != message.Email)
             {
                 user.ChangeEmail(message.Email);
+                updated = true;
             }
-            await domainRepository.SaveAsync<Guid, User>(user);
+            if (updated)
+            {
+                await domainRepository.SaveAsync<Guid, User>(user);
+            }
         }
     }
 }

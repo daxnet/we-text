@@ -15,7 +15,7 @@ namespace WeText.Common.Querying
         Task InsertAsync<TTableObject>(IEnumerable<TTableObject> tableObjects)
             where TTableObject : class, new();
 
-        Task UpdateAsync<TTableObject>(IEnumerable<TTableObject> tableObjects)
+        Task UpdateAsync<TTableObject>(UpdateCriteria<TTableObject> updateCriteria, Specification<TTableObject> specification)
             where TTableObject : class, new();
     }
 }
