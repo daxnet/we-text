@@ -63,6 +63,11 @@
       <Name>WeText.Domain</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\WeText.Querying.MySqlClient\WeText.Querying.MySqlClient.csproj">
+      <Project>{56c1435b-e2ce-4cc3-ad7c-618993a69738}</Project>
+      <Name>WeText.Querying.MySqlClient</Name>
+      <Private>False</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

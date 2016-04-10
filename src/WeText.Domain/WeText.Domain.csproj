@@ -41,8 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CreateUserCommand.cs" />
-    <Compile Include="Events\DisplayNameChangedEvent.cs" />
+    <Compile Include="Commands\UpdateUserCommand.cs" />
+    <Compile Include="Events\UserDisplayNameChangedEvent.cs" />
     <Compile Include="Events\UserCreatedEvent.cs" />
+    <Compile Include="Events\UserEmailChangedEvent.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

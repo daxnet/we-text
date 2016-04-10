@@ -11,21 +11,25 @@ namespace WeText.Common.Repositories
 {
     public abstract class DomainRepository : IDomainRepository
     {
-        private readonly IMessagePublisher bus;
+        private readonly IMessagePublisher messagePublisher;
 
-        protected DomainRepository(IMessagePublisher bus)
+        protected DomainRepository(IMessagePublisher messagePublisher)
         {
-            this.bus = bus;
+            this.messagePublisher = messagePublisher;
         }
 
         public async Task SaveAsync<TKey, TAggregateRoot>(TAggregateRoot aggregateRoot, bool purge = true)
             where TKey : IEquatable<TKey>
             where TAggregateRoot : class, IAggregateRoot<TKey>, new()
         {
-            await this.SaveDomainEventsAsync(aggregateRoot.UncommittedEvents);
+            // When doing a CQRS architecture with Event Sourcing (ES), this step should be going
+            // to save the events occurred within the aggregate. In this example, we simply save
+            // the entire aggregate root to avoid handling the snapshots.
+
+            await this.SaveAggregateAsync<TKey, TAggregateRoot>(aggregateRoot);
             foreach(var evnt in aggregateRoot.UncommittedEvents)
             {
-                bus.Publish(evnt);
+                messagePublisher.Publish(evnt);
             }
 
             if (purge)
@@ -38,16 +42,16 @@ namespace WeText.Common.Repositories
             where TKey : IEquatable<TKey>
             where TAggregateRoot : class, IAggregateRoot<TKey>, new()
         {
-            var evnts = await this.GetDomainEventsAsync<TKey, TAggregateRoot>(key);
-            var aggregateRoot = new TAggregateRoot();
-            aggregateRoot.Id = key;
-            aggregateRoot.Replay(evnts);
-            return aggregateRoot;
+            var result = await this.GetAggregateAsync<TKey, TAggregateRoot>(key);
+            ((IPurgeable)result).Purge();
+            return result;
         }
 
-        protected abstract Task SaveDomainEventsAsync(IEnumerable<IDomainEvent> events);
+        protected abstract Task SaveAggregateAsync<TKey, TAggregateRoot>(TAggregateRoot aggregateRoot)
+            where TKey : IEquatable<TKey>
+            where TAggregateRoot : class, IAggregateRoot<TKey>, new();
 
-        protected abstract Task<IEnumerable<IDomainEvent>> GetDomainEventsAsync<TKey, TAggregateRoot>(TKey aggregateRootKey)
+        protected abstract Task<TAggregateRoot> GetAggregateAsync<TKey, TAggregateRoot>(TKey aggregateRootKey)
             where TKey : IEquatable<TKey>
             where TAggregateRoot : class, IAggregateRoot<TKey>, new();
     }

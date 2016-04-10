@@ -16,18 +16,22 @@ namespace WeText.DomainRepositories
             : base(bus)
         { }
 
-        private readonly List<IDomainEvent> events = new List<IDomainEvent>();
+        private readonly List<object> aggregates = new List<object>();
 
-        protected override Task<IEnumerable<IDomainEvent>> GetDomainEventsAsync<TKey, TAggregateRoot>(TKey aggregateRootKey)
+        protected override Task<TAggregateRoot> GetAggregateAsync<TKey, TAggregateRoot>(TKey aggregateRootKey)
         {
-            return Task.FromResult(events.Where(x => x.AggregateRootKey.Equals(aggregateRootKey) && x.AggregateRootType == typeof(TAggregateRoot).FullName));
+            var query = from obj in this.aggregates
+                        let ar = obj as TAggregateRoot
+                        where ar != null &&
+                        ar.Id.Equals(aggregateRootKey)
+                        select obj;
+            return Task.FromResult(query.FirstOrDefault() as TAggregateRoot);
         }
 
-        protected override Task SaveDomainEventsAsync(IEnumerable<IDomainEvent> events)
+        protected override Task SaveAggregateAsync<TKey, TAggregateRoot>(TAggregateRoot aggregateRoot)
         {
-            return Task.Run(() => this.events.AddRange(events));
+            return Task.Run(()=>this.aggregates.Add(aggregateRoot));
         }
-
-        public IList<IDomainEvent> Events => events;
+        
     }
 }

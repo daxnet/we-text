@@ -21,8 +21,7 @@ namespace WeText.Services.Accounts.CommandHandlers
 
         public override async Task HandleAsync(CreateUserCommand message)
         {
-            var user = new User(Guid.NewGuid(), message.Name, message.Email);
-            user.ChangeDisplayName(message.DisplayName);
+            var user = new User(message.UserId, message.Name, message.Password, message.Email, message.DisplayName);
             await this.repository.SaveAsync<Guid, User>(user);
         }
     }

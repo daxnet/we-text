@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using WeText.Common.Commands;
 using WeText.Common.Messaging;
+using WeText.Common.Querying;
 using WeText.Common.Services;
+using WeText.Querying.MySqlClient;
 using WeText.Services.Texting.CommandHandlers;
 
 namespace WeText.Services.Texting
@@ -15,6 +17,11 @@ namespace WeText.Services.Texting
     {
         protected override void Load(ContainerBuilder builder)
         {
+            // Register table data gateway
+            builder
+                .Register(x => new MySqlTableDataGateway(""))
+                .Named<ITableDataGateway>("TextingServiceTableDataGateway");
+
             // Register command handlers
             builder
                 .Register(x => new CreateUserCommandHandler())

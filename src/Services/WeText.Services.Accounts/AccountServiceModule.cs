@@ -1,9 +1,11 @@
 ﻿using Autofac;
+using Autofac.Extras.AttributeMetadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeText.Common;
 using WeText.Common.Commands;
 using WeText.Common.Events;
 using WeText.Common.Messaging;
@@ -26,16 +28,29 @@ namespace WeText.Services.Accounts
             // Register table data gateway
             builder
                 .Register(x => new MySqlTableDataGateway("server=127.0.0.1;uid=root;pwd=P@ssw0rd;database=wetext;"))
-                .Named<ITableDataGateway>("AccountServiceTableDataGateway");
+                .As<ITableDataGateway>()
+                .WithMetadata<NamedMetadata>(x => x.For(y => y.Name, "AccountServiceTableDataGateway"));
 
             // Register command handlers
             builder
                 .Register(x => new CreateUserCommandHandler(x.Resolve<IDomainRepository>()))
                 .Named<ICommandHandler>("AccountServiceCommandHandler");
+            builder
+                .Register(x => new UpdateUserCommandHandler(x.Resolve<IDomainRepository>()))
+                .Named<ICommandHandler>("AccountServiceCommandHandler");
 
             // Register event handlers
             builder
-                .Register(x => new UserCreatedEventHandler(x.ResolveNamed<ITableDataGateway>("AccountServiceTableDataGateway")))
+                .Register(x => new UserCreatedEventHandler(
+                    x.Resolve<IEnumerable<Lazy<ITableDataGateway, NamedMetadata>>>().First(p=>p.Metadata.Name== "AccountServiceTableDataGateway").Value))
+                .Named<IDomainEventHandler>("AccountServiceEventHandler");
+            builder
+                .Register(x => new UserDisplayNameChangedEventHandler(
+                    x.Resolve<IEnumerable<Lazy<ITableDataGateway, NamedMetadata>>>().First(p => p.Metadata.Name == "AccountServiceTableDataGateway").Value))
+                .Named<IDomainEventHandler>("AccountServiceEventHandler");
+            builder
+                .Register(x => new UserEmailChangedEventHandler(
+                    x.Resolve<IEnumerable<Lazy<ITableDataGateway, NamedMetadata>>>().First(p => p.Metadata.Name == "AccountServiceTableDataGateway").Value))
                 .Named<IDomainEventHandler>("AccountServiceEventHandler");
 
             // Register command consumer and assign message subscriber and command handler to the consumer.

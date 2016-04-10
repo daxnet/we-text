@@ -7,11 +7,11 @@ using WeText.Common.Events;
 
 namespace WeText.Domain.Events
 {
-    public class DisplayNameChangedEvent : DomainEvent
+    public class UserDisplayNameChangedEvent : DomainEvent
     {
         public string DisplayName { get; set; }
 
-        public DisplayNameChangedEvent(object aggregateRootId, string displayName)
+        public UserDisplayNameChangedEvent(object aggregateRootId, string displayName)
             : base(aggregateRootId)
         {
             this.DisplayName = displayName;

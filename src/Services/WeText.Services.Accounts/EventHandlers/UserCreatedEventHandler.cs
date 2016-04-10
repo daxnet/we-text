@@ -21,13 +21,15 @@ namespace WeText.Services.Accounts.EventHandlers
 
         public override async Task HandleAsync(UserCreatedEvent message)
         {
-            var userTableObject = new UserTableObject
+            var userTableObject = new AccountTableObject
             {
                 Id = message.AggregateRootKey.ToString(),
+                Password = message.Password,
                 Name = message.Name,
-                Email = message.Email
+                Email = message.Email,
+                DisplayName = message.DisplayName
             };
-            await this.gateway.InsertAsync<UserTableObject>(new[] { userTableObject });
+            await this.gateway.InsertAsync<AccountTableObject>(new[] { userTableObject });
         }
     }
 }

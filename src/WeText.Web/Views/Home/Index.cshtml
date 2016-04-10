@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>WeText</h1>
+    <p class="lead">WeText is a demonstration application which fully demonstrates the CQRS and Microservice architecture.</p>
+    <p><a href="https://github.com/daxnet/we-text" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <h3>Domain Driven Design</h3>
+        <p>
+            Domain-driven design (DDD) is an approach to software development for complex needs by connecting the implementation to an evolving model. Ideally, it would be preferable to have a single, unified model. While this is a noble goal, in reality it typically fragments into multiple models. It is useful to recognize this fact of life and work with it.
+        </p>
+        <p><a class="btn btn-info" href="https://en.wikipedia.org/wiki/Domain-driven_design">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h3>CQRS</h3>
+        <p>CQRS stands for Command Query Responsibility Segregation. It's a pattern that I first heard described by Greg Young. At its heart is the notion that you can use a different model to update information than the model you use to read information. For some situations, this separation can be valuable, but beware that for most systems CQRS adds risky complexity.</p>
+        <p><a class="btn btn-info" href="http://martinfowler.com/bliki/CQRS.html">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h3>Event Sourcing</h3>
+        <p>Event Sourcing ensures that all changes to application state are stored as a sequence of events. Not just can we query these events, we can also use the event log to reconstruct past states, and as a foundation to automatically adjust the state to cope with retroactive changes.</p>
+        <p><a class="btn btn-info" href="http://martinfowler.com/eaaDev/EventSourcing.html">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h3>Microservices</h3>
+        <p>
+            "Microservices" - yet another new term on the crowded streets of software architecture. Although our natural inclination is to pass such things by with a contemptuous glance, this bit of terminology describes a style of software systems that we are finding more and more appealing.
+        </p>
+        <p><a class="btn btn-info" href="http://martinfowler.com/articles/microservices.html">Learn more &raquo;</a></p>
+    </div>
+</div>

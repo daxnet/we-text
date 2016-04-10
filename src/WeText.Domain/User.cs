@@ -21,12 +21,14 @@ namespace WeText.Domain
             ApplyEvent(new UserCreatedEvent(id));
         }
 
-        public User(Guid id, string name, string email)
+        public User(Guid id, string name, string password, string email, string displayName)
         {
-            ApplyEvent(new UserCreatedEvent(id, name, email));
+            ApplyEvent(new UserCreatedEvent(id, name, password, email, displayName));
         }
 
         public string Name { get; private set; }
+
+        public string Password { get; private set; }
 
         public string DisplayName { get; private set; }
 
@@ -34,21 +36,34 @@ namespace WeText.Domain
 
         public void ChangeDisplayName(string displayName)
         {
-            ApplyEvent(new DisplayNameChangedEvent(this.Id, displayName));
+            ApplyEvent(new UserDisplayNameChangedEvent(this.Id, displayName));
+        }
+
+        public void ChangeEmail(string email)
+        {
+            ApplyEvent(new UserEmailChangedEvent(this.Id, email));
         }
 
         [InlineEventHandler]
         private void HandleUserCreatedEvent(UserCreatedEvent evnt)
         {
             this.Id = (Guid)evnt.AggregateRootKey;
+            this.Password = evnt.Password;
+            this.DisplayName = evnt.DisplayName;
             this.Name = evnt.Name;
             this.Email = evnt.Email;
         }
 
         [InlineEventHandler]
-        private void HandleChangeDisplayNameEvent(DisplayNameChangedEvent evnt)
+        private void HandleChangeDisplayNameEvent(UserDisplayNameChangedEvent evnt)
         {
             this.DisplayName = evnt.DisplayName;
+        }
+
+        [InlineEventHandler]
+        private void HandleChangeEmailEvent(UserEmailChangedEvent evnt)
+        {
+            this.Email = evnt.Email;
         }
     }
 }

@@ -137,10 +137,14 @@ namespace WeText.Common.Querying
                 .ToList()
                 .ForEach(pi =>
                 {
-                    if (pi.PropertyType == typeof(Guid))
-                        pi.SetValue(t, new Guid(Convert.ToString(reader[pi.Name])), null);
-                    else
-                        pi.SetValue(t, reader[pi.Name], null);
+                    var value = reader[pi.Name];
+                    if (value != DBNull.Value)
+                    {
+                        if (pi.PropertyType == typeof(Guid))
+                            pi.SetValue(t, new Guid(Convert.ToString(reader[pi.Name])), null);
+                        else
+                            pi.SetValue(t, reader[pi.Name], null);
+                    }
                 });
 
             return t;
@@ -194,7 +198,7 @@ namespace WeText.Common.Querying
                 {
                     var whereClauseBuilder = this.CreateWhereClauseBuilder<TTableObject>();
                     whereClauseBuildResult = whereClauseBuilder.BuildWhereClause(specification);
-                    sql += $"WHERE {whereClauseBuildResult.WhereClause}";
+                    sql += $" WHERE {whereClauseBuildResult.WhereClause}";
                 }
 
                 using (var command = this.CreateCommand(sql, connection))
@@ -217,6 +221,15 @@ namespace WeText.Common.Querying
                     reader.Close();
                     return result;
                 }
+            }
+        }
+
+        public async Task UpdateAsync<TTableObject>(IEnumerable<TTableObject> tableObjects) where TTableObject : class, new()
+        {
+            using (var connection = this.CreateDatabaseConnection())
+            {
+                await connection.OpenAsync();
+                
             }
         }
     }

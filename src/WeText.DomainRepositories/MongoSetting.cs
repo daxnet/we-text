@@ -12,6 +12,6 @@ namespace WeText.DomainRepositories
 
         public string DatabaseName => "WeText";
 
-        public string CollectionName => "DomainEvents";
+        public string AggregatesCollectionName => "Aggregates";
     }
 }

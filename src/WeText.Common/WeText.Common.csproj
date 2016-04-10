@@ -45,6 +45,7 @@
     <Compile Include="Commands\CommandHandler.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\ICommandHandler.cs" />
+    <Compile Include="DisposableObject.cs" />
     <Compile Include="Events\DomainEvent.cs" />
     <Compile Include="Events\EventHandler.cs" />
     <Compile Include="Events\IDomainEventHandler.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Messaging\IMessageConsumer.cs" />
     <Compile Include="Messaging\IMessageSubscriber.cs" />
     <Compile Include="Messaging\MessageReceivedEventArgs.cs" />
+    <Compile Include="NamedMetadata.cs" />
     <Compile Include="Querying\KeyAttribute.cs" />
     <Compile Include="Querying\ITableDataGateway.cs" />
     <Compile Include="Querying\IWhereClauseBuilder.cs" />

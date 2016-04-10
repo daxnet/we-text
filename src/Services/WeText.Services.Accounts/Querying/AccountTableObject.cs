@@ -7,11 +7,13 @@ using WeText.Common.Querying;
 
 namespace WeText.Services.Accounts.Querying
 {
-    [ToTable("Users")]
-    public class UserTableObject
+    [ToTable("Accounts")]
+    public class AccountTableObject
     {
         [Key(false)]
         public string Id { get; set; }
+
+        public string Password { get; set; }
 
         public string Name { get; set; }
 
