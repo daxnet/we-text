@@ -1,4 +1,5 @@
 CREATE DATABASE `wetext.accounts` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `wetext.accounts`;
 CREATE TABLE `accounts` (
   `Id` varchar(64) NOT NULL,
   `Name` varchar(16) NOT NULL,

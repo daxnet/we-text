@@ -29,8 +29,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Querying.MySqlClient
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Web", "WeText.Web\WeText.Web.csproj", "{B7245E30-AC54-47D1-BFC8-16AF1089B0E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Querying.MongoDb", "WeText.Querying.MongoDb\WeText.Querying.MongoDb.csproj", "{858B7441-8B5E-4CE7-96CF-0A93375AE32F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,14 +113,6 @@ Global
 		{B7245E30-AC54-47D1-BFC8-16AF1089B0E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7245E30-AC54-47D1-BFC8-16AF1089B0E5}.ServerDebug|Any CPU.ActiveCfg = ServerDebug|Any CPU
 		{B7245E30-AC54-47D1-BFC8-16AF1089B0E5}.ServerRelease|Any CPU.ActiveCfg = ServerRelease|Any CPU
-		{858B7441-8B5E-4CE7-96CF-0A93375AE32F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{858B7441-8B5E-4CE7-96CF-0A93375AE32F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{858B7441-8B5E-4CE7-96CF-0A93375AE32F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{858B7441-8B5E-4CE7-96CF-0A93375AE32F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{858B7441-8B5E-4CE7-96CF-0A93375AE32F}.ServerDebug|Any CPU.ActiveCfg = Debug|Any CPU
-		{858B7441-8B5E-4CE7-96CF-0A93375AE32F}.ServerDebug|Any CPU.Build.0 = Debug|Any CPU
-		{858B7441-8B5E-4CE7-96CF-0A93375AE32F}.ServerRelease|Any CPU.ActiveCfg = Release|Any CPU
-		{858B7441-8B5E-4CE7-96CF-0A93375AE32F}.ServerRelease|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

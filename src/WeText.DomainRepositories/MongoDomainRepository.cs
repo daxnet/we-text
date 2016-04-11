@@ -45,7 +45,7 @@ namespace WeText.DomainRepositories
             var builder = Builders<TAggregateRoot>.Filter;
             var filter = builder.Eq(x => x.Id, aggregateRoot.Id);
             var saved = await GetAggregateAsync<TKey, TAggregateRoot>(filter);
-            if (saved!=null)
+            if (saved != null)
             {
                 await collection.ReplaceOneAsync(filter, aggregateRoot);
             }
