@@ -88,7 +88,12 @@ namespace WeText.Web.Controllers
                 var identityResult = await UserManager.UpdateAsync(applicationUser);
                 if (identityResult.Succeeded)
                 {
-                    return RedirectToAction("Index", new { Message = ManageMessageId.UpdateAccountSuccess });
+                    return RedirectToAction("Info", "Home", new {
+                        MessageTitle = "Success!",
+                        MessageText = "Settings saved successfully!",
+                        ReturnAction = "Index",
+                        ReturnController = "Manage" }
+                    );
                 }
                 AddErrors(identityResult);
                 return View("Index", model);

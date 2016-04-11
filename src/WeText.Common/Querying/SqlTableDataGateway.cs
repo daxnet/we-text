@@ -9,7 +9,7 @@ using WeText.Common.Specifications;
 
 namespace WeText.Common.Querying
 {
-    public abstract class TableDataGateway : ITableDataGateway
+    public abstract class SqlTableDataGateway : ITableDataGateway
     {
 
         /// <summary>

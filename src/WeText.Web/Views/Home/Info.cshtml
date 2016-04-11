@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Info";
+}
+
+<h2>@ViewBag.MessageTitle</h2>
+<p>@ViewBag.MessageText</p>
+@if(!string.IsNullOrEmpty(ViewBag.ReturnAction) &&
+    !string.IsNullOrEmpty(ViewBag.ReturnController))
+{
+    var a = (string)ViewBag.ReturnAction;
+    var c = (string)ViewBag.ReturnController;
+    @Html.ActionLink("<< Return Back", a, c);
+}
+

@@ -20,10 +20,14 @@ namespace WeText.Web.Controllers
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Info(string messageTitle, string messageText, string returnAction = null, string returnController = null)
         {
-            ViewBag.Message = "Your contact page.";
-
+            if (string.IsNullOrEmpty(messageTitle) || string.IsNullOrEmpty(messageText))
+                return RedirectToAction("Index", "Home");
+            ViewBag.MessageTitle = messageTitle;
+            ViewBag.MessageText = messageText;
+            ViewBag.ReturnAction = returnAction;
+            ViewBag.ReturnController = returnController;
             return View();
         }
     }
