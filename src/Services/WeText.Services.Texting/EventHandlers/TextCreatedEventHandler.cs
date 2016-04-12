@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WeText.Common.Events;
 using WeText.Common.Querying;
 using WeText.Domain.Events;
-using WeText.Services.Texting.Model;
+using WeText.Services.Texting.Querying;
 
 namespace WeText.Services.Texting.EventHandlers
 {

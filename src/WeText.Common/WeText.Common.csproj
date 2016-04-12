@@ -81,7 +81,7 @@
     <Compile Include="Querying\KeyAttribute.cs" />
     <Compile Include="Querying\ITableDataGateway.cs" />
     <Compile Include="Querying\IWhereClauseBuilder.cs" />
-    <Compile Include="Querying\SqlTableDataGateway.cs" />
+    <Compile Include="Querying\TableDataGateway.cs" />
     <Compile Include="Querying\ToTableAttribute.cs" />
     <Compile Include="Querying\UpdateCriteria.cs" />
     <Compile Include="Querying\WhereClauseBuilder.cs" />

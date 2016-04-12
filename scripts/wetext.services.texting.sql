@@ -7,6 +7,8 @@ CREATE TABLE `texts` (
   `Content` longtext NOT NULL,
   `DateCreated` datetime(6) NOT NULL,
   PRIMARY KEY (`Id`),
-  UNIQUE KEY `Id_UNIQUE` (`Id`),
-  UNIQUE KEY `UserId_UNIQUE` (`UserId`)
+  UNIQUE KEY `Id_UNIQUE` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+

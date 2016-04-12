@@ -9,7 +9,7 @@ using WeText.Common.Querying;
 
 namespace WeText.Querying.MySqlClient
 {
-    public sealed class MySqlTableDataGateway : SqlTableDataGateway
+    public sealed class MySqlTableDataGateway : TableDataGateway
     {
         private readonly string connectionString;
 

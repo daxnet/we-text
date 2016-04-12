@@ -1,0 +1,34 @@
+﻿
+@model IEnumerable<WeText.Web.Models.TextViewModel>
+
+@{
+    ViewBag.Title = "My Texts";
+}
+
+<h2>My Texts</h2>
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Date
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(m.Title, "Text", "MyText", new { id = m.Id }, null)</td>
+                    <td>@m.DateCreated.ToLocalTime().ToShortDateString()</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <input type="button" class="btn btn-primary" value="Create" onclick="location.href='@Url.Action("Create", "MyText")'" />
+</div>
