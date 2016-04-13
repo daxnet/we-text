@@ -58,5 +58,21 @@ namespace WeText.Services.Texting.ApiControllers
             Expression<Func<TextTableObject, bool>> specification = x => x.Id == id;
             return Ok(await this.tableDataGateway.SelectAsync<TextTableObject>(specification));
         }
+
+        [HttpPost]
+        [Route("texts/update/{id}")]
+        public IHttpActionResult UpdateText(string id, [FromBody] dynamic model)
+        {
+            var textId = new Guid(id);
+            var changeTextCommand = new ChangeTextCommand
+            {
+                Id = Guid.NewGuid(),
+                Content = model.Content,
+                Title = model.Title,
+                TextId = textId
+            };
+            commandSender.Publish(changeTextCommand);
+            return Ok();
+        }
     }
 }

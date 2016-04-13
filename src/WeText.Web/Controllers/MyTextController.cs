@@ -62,7 +62,40 @@ namespace WeText.Web.Controllers
                 return RedirectToAction("Info", "Home", new
                 {
                     MessageTitle = "Success!",
-                    MessageText = "Text was created successfully.",
+                    MessageText = "Create text request sent successfully.",
+                    ReturnAction = "Index",
+                    ReturnController = "MyText"
+                });
+            }
+        }
+
+        public async Task<ActionResult> Edit(string id)
+        {
+            using (var proxy = new ServiceProxy(baseAddress))
+            {
+                var result = await proxy.GetAsync($"api/texts/{id}");
+                result.EnsureSuccessStatusCode();
+                var model = JsonConvert.DeserializeObject<IEnumerable<TextViewModel>>(await result.Content.ReadAsStringAsync()).FirstOrDefault();
+                return View(new EditTextViewModel { TextId = id, Title = model.Title, Content = model.Content });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(EditTextViewModel model)
+        {
+            using (var proxy = new ServiceProxy(baseAddress))
+            {
+                var result = await proxy.PostAsJsonAsync($"api/texts/update/{model.TextId}", new
+                {
+                    model.Title,
+                    model.Content
+                });
+                result.EnsureSuccessStatusCode();
+                return RedirectToAction("Info", "Home", new
+                {
+                    MessageTitle = "Success!",
+                    MessageText = "Update text request sent successfully.",
                     ReturnAction = "Index",
                     ReturnController = "MyText"
                 });

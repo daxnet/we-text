@@ -166,6 +166,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MyFriendController.cs" />
     <Compile Include="Controllers\MyTextController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -176,8 +177,10 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ApplicationUserManager.cs" />
     <Compile Include="Models\CreateTextViewModel.cs" />
+    <Compile Include="Models\EditTextViewModel.cs" />
     <Compile Include="Models\IWebApiUserStore.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MyFriendViewModel.cs" />
     <Compile Include="Models\ServiceProxy.cs" />
     <Compile Include="Models\TextViewModel.cs" />
     <Compile Include="Models\WebApiUserStore.cs" />
@@ -242,18 +245,15 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\Info.cshtml" />
     <Content Include="Views\MyText\Index.cshtml" />
     <Content Include="Views\MyText\Text.cshtml" />
     <Content Include="Views\MyText\Create.cshtml" />
+    <Content Include="Views\MyText\Edit.cshtml" />
+    <Content Include="Views\MyFriend\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

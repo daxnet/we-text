@@ -31,10 +31,17 @@ namespace WeText.Services.Texting
             builder
                 .Register(x => new CreateTextCommandHandler(x.Resolve<IDomainRepository>()))
                 .Named<ICommandHandler>("TextingServiceCommandHandler");
+            builder
+                .Register(x => new ChangeTextCommandHandler(x.Resolve<IDomainRepository>()))
+                .Named<ICommandHandler>("TextingServiceCommandHandler");
 
             // Register event handlers
             builder
                 .Register(x => new TextCreatedEventHandler(
+                    x.Resolve<IEnumerable<Lazy<ITableDataGateway, NamedMetadata>>>().First(p => p.Metadata.Name == "TextingServiceTableDataGateway").Value))
+                .Named<IDomainEventHandler>("TextingServiceEventHandler");
+            builder
+                .Register(x => new TextChangedEventHandler(
                     x.Resolve<IEnumerable<Lazy<ITableDataGateway, NamedMetadata>>>().First(p => p.Metadata.Name == "TextingServiceTableDataGateway").Value))
                 .Named<IDomainEventHandler>("TextingServiceEventHandler");
 

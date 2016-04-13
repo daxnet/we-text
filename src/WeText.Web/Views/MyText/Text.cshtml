@@ -9,4 +9,5 @@
     @Model.Content
 </p>
 
+<input type="button" class="btn btn-primary" value="Edit" onclick="location.href='@Url.Action("Edit", "MyText", new { id=Model.Id })'" />
 <input type="button" class="btn btn-default" value="Back" onclick="location.href='@Url.Action("Index", "MyText")'" />

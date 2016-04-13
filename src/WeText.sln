@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Common", "WeText.Common\WeText.Common.csproj", "{97C426D5-34AA-43C8-ADF9-1206D90A2DCB}"
 EndProject
@@ -20,6 +20,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Service", "WeText.Service\WeText.Service.csproj", "{336EA554-A51C-4BBF-9EDD-223EF1446E8A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{71B2FD92-0D5C-46C9-B939-2C5A5DFF931E} = {71B2FD92-0D5C-46C9-B939-2C5A5DFF931E}
+		{1E2E77C7-1DBB-4A77-BBB3-A09F7A67326A} = {1E2E77C7-1DBB-4A77-BBB3-A09F7A67326A}
 		{177A79D6-70DC-435B-AE7A-B94402969A8B} = {177A79D6-70DC-435B-AE7A-B94402969A8B}
 	EndProjectSection
 EndProject
@@ -28,6 +29,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Querying.MySqlClient", "WeText.Querying.MySqlClient\WeText.Querying.MySqlClient.csproj", "{56C1435B-E2CE-4CC3-AD7C-618993A69738}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Web", "WeText.Web\WeText.Web.csproj", "{B7245E30-AC54-47D1-BFC8-16AF1089B0E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeText.Services.Social", "Services\WeText.Services.Social\WeText.Services.Social.csproj", "{1E2E77C7-1DBB-4A77-BBB3-A09F7A67326A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +116,14 @@ Global
 		{B7245E30-AC54-47D1-BFC8-16AF1089B0E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7245E30-AC54-47D1-BFC8-16AF1089B0E5}.ServerDebug|Any CPU.ActiveCfg = ServerDebug|Any CPU
 		{B7245E30-AC54-47D1-BFC8-16AF1089B0E5}.ServerRelease|Any CPU.ActiveCfg = ServerRelease|Any CPU
+		{1E2E77C7-1DBB-4A77-BBB3-A09F7A67326A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E2E77C7-1DBB-4A77-BBB3-A09F7A67326A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E2E77C7-1DBB-4A77-BBB3-A09F7A67326A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E2E77C7-1DBB-4A77-BBB3-A09F7A67326A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E2E77C7-1DBB-4A77-BBB3-A09F7A67326A}.ServerDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E2E77C7-1DBB-4A77-BBB3-A09F7A67326A}.ServerDebug|Any CPU.Build.0 = Debug|Any CPU
+		{1E2E77C7-1DBB-4A77-BBB3-A09F7A67326A}.ServerRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{1E2E77C7-1DBB-4A77-BBB3-A09F7A67326A}.ServerRelease|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,5 +131,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{71B2FD92-0D5C-46C9-B939-2C5A5DFF931E} = {F7E6FDA2-4F6A-4A0E-B28F-F40D1675CE19}
 		{177A79D6-70DC-435B-AE7A-B94402969A8B} = {F7E6FDA2-4F6A-4A0E-B28F-F40D1675CE19}
+		{1E2E77C7-1DBB-4A77-BBB3-A09F7A67326A} = {F7E6FDA2-4F6A-4A0E-B28F-F40D1675CE19}
 	EndGlobalSection
 EndGlobal

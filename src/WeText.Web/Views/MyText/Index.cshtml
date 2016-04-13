@@ -16,6 +16,9 @@
                 <th>
                     Date
                 </th>
+                <th>
+                    Edit
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +27,7 @@
                 <tr>
                     <td>@Html.ActionLink(m.Title, "Text", "MyText", new { id = m.Id }, null)</td>
                     <td>@m.DateCreated.ToLocalTime().ToShortDateString()</td>
+                    <td>@Html.ActionLink("Edit", "Edit", "MyText", new { id = m.Id }, null)</td>
             </tr>
             }
         </tbody>

@@ -34,6 +34,16 @@ namespace WeText.Domain
             ApplyEvent(new TextCreatedEvent(id, title, content, userId));
         }
 
+        public void ChangeTitle(string title)
+        {
+            ApplyEvent(new TextChangedEvent(this.Id) { Title = title });
+        }
+
+        public void ChangeContent(string content)
+        {
+            ApplyEvent(new TextChangedEvent(this.Id) { Content = content });
+        }
+
         [InlineEventHandler]
         private void HandleTextCreatedEvent(TextCreatedEvent evnt)
         {
@@ -42,6 +52,19 @@ namespace WeText.Domain
             this.Title = evnt.Title;
             this.Content = evnt.Content;
             this.DateCreated = evnt.Timestamp;
+        }
+
+        [InlineEventHandler]
+        private void HandleTextChangedEvent(TextChangedEvent evnt)
+        {
+            if (!string.IsNullOrEmpty(evnt.Title))
+            {
+                this.Title = evnt.Title;
+            }
+            if (!string.IsNullOrEmpty(evnt.Content))
+            {
+                this.Content = evnt.Content;
+            }
         }
     }
 }

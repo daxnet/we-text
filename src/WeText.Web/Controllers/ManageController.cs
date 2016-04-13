@@ -90,7 +90,7 @@ namespace WeText.Web.Controllers
                 {
                     return RedirectToAction("Info", "Home", new {
                         MessageTitle = "Success!",
-                        MessageText = "Settings saved successfully!",
+                        MessageText = "Update request has been sent successfully!",
                         ReturnAction = "Index",
                         ReturnController = "Manage" }
                     );
