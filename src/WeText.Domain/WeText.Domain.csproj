@@ -58,15 +58,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AddFriendCommand.cs" />
     <Compile Include="Commands\ChangeTextCommand.cs" />
     <Compile Include="Commands\CreateTextCommand.cs" />
     <Compile Include="Commands\CreateUserCommand.cs" />
     <Compile Include="Commands\UpdateUserCommand.cs" />
+    <Compile Include="Events\FriendAddedEvent.cs" />
+    <Compile Include="Events\InvitationApprovedEvent.cs" />
+    <Compile Include="Events\InvitationCompletedEvent.cs" />
+    <Compile Include="Events\InvitationCreatedEvent.cs" />
+    <Compile Include="Events\InvitationRejectedEvent.cs" />
+    <Compile Include="Events\InvitationSentEvent.cs" />
     <Compile Include="Events\TextChangedEvent.cs" />
     <Compile Include="Events\TextCreatedEvent.cs" />
     <Compile Include="Events\UserDisplayNameChangedEvent.cs" />
     <Compile Include="Events\UserCreatedEvent.cs" />
     <Compile Include="Events\UserEmailChangedEvent.cs" />
+    <Compile Include="Invitation.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

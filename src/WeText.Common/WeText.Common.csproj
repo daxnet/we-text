@@ -86,6 +86,8 @@
     <Compile Include="Querying\UpdateCriteria.cs" />
     <Compile Include="Querying\WhereClauseBuilder.cs" />
     <Compile Include="Querying\WhereClauseBuildResult.cs" />
+    <Compile Include="ISaga.cs" />
+    <Compile Include="Saga.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Messaging\IMessagePublisher.cs" />
     <Compile Include="Messaging\ICommandSender.cs" />

@@ -66,6 +66,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\SocialController.cs" />
+    <Compile Include="CommandHandlers\AddFriendCommandHandler.cs" />
+    <Compile Include="EventHandlers\InvitationApprovedEventHandler.cs" />
+    <Compile Include="EventHandlers\InvitationCompletedEventHandler.cs" />
+    <Compile Include="EventHandlers\InvitationRejectedEventHandler.cs" />
+    <Compile Include="EventHandlers\InvitationSentEventHandler.cs" />
     <Compile Include="EventHandlers\UserCreatedEventHandler.cs" />
     <Compile Include="Querying\UserNameTableObject.cs" />
     <Compile Include="SocialService.cs" />

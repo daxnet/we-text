@@ -8,6 +8,7 @@ using System.Web.Http;
 using WeText.Common;
 using WeText.Common.Messaging;
 using WeText.Common.Querying;
+using WeText.Domain.Commands;
 using WeText.Services.Social.Querying;
 
 namespace WeText.Services.Social.ApiControllers
@@ -24,6 +25,23 @@ namespace WeText.Services.Social.ApiControllers
             this.commandSender = commandSender;
             this.tableDataGateway = tableGatewayRegistration.First(x => x.Metadata.Name == "SocialServiceTableDataGateway").Value;
         }
+
+        //[HttpPost]
+        //[Route("social/invitation/send")]
+        //public IHttpActionResult SendInvitation([FromBody] dynamic model)
+        //{
+        //    var fromUserId = (string)model.FromUserId;
+        //    var toUserId = (string)model.ToUserId;
+
+        //    var command = new RequestSendInvitationCommand
+        //    {
+        //        Id = Guid.NewGuid(),
+        //        FromUserId = Guid.Parse(fromUserId),
+        //        ToUserId = Guid.Parse(toUserId)
+        //    };
+        //    this.commandSender.Publish(command);
+        //    return Ok();
+        //}
 
         [HttpGet]
         [Route("social/others/{thisUserId}")]

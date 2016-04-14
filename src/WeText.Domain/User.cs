@@ -11,6 +11,8 @@ namespace WeText.Domain
 {
     public class User : AggregateRoot<Guid>
     {
+        private readonly List<Guid> myFriends = new List<Guid>();
+
         public User()
         {
             ApplyEvent(new UserCreatedEvent(Guid.Empty));
@@ -34,6 +36,9 @@ namespace WeText.Domain
 
         public string Email { get; private set; }
 
+        public IEnumerable<Guid> MyFriends => myFriends;
+
+
         public void ChangeDisplayName(string displayName)
         {
             ApplyEvent(new UserDisplayNameChangedEvent(this.Id, displayName));
@@ -42,6 +47,26 @@ namespace WeText.Domain
         public void ChangeEmail(string email)
         {
             ApplyEvent(new UserEmailChangedEvent(this.Id, email));
+        }
+
+        public void SendInvitationTo(User toUser, string invitationLetter)
+        {
+            ApplyEvent(new InvitationSentEvent(this.Id, toUser.Id, invitationLetter));
+        }
+
+        public void ApproveInvitation(Invitation invitation)
+        {
+            ApplyEvent(new InvitationApprovedEvent(this.Id, invitation.Id));
+        }
+
+        public void RejectInvitation(Invitation invitation)
+        {
+            ApplyEvent(new InvitationRejectedEvent(this.Id, invitation.Id));
+        }
+
+        public void AddFriend(Guid friendUserId)
+        {
+            ApplyEvent(new FriendAddedEvent(this.Id, friendUserId));
         }
 
         [InlineEventHandler]
@@ -64,6 +89,12 @@ namespace WeText.Domain
         private void HandleChangeEmailEvent(UserEmailChangedEvent evnt)
         {
             this.Email = evnt.Email;
+        }
+
+        [InlineEventHandler]
+        private void HandleAddFriendEvent(FriendAddedEvent evnt)
+        {
+            this.myFriends.Add(evnt.FriendUserId);
         }
     }
 }
