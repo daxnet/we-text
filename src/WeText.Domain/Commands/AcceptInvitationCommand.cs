@@ -7,10 +7,7 @@ using WeText.Common.Commands;
 
 namespace WeText.Domain.Commands
 {
-    public class AddFriendCommand : Command
+    public class AcceptInvitationCommand : Command
     {
-        public Guid OriginatorId { get; set; }
-
-        public Guid AcceptorId { get; set; }
     }
 }

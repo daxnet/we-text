@@ -32,9 +32,9 @@ namespace WeText.Domain
 
         public bool Rejected { get; private set; }
 
-        public Guid FromUserId { get; private set; }
+        public Guid OriginatorId { get; private set; }
 
-        public Guid ToUserId { get; private set; }
+        public Guid TargetUserId { get; private set; }
 
         public string InvitationLetter { get; private set; }
 
@@ -50,17 +50,18 @@ namespace WeText.Domain
 
         public void Transit(InvitationSentEvent message)
         {
-            ApplyEvent(new InvitationSentTransitionEvent(message.AggregateRootKey, message.ToUserId, message.InvitationLetter));
+            ApplyEvent(new InvitationSentTransitionEvent(this.Id, message.OriginatorId, message.TargetUserId, message.InvitationLetter));
         }
 
         public void MarkCompletedIfNeeded()
         {
             if (this.Sent && (this.Approved || this.Rejected))
             {
-                ApplyEvent(new InvitationCompletedEvent(this.Id, this.FromUserId, this.ToUserId));
+                ApplyEvent(new InvitationCompletedEvent(this.Id, this.OriginatorId, this.TargetUserId, this.Approved));
             }
         }
 
+        [InlineEventHandler]
         private void Handle(InvitationCreatedEvent evnt)
         {
             this.Id = (Guid)evnt.AggregateRootKey;
@@ -74,7 +75,7 @@ namespace WeText.Domain
         }
 
         [InlineEventHandler]
-        private void Handle(InvitationApprovedEvent evnt)
+        private void Handle(InvitationApprovedTransitionEvent evnt)
         {
             this.Approved = true;
             MarkCompletedIfNeeded();
@@ -84,8 +85,8 @@ namespace WeText.Domain
         private void Handle(InvitationSentTransitionEvent evnt)
         {
             this.Sent = true;
-            this.FromUserId = (Guid)evnt.AggregateRootKey;
-            this.ToUserId = evnt.ToUserId;
+            this.OriginatorId = evnt.OriginatorId;
+            this.TargetUserId = evnt.TargetUserId;
             this.InvitationLetter = evnt.InvitationLetter;
 
             MarkCompletedIfNeeded();
@@ -98,15 +99,20 @@ namespace WeText.Domain
         }
     }
 
+    #region Transition Events
     public class InvitationSentTransitionEvent : DomainEvent
     {
-        public Guid ToUserId { get; set; }
+        public Guid OriginatorId { get; set; }
+
+        public Guid TargetUserId { get; set; }
+
         public string InvitationLetter { get; set; }
 
-        public InvitationSentTransitionEvent(object aggregateRootKey, Guid toUserId, string invitationLetter)
+        public InvitationSentTransitionEvent(object aggregateRootKey, Guid originatorId, Guid targetUserId, string invitationLetter)
             :base(aggregateRootKey)
         {
-            this.ToUserId = toUserId;
+            this.OriginatorId = originatorId;
+            this.TargetUserId = targetUserId;
             this.InvitationLetter = invitationLetter;
         }
     }
@@ -119,4 +125,5 @@ namespace WeText.Domain
     public class InvitationRejectedTransitionEvent : DomainEvent
     {
     }
+    #endregion
 }

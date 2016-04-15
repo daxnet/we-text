@@ -9,15 +9,18 @@ namespace WeText.Domain.Events
 {
     public class InvitationCompletedEvent : DomainEvent
     {
-        public InvitationCompletedEvent(object aggregateRootKey, Guid fromUserId, Guid toUserId)
+        public InvitationCompletedEvent(object aggregateRootKey, Guid originatorId, Guid targetUserId, bool accepted = false)
             : base(aggregateRootKey)
         {
-            this.FromUserId = fromUserId;
-            this.ToUserId = toUserId;
+            this.Accepted = accepted;
+            this.OriginatorId = originatorId;
+            this.TargetUserId = targetUserId;
         }
 
-        public Guid FromUserId { get; set; }
+        public bool Accepted { get; set; }
 
-        public Guid ToUserId { get; set; }
+        public Guid OriginatorId { get; set; }
+
+        public Guid TargetUserId { get; set; }
     }
 }

@@ -58,10 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AcceptInvitationCommand.cs" />
     <Compile Include="Commands\AddFriendCommand.cs" />
     <Compile Include="Commands\ChangeTextCommand.cs" />
     <Compile Include="Commands\CreateTextCommand.cs" />
     <Compile Include="Commands\CreateUserCommand.cs" />
+    <Compile Include="Commands\SendInvitationCommand.cs" />
     <Compile Include="Commands\UpdateUserCommand.cs" />
     <Compile Include="Events\FriendAddedEvent.cs" />
     <Compile Include="Events\InvitationApprovedEvent.cs" />

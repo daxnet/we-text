@@ -11,6 +11,10 @@ namespace WeText.Domain.Events
     {
         public Guid CollaborationId { get; set; }
 
+        public Guid OriginatorId { get; set; }
+
+        public Guid ApproverId { get; set; }
+
         public InvitationApprovedEvent(object aggregateRootKey) : base(aggregateRootKey)
         { }
 

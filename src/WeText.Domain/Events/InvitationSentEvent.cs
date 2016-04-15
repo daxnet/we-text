@@ -9,13 +9,23 @@ namespace WeText.Domain.Events
 {
     public class InvitationSentEvent : DomainEvent
     {
-        public Guid ToUserId { get; set; }
+        public Guid OriginatorId { get; set; }
+
+        public Guid TargetUserId { get; set; }
+
+        public string OriginatorName { get; set; }
+
+        public string TargetUserName { get; set; }
+
         public string InvitationLetter { get; set; }
 
-        public InvitationSentEvent(object aggregateRootKey, Guid toUserId, string invitationLetter)
+        public InvitationSentEvent(object aggregateRootKey, Guid originatorId, Guid targetUserId, string originatorName, string targetUserName, string invitationLetter)
             :base(aggregateRootKey)
         {
-            this.ToUserId = toUserId;
+            this.OriginatorId = originatorId;
+            this.TargetUserId = targetUserId;
+            this.OriginatorName = originatorName;
+            this.TargetUserName = targetUserName;
             this.InvitationLetter = invitationLetter;
         }
     }

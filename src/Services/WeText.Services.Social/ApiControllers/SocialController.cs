@@ -26,21 +26,31 @@ namespace WeText.Services.Social.ApiControllers
             this.tableDataGateway = tableGatewayRegistration.First(x => x.Metadata.Name == "SocialServiceTableDataGateway").Value;
         }
 
-        //[HttpPost]
-        //[Route("social/invitation/send")]
-        //public IHttpActionResult SendInvitation([FromBody] dynamic model)
-        //{
-        //    var fromUserId = (string)model.FromUserId;
-        //    var toUserId = (string)model.ToUserId;
+        [HttpPost]
+        [Route("social/invitation/send")]
+        public IHttpActionResult SendInvitation([FromBody] dynamic model)
+        {
+            var originatorId = (string)model.OriginatorId;
+            var targetUserId = (string)model.TargetUserId;
+            var invitationLetter = (string)model.InvitationLetter;
 
-        //    var command = new RequestSendInvitationCommand
-        //    {
-        //        Id = Guid.NewGuid(),
-        //        FromUserId = Guid.Parse(fromUserId),
-        //        ToUserId = Guid.Parse(toUserId)
-        //    };
-        //    this.commandSender.Publish(command);
-        //    return Ok();
+            var command = new SendInvitationCommand
+            {
+                OriginatorId = Guid.Parse(originatorId),
+                TargetUserId = Guid.Parse(targetUserId),
+                InvitationLetter = invitationLetter
+            };
+            this.commandSender.Publish(command);
+            return Ok();
+        }
+
+        //[HttpPost]
+        //[Route("social/invitation/accept")]
+        //public IHttpActionResult AcceptInvitation([FromBody] dynamic model)
+        //{
+        //    var currentUserId = (string)model.CurrentUserId;
+        //    var invitationId = (string)model.InvitationId;
+
         //}
 
         [HttpGet]

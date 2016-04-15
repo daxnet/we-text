@@ -21,9 +21,13 @@ namespace WeText.Services.Social.CommandHandlers
 
         public override async Task HandleAsync(AddFriendCommand message)
         {
-            var user = await this.domainRepository.GetByKeyAsync<Guid, User>(message.UserId);
-            user.AddFriend(message.FriendId);
-            await this.domainRepository.SaveAsync<Guid, User>(user);
+            var originator = await this.domainRepository.GetByKeyAsync<Guid, User>(message.OriginatorId);
+            originator.AddFriend(message.AcceptorId);
+            await this.domainRepository.SaveAsync<Guid, User>(originator);
+
+            var acceptor = await this.domainRepository.GetByKeyAsync<Guid, User>(message.AcceptorId);
+            acceptor.AddFriend(message.OriginatorId);
+            await this.domainRepository.SaveAsync<Guid, User>(acceptor);
         }
     }
 }

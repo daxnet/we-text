@@ -67,11 +67,14 @@
   <ItemGroup>
     <Compile Include="ApiControllers\SocialController.cs" />
     <Compile Include="CommandHandlers\AddFriendCommandHandler.cs" />
+    <Compile Include="CommandHandlers\SendInvitationCommandHandler.cs" />
     <Compile Include="EventHandlers\InvitationApprovedEventHandler.cs" />
     <Compile Include="EventHandlers\InvitationCompletedEventHandler.cs" />
     <Compile Include="EventHandlers\InvitationRejectedEventHandler.cs" />
     <Compile Include="EventHandlers\InvitationSentEventHandler.cs" />
     <Compile Include="EventHandlers\UserCreatedEventHandler.cs" />
+    <Compile Include="Querying\InvitationEndReason.cs" />
+    <Compile Include="Querying\NetworkTableObject.cs" />
     <Compile Include="Querying\UserNameTableObject.cs" />
     <Compile Include="SocialService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

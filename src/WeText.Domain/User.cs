@@ -49,9 +49,9 @@ namespace WeText.Domain
             ApplyEvent(new UserEmailChangedEvent(this.Id, email));
         }
 
-        public void SendInvitationTo(User toUser, string invitationLetter)
+        public void SendInvitation(User toUser, string invitationLetter)
         {
-            ApplyEvent(new InvitationSentEvent(this.Id, toUser.Id, invitationLetter));
+            ApplyEvent(new InvitationSentEvent(this.Id, this.Id, toUser.Id, this.DisplayName, toUser.DisplayName, invitationLetter));
         }
 
         public void ApproveInvitation(Invitation invitation)
