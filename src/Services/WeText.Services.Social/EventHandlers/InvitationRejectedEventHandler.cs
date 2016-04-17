@@ -21,7 +21,7 @@ namespace WeText.Services.Social.EventHandlers
 
         public override async Task HandleAsync(InvitationRejectedEvent message)
         {
-            var invitation = await repository.GetByKeyAsync<Guid, Invitation>(message.CollaborationId);
+            var invitation = await repository.GetByKeyAsync<Guid, Invitation>(message.InvitationId);
             invitation.Transit(message);
             await this.repository.SaveAsync<Guid, Invitation>(invitation);
         }

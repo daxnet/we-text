@@ -181,6 +181,7 @@
     <Compile Include="Models\IWebApiUserStore.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MyFriendViewModel.cs" />
+    <Compile Include="Models\InvitationViewModel.cs" />
     <Compile Include="Models\ServiceProxy.cs" />
     <Compile Include="Models\TextViewModel.cs" />
     <Compile Include="Models\WebApiUserStore.cs" />

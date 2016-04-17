@@ -13,6 +13,8 @@ namespace WeText.Domain.Events
 
         public string Content { get; set; }
 
+        protected TextChangedEvent() : base() { }
+
         public TextChangedEvent(object aggregateRootKey)
             : base(aggregateRootKey)
         {

@@ -9,5 +9,8 @@ namespace WeText.Domain.Commands
 {
     public class AcceptInvitationCommand : Command
     {
+        public Guid UserId { get; set; }
+
+        public Guid InvitationId { get; set; }
     }
 }

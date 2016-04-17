@@ -46,6 +46,9 @@ namespace WeText.Services.Social
             builder
                 .Register(x => new InvitationSentEventHandler(x.Resolve<IDomainRepository>(), tableDataGatewayResolver(x)))
                 .Named<IDomainEventHandler>("SocialServiceEventHandler");
+            builder
+                .Register(x => new UserDisplayNameChangedEventHandler(tableDataGatewayResolver(x)))
+                .Named<IDomainEventHandler>("SocialServiceEventHandler");
 
             // Register command handlers
             builder
@@ -53,6 +56,12 @@ namespace WeText.Services.Social
                 .Named<ICommandHandler>("SocialServiceCommandHandler");
             builder
                 .Register(x => new SendInvitationCommandHandler(x.Resolve<IDomainRepository>()))
+                .Named<ICommandHandler>("SocialServiceCommandHandler");
+            builder
+                .Register(x => new AcceptInvitationCommandHandler(x.Resolve<IDomainRepository>()))
+                .Named<ICommandHandler>("SocialServiceCommandHandler");
+            builder
+                .Register(x => new AcceptInvitationCommandHandler(x.Resolve<IDomainRepository>()))
                 .Named<ICommandHandler>("SocialServiceCommandHandler");
 
             // Register command consumer and assign message subscriber and command handler to the consumer.

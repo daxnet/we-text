@@ -27,14 +27,105 @@
 </div>
 
 <div class="panel panel-default">
-    <div class="panel-heading">My Friends</div>
+    <div class="panel-heading">My Sent Invitations</div>
     <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>
+                            To User
+                        </th>
+                        <th>
+                            Sent Date
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Complete Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model.SentInvitations)
+                    {
+                        <tr>
+                            <td>@m.UserDisplayName</td>
+                            <td>@m.SentDate.ToShortDateString()</td>
+                            <td>@m.Status</td>
+                            <td>
+                                @if(m.IsCompleted)
+                                {
+                                    <span>@m.CompleteDate.Value.ToShortDateString()</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 <div class="panel panel-default">
-    <div class="panel-heading">My Invitations</div>
+    <div class="panel-heading">My Received Invitations</div>
     <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>
+                            From User
+                        </th>
+                        <th>
+                            Sent Date
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Complete Date
+                        </th>
+                        <th>
+                            Approve
+                        </th>
+                        <th>
+                            Reject
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var m in Model.ReceivedInvitations)
+                    {
+                        <tr>
+                            <td>@m.UserDisplayName</td>
+                            <td>@m.SentDate.ToShortDateString()</td>
+                            <td>@m.Status</td>
+                            <td>
+                                @if (m.IsCompleted)
+                                {
+                                    <span>@m.CompleteDate.Value.ToShortDateString()</span>
+                                }
+                            </td>
+                            <td>
+                                
+                                @if (!m.IsCompleted)
+                                {
+                                    @Html.ActionLink("Accept", "Accept", new { InvitationId = m.InvitationId })
+                                }
+                            </td>
+                            <td>
+                                @if (!m.IsCompleted)
+                                {
+                                    @Html.ActionLink("Reject", "Reject", new { InvitationId = m.InvitationId })
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

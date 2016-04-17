@@ -44,14 +44,51 @@ namespace WeText.Services.Social.ApiControllers
             return Ok();
         }
 
-        //[HttpPost]
-        //[Route("social/invitation/accept")]
-        //public IHttpActionResult AcceptInvitation([FromBody] dynamic model)
-        //{
-        //    var currentUserId = (string)model.CurrentUserId;
-        //    var invitationId = (string)model.InvitationId;
+        [HttpPost]
+        [Route("social/invitation/accept")]
+        public IHttpActionResult AcceptInvitation([FromBody] dynamic model)
+        {
+            var currentUserId = (string)model.CurrentUserId;
+            var invitationId = (string)model.InvitationId;
+            var command = new AcceptInvitationCommand
+            {
+                InvitationId = Guid.Parse(invitationId),
+                UserId = Guid.Parse(currentUserId)
+            };
+            this.commandSender.Publish(command);
+            return Ok();
+        }
 
-        //}
+        [HttpPost]
+        [Route("social/invitation/reject")]
+        public IHttpActionResult RejectInvitation([FromBody] dynamic model)
+        {
+            var currentUserId = (string)model.CurrentUserId;
+            var invitationId = (string)model.InvitationId;
+            var command = new RejectInvitationCommand
+            {
+                InvitationId = Guid.Parse(invitationId),
+                UserId = Guid.Parse(currentUserId)
+            };
+            this.commandSender.Publish(command);
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("social/invitation/{userId}/sent")]
+        public async Task<IHttpActionResult> MySentInvitations(string userId)
+        {
+            Expression<Func<NetworkTableObject, bool>> specification = x => x.OriginatorId == userId;
+            return Ok(await this.tableDataGateway.SelectAsync<NetworkTableObject>(specification));
+        }
+
+        [HttpGet]
+        [Route("social/invitation/{userId}/received")]
+        public async Task<IHttpActionResult> MyReceivedInvitations(string userId)
+        {
+            Expression<Func<NetworkTableObject, bool>> specification = x => x.TargetId == userId;
+            return Ok(await this.tableDataGateway.SelectAsync<NetworkTableObject>(specification));
+        }
 
         [HttpGet]
         [Route("social/others/{thisUserId}")]

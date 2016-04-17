@@ -63,6 +63,7 @@
     <Compile Include="Commands\ChangeTextCommand.cs" />
     <Compile Include="Commands\CreateTextCommand.cs" />
     <Compile Include="Commands\CreateUserCommand.cs" />
+    <Compile Include="Commands\RejectInvitationCommand.cs" />
     <Compile Include="Commands\SendInvitationCommand.cs" />
     <Compile Include="Commands\UpdateUserCommand.cs" />
     <Compile Include="Events\FriendAddedEvent.cs" />

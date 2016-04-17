@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Net.Http;
-using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using WeText.Web.Models;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace WeText.Web.Controllers
 {

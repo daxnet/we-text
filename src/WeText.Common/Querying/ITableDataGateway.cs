@@ -17,5 +17,8 @@ namespace WeText.Common.Querying
 
         Task UpdateAsync<TTableObject>(UpdateCriteria<TTableObject> updateCriteria, Specification<TTableObject> specification)
             where TTableObject : class, new();
+
+        Task UpdateAsync<TTableObject>(IEnumerable<Tuple<UpdateCriteria<TTableObject>, Specification<TTableObject>>> batch)
+            where TTableObject : class, new();
     }
 }

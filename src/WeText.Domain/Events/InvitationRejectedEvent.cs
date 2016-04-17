@@ -9,15 +9,23 @@ namespace WeText.Domain.Events
 {
     public class InvitationRejectedEvent : DomainEvent
     {
-        public Guid CollaborationId { get; set; }
+        public Guid InvitationId { get; set; }
+
+        public Guid OriginatorId { get; set; }
+
+        public Guid RejectorId { get; set; }
+
+        protected InvitationRejectedEvent() : base() { }
 
         public InvitationRejectedEvent(object aggregateRootKey) : base(aggregateRootKey)
         { }
 
-        public InvitationRejectedEvent(object aggregateRootKey, Guid collaborationId)
+        public InvitationRejectedEvent(object aggregateRootKey, Guid invitationId, Guid originatorId, Guid rejectorId)
             : base(aggregateRootKey)
         {
-            this.CollaborationId = collaborationId;
+            this.InvitationId = invitationId;
+            this.OriginatorId = originatorId;
+            this.RejectorId = rejectorId;
         }
     }
 }

@@ -9,6 +9,8 @@ namespace WeText.Domain.Events
 {
     public class InvitationCreatedEvent : DomainEvent
     {
+        protected InvitationCreatedEvent() : base() { }
+
         public InvitationCreatedEvent(object aggregateRootKey) : base(aggregateRootKey) { }
     }
 }

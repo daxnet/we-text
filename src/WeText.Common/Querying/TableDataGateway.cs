@@ -11,7 +11,6 @@ namespace WeText.Common.Querying
 {
     public abstract class TableDataGateway : ITableDataGateway
     {
-
         /// <summary>
         /// Creates a new instance of the where clause builder.
         /// </summary>
@@ -100,7 +99,7 @@ namespace WeText.Common.Querying
         protected virtual IEnumerable<DbParameter> GetUpdateCriteriaParameterList<TTableObject>(UpdateCriteria<TTableObject> updateCriteria)
             where TTableObject : class, new()
         {
-            foreach(var criteria in updateCriteria)
+            foreach (var criteria in updateCriteria)
             {
                 var key = $"u_{criteria.Key}";
                 var dbParameter = this.CreateParameter();
@@ -183,11 +182,11 @@ namespace WeText.Common.Querying
                         using (var command = this.CreateCommand(sql, connection))
                         {
                             command.Transaction = transaction;
-                            foreach(var tableObject in tableObjects)
+                            foreach (var tableObject in tableObjects)
                             {
                                 command.Parameters.Clear();
                                 var parameters = this.GetInsertDbParameterList<TTableObject>(tableObject, whereClauseBuilder);
-                                foreach(var parameter in parameters)
+                                foreach (var parameter in parameters)
                                 {
                                     command.Parameters.Add(parameter);
                                 }
@@ -196,7 +195,7 @@ namespace WeText.Common.Querying
                         }
                         transaction.Commit();
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         transaction.Rollback();
                     }
@@ -245,7 +244,15 @@ namespace WeText.Common.Querying
 
         public async Task UpdateAsync<TTableObject>(UpdateCriteria<TTableObject> updateCriteria, Specification<TTableObject> specification) where TTableObject : class, new()
         {
-            var whereClauseBuilder = this.CreateWhereClauseBuilder<TTableObject>();
+            using (var connection = this.CreateDatabaseConnection())
+            {
+                await connection.OpenAsync();
+                await DoUpdateAsync(connection, null, updateCriteria, specification);
+            }
+        }
+
+        public async Task UpdateAsync<TTableObject>(IEnumerable<Tuple<UpdateCriteria<TTableObject>, Specification<TTableObject>>> batch) where TTableObject : class, new()
+        {
             using (var connection = this.CreateDatabaseConnection())
             {
                 await connection.OpenAsync();
@@ -253,42 +260,56 @@ namespace WeText.Common.Querying
                 {
                     try
                     {
-                        var sql = $"UPDATE {GetTableName<TTableObject>()} SET {GetUpdateCriteriaParameterNameList<TTableObject>(whereClauseBuilder, updateCriteria)}";
-                        WhereClauseBuildResult whereClauseBuildResult = null;
-                        if (specification != null)
+                        foreach(var updating in batch)
                         {
-                            whereClauseBuildResult = whereClauseBuilder.BuildWhereClause(specification);
-                            sql = $"{sql} WHERE {whereClauseBuildResult.WhereClause}";
-                        }
-                        using (var command = this.CreateCommand(sql, connection))
-                        {
-                            command.Transaction = transaction;
-                            command.Parameters.Clear();
-                            var updateParameters = GetUpdateCriteriaParameterList<TTableObject>(updateCriteria);
-                            foreach(var parameter in updateParameters)
-                            {
-                                command.Parameters.Add(parameter);
-                            }
-                            if (whereClauseBuildResult != null)
-                            {
-                                foreach(var kvp in whereClauseBuildResult.ParameterValues)
-                                {
-                                    var parameter = this.CreateParameter();
-                                    parameter.ParameterName = kvp.Key;
-                                    parameter.Value = kvp.Value;
-                                    command.Parameters.Add(parameter);
-                                }
-                            }
-                            await command.ExecuteNonQueryAsync();
+                            await this.DoUpdateAsync(connection, transaction, updating.Item1, updating.Item2);
                         }
                         transaction.Commit();
                     }
-                    catch(Exception ex)
+                    catch
                     {
                         transaction.Rollback();
                     }
                 }
             }
         }
+
+        private async Task DoUpdateAsync<TTableObject>(DbConnection connection, DbTransaction transaction, UpdateCriteria<TTableObject> updateCriteria, Specification<TTableObject> specification) where TTableObject : class, new()
+        {
+            var whereClauseBuilder = this.CreateWhereClauseBuilder<TTableObject>();
+            var sql = $"UPDATE {GetTableName<TTableObject>()} SET {GetUpdateCriteriaParameterNameList<TTableObject>(whereClauseBuilder, updateCriteria)}";
+            WhereClauseBuildResult whereClauseBuildResult = null;
+            if (specification != null)
+            {
+                whereClauseBuildResult = whereClauseBuilder.BuildWhereClause(specification);
+                sql = $"{sql} WHERE {whereClauseBuildResult.WhereClause}";
+            }
+            using (var command = this.CreateCommand(sql, connection))
+            {
+                if (transaction != null)
+                {
+                    command.Transaction = transaction;
+                }
+                command.Parameters.Clear();
+                var updateParameters = GetUpdateCriteriaParameterList<TTableObject>(updateCriteria);
+                foreach (var parameter in updateParameters)
+                {
+                    command.Parameters.Add(parameter);
+                }
+                if (whereClauseBuildResult != null)
+                {
+                    foreach (var kvp in whereClauseBuildResult.ParameterValues)
+                    {
+                        var parameter = this.CreateParameter();
+                        parameter.ParameterName = kvp.Key;
+                        parameter.Value = kvp.Value;
+                        command.Parameters.Add(parameter);
+                    }
+                }
+                await command.ExecuteNonQueryAsync();
+            }
+        }
+
+        
     }
 }

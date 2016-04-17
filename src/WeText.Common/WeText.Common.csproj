@@ -49,6 +49,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -63,6 +64,11 @@
     <Compile Include="Commands\CommandHandler.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\ICommandHandler.cs" />
+    <Compile Include="Config\WeText.Config.csd.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WeText.Config.csd</DependentUpon>
+    </Compile>
     <Compile Include="DisposableObject.cs" />
     <Compile Include="Events\DomainEvent.cs" />
     <Compile Include="Events\EventHandler.cs" />
@@ -114,6 +120,25 @@
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="Config\WeText.Config.csd">
+      <Generator>CsdFileGenerator</Generator>
+      <LastGenOutput>WeText.Config.csd.cs</LastGenOutput>
+    </None>
+    <None Include="Config\WeText.Config.csd.config">
+      <DependentUpon>WeText.Config.csd</DependentUpon>
+    </None>
+    <None Include="Config\WeText.Config.csd.diagram">
+      <DependentUpon>WeText.Config.csd</DependentUpon>
+    </None>
+    <None Include="Config\WeText.Config.csd.xsd">
+      <DependentUpon>WeText.Config.csd</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

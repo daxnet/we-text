@@ -19,6 +19,8 @@ namespace WeText.Domain.Events
 
         public string InvitationLetter { get; set; }
 
+        protected InvitationSentEvent() : base() { }
+
         public InvitationSentEvent(object aggregateRootKey, Guid originatorId, Guid targetUserId, string originatorName, string targetUserName, string invitationLetter)
             :base(aggregateRootKey)
         {

@@ -9,6 +9,8 @@ namespace WeText.Domain.Events
 {
     public class InvitationCompletedEvent : DomainEvent
     {
+        protected InvitationCompletedEvent() : base() { }
+
         public InvitationCompletedEvent(object aggregateRootKey, Guid originatorId, Guid targetUserId, bool accepted = false)
             : base(aggregateRootKey)
         {

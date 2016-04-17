@@ -56,12 +56,22 @@ namespace WeText.Domain
 
         public void ApproveInvitation(Invitation invitation)
         {
-            ApplyEvent(new InvitationApprovedEvent(this.Id, invitation.Id));
+            if (invitation.TargetUserId != this.Id)
+            {
+                throw new InvalidOperationException();
+            }
+
+            ApplyEvent(new InvitationApprovedEvent(this.Id, invitation.Id, invitation.OriginatorId, this.Id));
         }
 
         public void RejectInvitation(Invitation invitation)
         {
-            ApplyEvent(new InvitationRejectedEvent(this.Id, invitation.Id));
+            if (invitation.TargetUserId != this.Id)
+            {
+                throw new InvalidOperationException();
+            }
+
+            ApplyEvent(new InvitationRejectedEvent(this.Id, invitation.Id, invitation.OriginatorId, this.Id));
         }
 
         public void AddFriend(Guid friendUserId)

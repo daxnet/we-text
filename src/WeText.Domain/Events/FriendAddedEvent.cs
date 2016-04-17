@@ -11,6 +11,8 @@ namespace WeText.Domain.Events
     {
         public Guid FriendUserId { get; set; }
 
+        protected FriendAddedEvent() : base() { }
+
         public FriendAddedEvent(object aggregateRootId, Guid friendUserId)
             :base(aggregateRootId)
         {
