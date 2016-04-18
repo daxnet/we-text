@@ -11,7 +11,7 @@ using WeText.Common.Querying;
 using WeText.Domain.Commands;
 using WeText.Services.Social.Querying;
 
-namespace WeText.Services.Social.ApiControllers
+namespace WeText.Services.Social
 {
     [RoutePrefix("api")]
     public class SocialController : ApiController

@@ -7,7 +7,7 @@ using WeText.Common.Repositories;
 
 namespace WeText.Common.Events
 {
-    public interface IDomainEventHandler : IHandler
+    public interface IDomainEventHandler
     {
 
     }

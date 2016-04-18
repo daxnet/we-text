@@ -83,12 +83,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiControllers\TextingController.cs" />
-    <Compile Include="CommandHandlers\ChangeTextCommandHandler.cs" />
-    <Compile Include="CommandHandlers\CreateTextCommandHandler.cs" />
-    <Compile Include="EventHandlers\TextChangedEventHandler.cs" />
-    <Compile Include="EventHandlers\TextCreatedEventHandler.cs" />
-    <Compile Include="Querying\TextTableObject.cs" />
+    <Compile Include="TextingController.cs" />
+    <Compile Include="TextTableObject.cs" />
+    <Compile Include="TextingCommandHandler.cs" />
+    <Compile Include="TextingEventHandler.cs" />
     <Compile Include="TextingService.cs" />
     <Compile Include="TextingServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

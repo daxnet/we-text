@@ -8,18 +8,20 @@ using WeText.Common.Repositories;
 using WeText.Domain;
 using WeText.Domain.Commands;
 
-namespace WeText.Services.Accounts.CommandHandlers
+namespace WeText.Services.Accounts
 {
-    public class UpdateUserCommandHandler : CommandHandler<UpdateUserCommand>
+    internal sealed class AccountsCommandHandler :
+        ICommandHandler<CreateUserCommand>,
+        ICommandHandler<UpdateUserCommand>
     {
         private readonly IDomainRepository domainRepository;
 
-        public UpdateUserCommandHandler(IDomainRepository domainRepository)
+        public AccountsCommandHandler(IDomainRepository domainRepository)
         {
             this.domainRepository = domainRepository;
         }
 
-        public override async Task HandleAsync(UpdateUserCommand message)
+        public async Task HandleAsync(UpdateUserCommand message)
         {
             var user = await domainRepository.GetByKeyAsync<Guid, User>(message.UserId);
             bool updated = false;
@@ -37,6 +39,12 @@ namespace WeText.Services.Accounts.CommandHandlers
             {
                 await domainRepository.SaveAsync<Guid, User>(user);
             }
+        }
+
+        public async Task HandleAsync(CreateUserCommand message)
+        {
+            var user = new User(message.UserId, message.Name, message.Password, message.Email, message.DisplayName);
+            await this.domainRepository.SaveAsync<Guid, User>(user);
         }
     }
 }

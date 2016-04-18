@@ -1,10 +1,7 @@
 ﻿using Autofac;
-using Autofac.Extras.AttributeMetadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WeText.Common;
 using WeText.Common.Commands;
 using WeText.Common.Events;
@@ -13,8 +10,6 @@ using WeText.Common.Querying;
 using WeText.Common.Repositories;
 using WeText.Common.Services;
 using WeText.Querying.MySqlClient;
-using WeText.Services.Accounts.CommandHandlers;
-using WeText.Services.Accounts.EventHandlers;
 
 namespace WeText.Services.Accounts
 {
@@ -33,23 +28,12 @@ namespace WeText.Services.Accounts
 
             // Register command handlers
             builder
-                .Register(x => new CreateUserCommandHandler(x.Resolve<IDomainRepository>()))
-                .Named<ICommandHandler>("AccountServiceCommandHandler");
-            builder
-                .Register(x => new UpdateUserCommandHandler(x.Resolve<IDomainRepository>()))
+                .Register(x => new AccountsCommandHandler(x.Resolve<IDomainRepository>()))
                 .Named<ICommandHandler>("AccountServiceCommandHandler");
 
             // Register event handlers
             builder
-                .Register(x => new UserCreatedEventHandler(
-                    x.Resolve<IEnumerable<Lazy<ITableDataGateway, NamedMetadata>>>().First(p=>p.Metadata.Name== "AccountServiceTableDataGateway").Value))
-                .Named<IDomainEventHandler>("AccountServiceEventHandler");
-            builder
-                .Register(x => new UserDisplayNameChangedEventHandler(
-                    x.Resolve<IEnumerable<Lazy<ITableDataGateway, NamedMetadata>>>().First(p => p.Metadata.Name == "AccountServiceTableDataGateway").Value))
-                .Named<IDomainEventHandler>("AccountServiceEventHandler");
-            builder
-                .Register(x => new UserEmailChangedEventHandler(
+                .Register(x => new AccountsEventHandler(
                     x.Resolve<IEnumerable<Lazy<ITableDataGateway, NamedMetadata>>>().First(p => p.Metadata.Name == "AccountServiceTableDataGateway").Value))
                 .Named<IDomainEventHandler>("AccountServiceEventHandler");
 

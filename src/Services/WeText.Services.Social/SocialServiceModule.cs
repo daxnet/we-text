@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WeText.Common;
 using WeText.Common.Commands;
 using WeText.Common.Events;
@@ -12,8 +10,6 @@ using WeText.Common.Querying;
 using WeText.Common.Repositories;
 using WeText.Common.Services;
 using WeText.Querying.MySqlClient;
-using WeText.Services.Social.CommandHandlers;
-using WeText.Services.Social.EventHandlers;
 
 namespace WeText.Services.Social
 {
@@ -32,36 +28,13 @@ namespace WeText.Services.Social
 
             // Register event handlers
             builder
-                .Register(x => new UserCreatedEventHandler(tableDataGatewayResolver(x)))
+                .Register(x => new SocialEventHandler(x.Resolve<IDomainRepository>(), tableDataGatewayResolver(x), x.Resolve<ICommandSender>()))
                 .Named<IDomainEventHandler>("SocialServiceEventHandler");
-            builder
-                .Register(x => new InvitationApprovedEventHandler(x.Resolve<IDomainRepository>(), x.Resolve<ICommandSender>()))
-                .Named<IDomainEventHandler>("SocialServiceEventHandler");
-            builder
-                .Register(x => new InvitationCompletedEventHandler(tableDataGatewayResolver(x)))
-                .Named<IDomainEventHandler>("SocialServiceEventHandler");
-            builder
-                .Register(x => new InvitationRejectedEventHandler(x.Resolve<IDomainRepository>()))
-                .Named<IDomainEventHandler>("SocialServiceEventHandler");
-            builder
-                .Register(x => new InvitationSentEventHandler(x.Resolve<IDomainRepository>(), tableDataGatewayResolver(x)))
-                .Named<IDomainEventHandler>("SocialServiceEventHandler");
-            builder
-                .Register(x => new UserDisplayNameChangedEventHandler(tableDataGatewayResolver(x)))
-                .Named<IDomainEventHandler>("SocialServiceEventHandler");
+
 
             // Register command handlers
             builder
-                .Register(x => new AddFriendCommandHandler(x.Resolve<IDomainRepository>()))
-                .Named<ICommandHandler>("SocialServiceCommandHandler");
-            builder
-                .Register(x => new SendInvitationCommandHandler(x.Resolve<IDomainRepository>()))
-                .Named<ICommandHandler>("SocialServiceCommandHandler");
-            builder
-                .Register(x => new AcceptInvitationCommandHandler(x.Resolve<IDomainRepository>()))
-                .Named<ICommandHandler>("SocialServiceCommandHandler");
-            builder
-                .Register(x => new AcceptInvitationCommandHandler(x.Resolve<IDomainRepository>()))
+                .Register(x => new SocialCommandHandler(x.Resolve<IDomainRepository>()))
                 .Named<ICommandHandler>("SocialServiceCommandHandler");
 
             // Register command consumer and assign message subscriber and command handler to the consumer.

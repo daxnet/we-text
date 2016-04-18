@@ -9,9 +9,8 @@ using WeText.Common;
 using WeText.Common.Messaging;
 using WeText.Common.Querying;
 using WeText.Domain.Commands;
-using WeText.Services.Texting.Querying;
 
-namespace WeText.Services.Texting.ApiControllers
+namespace WeText.Services.Texting
 {
     [RoutePrefix("api")]
     public class TextingController : ApiController

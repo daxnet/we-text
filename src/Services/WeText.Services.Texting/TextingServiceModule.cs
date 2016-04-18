@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WeText.Common;
 using WeText.Common.Commands;
 using WeText.Common.Events;
@@ -12,8 +10,6 @@ using WeText.Common.Querying;
 using WeText.Common.Repositories;
 using WeText.Common.Services;
 using WeText.Querying.MySqlClient;
-using WeText.Services.Texting.CommandHandlers;
-using WeText.Services.Texting.EventHandlers;
 
 namespace WeText.Services.Texting
 {
@@ -29,19 +25,12 @@ namespace WeText.Services.Texting
 
             // Register command handlers
             builder
-                .Register(x => new CreateTextCommandHandler(x.Resolve<IDomainRepository>()))
-                .Named<ICommandHandler>("TextingServiceCommandHandler");
-            builder
-                .Register(x => new ChangeTextCommandHandler(x.Resolve<IDomainRepository>()))
+                .Register(x => new TextingCommandHandler(x.Resolve<IDomainRepository>()))
                 .Named<ICommandHandler>("TextingServiceCommandHandler");
 
             // Register event handlers
             builder
-                .Register(x => new TextCreatedEventHandler(
-                    x.Resolve<IEnumerable<Lazy<ITableDataGateway, NamedMetadata>>>().First(p => p.Metadata.Name == "TextingServiceTableDataGateway").Value))
-                .Named<IDomainEventHandler>("TextingServiceEventHandler");
-            builder
-                .Register(x => new TextChangedEventHandler(
+                .Register(x => new TextingEventHandler(
                     x.Resolve<IEnumerable<Lazy<ITableDataGateway, NamedMetadata>>>().First(p => p.Metadata.Name == "TextingServiceTableDataGateway").Value))
                 .Named<IDomainEventHandler>("TextingServiceEventHandler");
 

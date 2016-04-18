@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WeText.Common.Querying;
 
-namespace WeText.Services.Accounts.Querying
+namespace WeText.Services.Accounts
 {
     [ToTable("Accounts")]
     public class AccountTableObject

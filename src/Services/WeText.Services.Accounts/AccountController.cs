@@ -8,11 +8,10 @@ using WeText.Common.Querying;
 using WeText.Domain.Commands;
 using WeText.Common;
 using System.Threading.Tasks;
-using WeText.Services.Accounts.Querying;
 using WeText.Common.Specifications;
 using System.Linq.Expressions;
 
-namespace WeText.Services.Accounts.ApiControllers
+namespace WeText.Services.Accounts
 {
     [RoutePrefix("api")]
     public class AccountController : ApiController

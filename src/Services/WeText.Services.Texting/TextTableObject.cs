@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WeText.Common.Querying;
 
-namespace WeText.Services.Texting.Querying
+namespace WeText.Services.Texting
 {
     [ToTable("Texts")]
     public class TextTableObject

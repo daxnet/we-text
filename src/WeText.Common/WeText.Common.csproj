@@ -71,7 +71,7 @@
     </Compile>
     <Compile Include="DisposableObject.cs" />
     <Compile Include="Events\DomainEvent.cs" />
-    <Compile Include="Events\EventHandler.cs" />
+    <Compile Include="Events\DomainEventHandler.cs" />
     <Compile Include="Events\IDomainEventHandler.cs" />
     <Compile Include="Events\InlineEventHandlerAttribute.cs" />
     <Compile Include="IAggregateRoot.cs" />

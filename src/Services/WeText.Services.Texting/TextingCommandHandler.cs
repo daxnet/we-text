@@ -8,21 +8,23 @@ using WeText.Common.Repositories;
 using WeText.Domain;
 using WeText.Domain.Commands;
 
-namespace WeText.Services.Texting.CommandHandlers
+namespace WeText.Services.Texting
 {
-    public class ChangeTextCommandHandler : CommandHandler<ChangeTextCommand>
+    internal sealed class TextingCommandHandler : 
+        ICommandHandler<ChangeTextCommand>, 
+        ICommandHandler<CreateTextCommand>
     {
         private IDomainRepository domainRepository;
 
-        public ChangeTextCommandHandler(IDomainRepository domainRepository)
+        public TextingCommandHandler(IDomainRepository domainRepository)
         {
             this.domainRepository = domainRepository;
         }
 
-        public override async Task HandleAsync(ChangeTextCommand message)
+        public async Task HandleAsync(ChangeTextCommand message)
         {
             var text = await this.domainRepository.GetByKeyAsync<Guid, Text>(message.TextId);
-            bool updated = false; 
+            bool updated = false;
             if (!string.IsNullOrEmpty(message.Title) && text.Title != message.Title)
             {
                 text.ChangeTitle(message.Title);
@@ -40,6 +42,12 @@ namespace WeText.Services.Texting.CommandHandlers
             {
                 await this.domainRepository.SaveAsync<Guid, Text>(text);
             }
+        }
+
+        public async Task HandleAsync(CreateTextCommand message)
+        {
+            var text = new Text(message.TextId, message.Title, message.Content, message.UserId);
+            await this.domainRepository.SaveAsync<Guid, Text>(text);
         }
     }
 }

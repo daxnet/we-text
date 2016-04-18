@@ -83,16 +83,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountsCommandHandler.cs" />
     <Compile Include="AccountService.cs" />
     <Compile Include="AccountServiceModule.cs" />
-    <Compile Include="CommandHandlers\CreateUserCommandHandler.cs" />
-    <Compile Include="CommandHandlers\UpdateUserCommandHandler.cs" />
-    <Compile Include="EventHandlers\UserCreatedEventHandler.cs" />
-    <Compile Include="EventHandlers\UserDisplayNameChangedEventHandler.cs" />
-    <Compile Include="EventHandlers\UserEmailChangedEventHandler.cs" />
+    <Compile Include="AccountsEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ApiControllers\AccountController.cs" />
-    <Compile Include="Querying\AccountTableObject.cs" />
+    <Compile Include="AccountController.cs" />
+    <Compile Include="AccountTableObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\WeText.Common\WeText.Common.csproj">
