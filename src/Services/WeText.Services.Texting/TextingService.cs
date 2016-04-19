@@ -36,7 +36,6 @@ namespace WeText.Services.Texting
                     this.disposed = true;
                 }
             }
-            base.Dispose(disposing);
         }
     }
 }

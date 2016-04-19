@@ -8,16 +8,11 @@ using WeText.Common.Events;
 
 namespace WeText.Common.Messaging
 {
-    public sealed class EventConsumer : IEventConsumer
+    public sealed class EventConsumer : DisposableObject, IEventConsumer
     {
         private readonly IEnumerable<IDomainEventHandler> eventHandlers;
         private readonly IMessageSubscriber subscriber;
         private bool disposed;
-
-        ~EventConsumer()
-        {
-            Dispose(false);
-        }
 
         public EventConsumer(IMessageSubscriber subscriber, IEnumerable<IDomainEventHandler> eventHandlers)
         {
@@ -53,7 +48,7 @@ namespace WeText.Common.Messaging
 
         public IMessageSubscriber Subscriber => subscriber;
 
-        private void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -63,12 +58,6 @@ namespace WeText.Common.Messaging
                     disposed = true;
                 }
             }
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

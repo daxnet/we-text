@@ -12,16 +12,11 @@ namespace WeText.Common.Messaging
     /// Represents the default command consumer which will simply iterate
     /// each registered command handler and handle the command within it.
     /// </summary>
-    public sealed class CommandConsumer : ICommandConsumer
+    public sealed class CommandConsumer : DisposableObject, ICommandConsumer
     {
         private readonly IEnumerable<ICommandHandler> commandHandlers;
         private readonly IMessageSubscriber subscriber;
         private bool disposed;
-
-        ~CommandConsumer()
-        {
-            Dispose(false);
-        }
 
         public CommandConsumer(IMessageSubscriber subscriber, IEnumerable<ICommandHandler> commandHandlers)
         {
@@ -56,7 +51,7 @@ namespace WeText.Common.Messaging
 
         public IMessageSubscriber Subscriber => subscriber;
 
-        private void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -66,12 +61,6 @@ namespace WeText.Common.Messaging
                     disposed = true;
                 }
             }
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

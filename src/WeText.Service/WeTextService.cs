@@ -85,8 +85,12 @@ namespace WeText.Service
         {
             var url = "http://+:9023/";
             log.Info("Starting WeText Service...");
+#if MONO_BUILD
+            WebApp.Start<WeTextService>(url: url);
+#else
             using (WebApp.Start<WeTextService>(url: url))
             {
+#endif
                 microServices.ForEach(ms =>
                 {
                     log.Info($"Starting microservice '{ms.GetType().FullName}'...");
@@ -94,7 +98,9 @@ namespace WeText.Service
                 });
                 log.Info("WeText Service started successfully.");
                 Console.ReadLine();
+#if !MONO_BUILD
             }
+#endif
         }
     }
 }

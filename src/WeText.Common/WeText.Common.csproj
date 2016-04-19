@@ -61,7 +61,6 @@
   <ItemGroup>
     <Compile Include="AggregateRoot.cs" />
     <Compile Include="Commands\Command.cs" />
-    <Compile Include="Commands\CommandHandler.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\ICommandHandler.cs" />
     <Compile Include="Config\WeText.Config.csd.cs">
@@ -71,7 +70,6 @@
     </Compile>
     <Compile Include="DisposableObject.cs" />
     <Compile Include="Events\DomainEvent.cs" />
-    <Compile Include="Events\DomainEventHandler.cs" />
     <Compile Include="Events\IDomainEventHandler.cs" />
     <Compile Include="Events\InlineEventHandlerAttribute.cs" />
     <Compile Include="IAggregateRoot.cs" />
@@ -93,7 +91,6 @@
     <Compile Include="Querying\WhereClauseBuilder.cs" />
     <Compile Include="Querying\WhereClauseBuildResult.cs" />
     <Compile Include="ISaga.cs" />
-    <Compile Include="Saga.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Messaging\IMessagePublisher.cs" />
     <Compile Include="Messaging\ICommandSender.cs" />
