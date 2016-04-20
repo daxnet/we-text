@@ -11,14 +11,14 @@
 	<xs:element name="weTextConfiguration" type="tns:WeText.Common.Config.WeTextConfigurationCT" />
 	<xs:complexType name="WeText.Common.Config.WeTextConfigurationCT">
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
-			<xs:element minOccurs="1" name="commandSender" type="tns:WeText.Common.Config.SettingElementCollectionCT">
+			<xs:element minOccurs="1" name="commandQueue" type="tns:WeText.Common.Config.MessageQueueConfigurationElementCT">
 				<xs:annotation>
-					<xs:documentation>The CommandSenderSettings.</xs:documentation>
+					<xs:documentation>The CommandQueue.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="1" name="eventPublisher" type="tns:WeText.Common.Config.SettingElementCollectionCT">
+			<xs:element minOccurs="1" name="eventQueue" type="tns:WeText.Common.Config.MessageQueueConfigurationElementCT">
 				<xs:annotation>
-					<xs:documentation>The EventPublisherSettings.</xs:documentation>
+					<xs:documentation>The EventQueue.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="services" type="tns:WeText.Common.Config.ServiceElementCollectionCT">
@@ -70,10 +70,25 @@
 					<xs:documentation>The Settings.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element minOccurs="1" name="localCommandQueue" type="tns:WeText.Common.Config.MessageQueueConfigurationElementCT">
+				<xs:annotation>
+					<xs:documentation>The LocalCommandQueue.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs="1" name="localEventQueue" type="tns:WeText.Common.Config.MessageQueueConfigurationElementCT">
+				<xs:annotation>
+					<xs:documentation>The LocalEventQueue.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 		<xs:attribute name="type" use="required" type="xs:string">
 			<xs:annotation>
 				<xs:documentation>The Type.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="instanceId" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The InstanceId.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
@@ -84,4 +99,38 @@
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
+	<xs:complexType name="WeText.Common.Config.MessageQueueConfigurationElementCT">
+		<xs:attribute name="hostName" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The HostName.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="resourceName" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Gets or sets the name of the resource of the message queue. A resource can be either a queue, or an exchange to which queues can be bound.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="resourceType" use="required" type="tns:MessageQueueResourceType">
+			<xs:annotation>
+				<xs:documentation>The ResourceType.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="MessageQueueResourceType">
+		<xs:annotation>
+			<xs:documentation>MessageQueueResourceType.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MessageExchange">
+				<xs:annotation>
+					<xs:documentation>MessageExchange.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MessageQueue">
+				<xs:annotation>
+					<xs:documentation>MessageQueue.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

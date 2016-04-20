@@ -10,16 +10,16 @@ using WeText.Common.Messaging;
 
 namespace WeText.Messaging.RabbitMq
 {
-    public abstract class RabbitMqMessagePublisher : DisposableObject, IMessagePublisher
+    public abstract class RabbitMqQueueProducer : DisposableObject, IMessagePublisher
     {
-        private readonly string exchangeName;
+        private readonly string queueName;
         private readonly IConnection connection;
         private readonly IModel channel;
         private bool disposed;
 
-        protected RabbitMqMessagePublisher(string hostName, string exchangeName)
+        protected RabbitMqQueueProducer(string hostName, string queueName)
         {
-            this.exchangeName = exchangeName;
+            this.queueName = queueName;
             var factory = new ConnectionFactory() { HostName = hostName };
             this.connection = factory.CreateConnection();
             this.channel = connection.CreateModel();
@@ -40,12 +40,18 @@ namespace WeText.Messaging.RabbitMq
 
         public void Publish<TMessage>(TMessage message)
         {
-            channel.ExchangeDeclare(exchange: this.exchangeName, type: "fanout");
+            channel.QueueDeclare(queue: this.queueName,
+                                 durable: true,
+                                 exclusive: false,
+                                 autoDelete: false,
+                                 arguments: null);
 
             var json = JsonConvert.SerializeObject(message, Formatting.Indented, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
             var bytes = Encoding.UTF8.GetBytes(json);
+            var properties = channel.CreateBasicProperties();
+            properties.Persistent = true;
 
-            channel.BasicPublish(exchange: this.exchangeName, routingKey: "", basicProperties: null, body: bytes);
+            channel.BasicPublish(exchange: "", routingKey: this.queueName, basicProperties: properties, body: bytes);
         }
     }
 }

@@ -12,10 +12,15 @@ namespace WeText.Services.Accounts
     {
         private readonly ICommandConsumer commandConsumer;
         private readonly IEventConsumer eventConsumer;
+        private readonly IMessageConsumer commandRedirector;
+        private readonly IMessageConsumer eventRedirector;
+
         private bool disposed;
 
-        public AccountService(ICommandConsumer commandConsumer, IEventConsumer eventConsumer)
+        public AccountService(IMessageConsumer commandRedirector, IMessageConsumer eventRedirector, ICommandConsumer commandConsumer, IEventConsumer eventConsumer)
         {
+            this.commandRedirector = commandRedirector;
+            this.eventRedirector = eventRedirector;
             this.commandConsumer = commandConsumer;
             this.eventConsumer = eventConsumer;
         }
@@ -23,6 +28,8 @@ namespace WeText.Services.Accounts
 
         public override void Start(object[] args)
         {
+            this.commandRedirector.Subscriber.Subscribe();
+            this.eventRedirector.Subscriber.Subscribe();
             this.commandConsumer.Subscriber.Subscribe();
             this.eventConsumer.Subscriber.Subscribe();
         }
@@ -33,6 +40,8 @@ namespace WeText.Services.Accounts
             {
                 if (!disposed)
                 {
+                    this.commandRedirector.Dispose();
+                    this.eventRedirector.Dispose();
                     this.commandConsumer.Dispose();
                     this.eventConsumer.Dispose();
                     this.disposed = true;

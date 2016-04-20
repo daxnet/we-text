@@ -18,10 +18,10 @@ namespace WeText.Services.Texting
         private readonly ICommandSender commandSender;
         private readonly ITableDataGateway tableDataGateway;
 
-        public TextingController(ICommandSender commandSender,
+        public TextingController(IEnumerable<Lazy<ICommandSender, NamedMetadata>> commandSenderRegistration,
             IEnumerable<Lazy<ITableDataGateway, NamedMetadata>> tableGatewayRegistration)
         {
-            this.commandSender = commandSender;
+            this.commandSender = commandSenderRegistration.First(x => x.Metadata.Name == "CommandSender").Value;
             this.tableDataGateway = tableGatewayRegistration.First(x => x.Metadata.Name == "TextingServiceTableDataGateway").Value;
         }
 

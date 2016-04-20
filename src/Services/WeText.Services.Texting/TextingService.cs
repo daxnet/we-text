@@ -12,16 +12,22 @@ namespace WeText.Services.Texting
     {
         private readonly ICommandConsumer commandConsumer;
         private readonly IEventConsumer eventConsumer;
+        private readonly IMessageConsumer commandRedirector;
+        private readonly IMessageConsumer eventRedirector;
         private bool disposed;
 
-        public TextingService(ICommandConsumer commandConsumer, IEventConsumer eventConsumer)
+        public TextingService(IMessageConsumer commandRedirector, IMessageConsumer eventRedirector, ICommandConsumer commandConsumer, IEventConsumer eventConsumer)
         {
+            this.commandRedirector = commandRedirector;
+            this.eventRedirector = eventRedirector;
             this.commandConsumer = commandConsumer;
             this.eventConsumer = eventConsumer;
         }
 
         public override void Start(object[] args)
         {
+            this.commandRedirector.Subscriber.Subscribe();
+            this.eventRedirector.Subscriber.Subscribe();
             this.commandConsumer.Subscriber.Subscribe();
             this.eventConsumer.Subscriber.Subscribe();
         }
@@ -32,7 +38,10 @@ namespace WeText.Services.Texting
             {
                 if (!disposed)
                 {
+                    this.commandRedirector.Dispose();
+                    this.eventRedirector.Dispose();
                     this.commandConsumer.Dispose();
+                    this.eventConsumer.Dispose();
                     this.disposed = true;
                 }
             }

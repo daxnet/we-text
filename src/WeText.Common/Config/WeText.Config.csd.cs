@@ -74,54 +74,54 @@ namespace WeText.Common.Config
         }
         #endregion
         
-        #region CommandSenderSettings Property
+        #region CommandQueue Property
         /// <summary>
-        /// The XML name of the <see cref="CommandSenderSettings"/> property.
+        /// The XML name of the <see cref="CommandQueue"/> property.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
-        internal const string CommandSenderSettingsPropertyName = "commandSender";
+        internal const string CommandQueuePropertyName = "commandQueue";
         
         /// <summary>
-        /// Gets or sets the CommandSenderSettings.
+        /// Gets or sets the CommandQueue.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
-        [global::System.ComponentModel.DescriptionAttribute("The CommandSenderSettings.")]
-        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.WeTextConfiguration.CommandSenderSettingsPropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
-        public virtual global::WeText.Common.Config.SettingElementCollection CommandSenderSettings
+        [global::System.ComponentModel.DescriptionAttribute("The CommandQueue.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.WeTextConfiguration.CommandQueuePropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
+        public virtual global::WeText.Common.Config.MessageQueueConfigurationElement CommandQueue
         {
             get
             {
-                return ((global::WeText.Common.Config.SettingElementCollection)(base[global::WeText.Common.Config.WeTextConfiguration.CommandSenderSettingsPropertyName]));
+                return ((global::WeText.Common.Config.MessageQueueConfigurationElement)(base[global::WeText.Common.Config.WeTextConfiguration.CommandQueuePropertyName]));
             }
             set
             {
-                base[global::WeText.Common.Config.WeTextConfiguration.CommandSenderSettingsPropertyName] = value;
+                base[global::WeText.Common.Config.WeTextConfiguration.CommandQueuePropertyName] = value;
             }
         }
         #endregion
         
-        #region EventPublisherSettings Property
+        #region EventQueue Property
         /// <summary>
-        /// The XML name of the <see cref="EventPublisherSettings"/> property.
+        /// The XML name of the <see cref="EventQueue"/> property.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
-        internal const string EventPublisherSettingsPropertyName = "eventPublisher";
+        internal const string EventQueuePropertyName = "eventQueue";
         
         /// <summary>
-        /// Gets or sets the EventPublisherSettings.
+        /// Gets or sets the EventQueue.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
-        [global::System.ComponentModel.DescriptionAttribute("The EventPublisherSettings.")]
-        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.WeTextConfiguration.EventPublisherSettingsPropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
-        public virtual global::WeText.Common.Config.SettingElementCollection EventPublisherSettings
+        [global::System.ComponentModel.DescriptionAttribute("The EventQueue.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.WeTextConfiguration.EventQueuePropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
+        public virtual global::WeText.Common.Config.MessageQueueConfigurationElement EventQueue
         {
             get
             {
-                return ((global::WeText.Common.Config.SettingElementCollection)(base[global::WeText.Common.Config.WeTextConfiguration.EventPublisherSettingsPropertyName]));
+                return ((global::WeText.Common.Config.MessageQueueConfigurationElement)(base[global::WeText.Common.Config.WeTextConfiguration.EventQueuePropertyName]));
             }
             set
             {
-                base[global::WeText.Common.Config.WeTextConfiguration.EventPublisherSettingsPropertyName] = value;
+                base[global::WeText.Common.Config.WeTextConfiguration.EventQueuePropertyName] = value;
             }
         }
         #endregion
@@ -431,7 +431,7 @@ namespace WeText.Common.Config
     /// A collection of ServiceElement instances.
     /// </summary>
     [global::System.Configuration.ConfigurationCollectionAttribute(typeof(global::WeText.Common.Config.ServiceElement), CollectionType=global::System.Configuration.ConfigurationElementCollectionType.BasicMapAlternate, AddItemName=global::WeText.Common.Config.ServiceElementCollection.ServiceElementPropertyName)]
-    public partial class ServiceElementCollection : global::System.Configuration.ConfigurationElementCollection
+    public partial class ServiceElementCollection : global::System.Configuration.ConfigurationElementCollection, global::System.Collections.Generic.ICollection<global::WeText.Common.Config.ServiceElement>
     {
         
         #region Constants
@@ -581,6 +581,81 @@ namespace WeText.Common.Config
         }
         #endregion
         
+        #region ICollection
+        /// <summary>
+        /// Removes all items from the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        public void Clear()
+        {
+            base.BaseClear();
+        }
+        
+        /// <summary>
+        /// Determines whether the <see cref="global::System.Configuration.ConfigurationElementCollection"/> contains a specific value.
+        /// </summary>
+        /// <param name="service">The object to locate in the <see cref="global::WeText.Common.Config.ServiceElement"/>.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        public bool Contains(global::WeText.Common.Config.ServiceElement service)
+        {
+            return (base.BaseIndexOf(service) >= 0);
+        }
+        
+        /// <summary>
+        /// Copies the elements of the <see cref="global::System.Configuration.ConfigurationElementCollection"/> to an <see cref="System.Array"/>, starting at a particular <see cref="System.Array"/> index.
+        /// </summary>
+        /// <param name="array">The one-dimensional <see cref="System.Array"/> that is the destination of the elements copied from <see cref="global::System.Configuration.ConfigurationElementCollection"/>. The <see cref="System.Array"/> must have zero-based indexing.</param>
+        /// <param name="arrayIndex">The zero-based index in <paramref name="array"/> at which copying begins.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        public void CopyTo(global::WeText.Common.Config.ServiceElement[] array, int arrayIndex)
+        {
+            base.CopyTo(array, arrayIndex);
+        }
+        
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="global::System.Configuration.ConfigurationElementCollection"/> is read-only.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        bool global::System.Collections.Generic.ICollection<global::WeText.Common.Config.ServiceElement>.IsReadOnly
+        {
+            get
+            {
+                return this.IsReadOnly();
+            }
+        }
+        
+        /// <summary>
+        /// Removes the first occurrence of a specific object from the <see cref="global::System.Configuration.ConfigurationElementCollection"/>.
+        /// </summary>
+        /// <param name="item">The <see cref="global::WeText.Common.Config.ServiceElement"/> to remove.</param>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        bool global::System.Collections.Generic.ICollection<global::WeText.Common.Config.ServiceElement>.Remove(global::WeText.Common.Config.ServiceElement item)
+        {
+            int idx = base.BaseIndexOf(item);
+            if ((idx == -1))
+            {
+                return false;
+            }
+            base.BaseRemoveAt(idx);
+            return true;
+        }
+        
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        public new global::System.Collections.Generic.IEnumerator<global::WeText.Common.Config.ServiceElement> GetEnumerator()
+        {
+            global::System.Collections.Generic.List<global::WeText.Common.Config.ServiceElement> list = new global::System.Collections.Generic.List<global::WeText.Common.Config.ServiceElement>(base.Count);
+            global::System.Collections.IEnumerator iter = base.GetEnumerator();
+            for (; iter.MoveNext(); )
+            {
+                list.Add(((global::WeText.Common.Config.ServiceElement)(iter.Current)));
+            }
+            return list.GetEnumerator();
+        }
+        #endregion
+        
         #region IsReadOnly override
         /// <summary>
         /// Gets a value indicating whether the element is read-only.
@@ -640,6 +715,32 @@ namespace WeText.Common.Config
         }
         #endregion
         
+        #region InstanceId Property
+        /// <summary>
+        /// The XML name of the <see cref="InstanceId"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        internal const string InstanceIdPropertyName = "instanceId";
+        
+        /// <summary>
+        /// Gets or sets the InstanceId.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The InstanceId.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.ServiceElement.InstanceIdPropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
+        public virtual string InstanceId
+        {
+            get
+            {
+                return ((string)(base[global::WeText.Common.Config.ServiceElement.InstanceIdPropertyName]));
+            }
+            set
+            {
+                base[global::WeText.Common.Config.ServiceElement.InstanceIdPropertyName] = value;
+            }
+        }
+        #endregion
+        
         #region Settings Property
         /// <summary>
         /// The XML name of the <see cref="Settings"/> property.
@@ -662,6 +763,58 @@ namespace WeText.Common.Config
             set
             {
                 base[global::WeText.Common.Config.ServiceElement.SettingsPropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region LocalCommandQueue Property
+        /// <summary>
+        /// The XML name of the <see cref="LocalCommandQueue"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        internal const string LocalCommandQueuePropertyName = "localCommandQueue";
+        
+        /// <summary>
+        /// Gets or sets the LocalCommandQueue.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The LocalCommandQueue.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.ServiceElement.LocalCommandQueuePropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
+        public virtual global::WeText.Common.Config.MessageQueueConfigurationElement LocalCommandQueue
+        {
+            get
+            {
+                return ((global::WeText.Common.Config.MessageQueueConfigurationElement)(base[global::WeText.Common.Config.ServiceElement.LocalCommandQueuePropertyName]));
+            }
+            set
+            {
+                base[global::WeText.Common.Config.ServiceElement.LocalCommandQueuePropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region LocalEventQueue Property
+        /// <summary>
+        /// The XML name of the <see cref="LocalEventQueue"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        internal const string LocalEventQueuePropertyName = "localEventQueue";
+        
+        /// <summary>
+        /// Gets or sets the LocalEventQueue.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The LocalEventQueue.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.ServiceElement.LocalEventQueuePropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
+        public virtual global::WeText.Common.Config.MessageQueueConfigurationElement LocalEventQueue
+        {
+            get
+            {
+                return ((global::WeText.Common.Config.MessageQueueConfigurationElement)(base[global::WeText.Common.Config.ServiceElement.LocalEventQueuePropertyName]));
+            }
+            set
+            {
+                base[global::WeText.Common.Config.ServiceElement.LocalEventQueuePropertyName] = value;
             }
         }
         #endregion
@@ -713,5 +866,128 @@ namespace WeText.Common.Config
             }
         }
         #endregion
+    }
+}
+namespace WeText.Common.Config
+{
+    
+    
+    /// <summary>
+    /// The MessageQueueConfigurationElement Configuration Element.
+    /// </summary>
+    public partial class MessageQueueConfigurationElement : global::System.Configuration.ConfigurationElement
+    {
+        
+        #region IsReadOnly override
+        /// <summary>
+        /// Gets a value indicating whether the element is read-only.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+        #endregion
+        
+        #region HostName Property
+        /// <summary>
+        /// The XML name of the <see cref="HostName"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        internal const string HostNamePropertyName = "hostName";
+        
+        /// <summary>
+        /// Gets or sets the HostName.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The HostName.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.MessageQueueConfigurationElement.HostNamePropertyName, IsRequired=true, IsKey=true, IsDefaultCollection=false)]
+        public virtual string HostName
+        {
+            get
+            {
+                return ((string)(base[global::WeText.Common.Config.MessageQueueConfigurationElement.HostNamePropertyName]));
+            }
+            set
+            {
+                base[global::WeText.Common.Config.MessageQueueConfigurationElement.HostNamePropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region ResourceName Property
+        /// <summary>
+        /// The XML name of the <see cref="ResourceName"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        internal const string ResourceNamePropertyName = "resourceName";
+        
+        /// <summary>
+        /// Gets or sets gets or sets the name of the resource of the message queue. A resource can be either a queue, or an exchange to which queues can be bound.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        [global::System.ComponentModel.DescriptionAttribute("Gets or sets the name of the resource of the message queue. A resource can be eit" +
+            "her a queue, or an exchange to which queues can be bound.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.MessageQueueConfigurationElement.ResourceNamePropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
+        public virtual string ResourceName
+        {
+            get
+            {
+                return ((string)(base[global::WeText.Common.Config.MessageQueueConfigurationElement.ResourceNamePropertyName]));
+            }
+            set
+            {
+                base[global::WeText.Common.Config.MessageQueueConfigurationElement.ResourceNamePropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region ResourceType Property
+        /// <summary>
+        /// The XML name of the <see cref="ResourceType"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        internal const string ResourceTypePropertyName = "resourceType";
+        
+        /// <summary>
+        /// Gets or sets the ResourceType.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The ResourceType.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.MessageQueueConfigurationElement.ResourceTypePropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
+        public virtual global::WeText.Common.Config.MessageQueueResourceType ResourceType
+        {
+            get
+            {
+                return ((global::WeText.Common.Config.MessageQueueResourceType)(base[global::WeText.Common.Config.MessageQueueConfigurationElement.ResourceTypePropertyName]));
+            }
+            set
+            {
+                base[global::WeText.Common.Config.MessageQueueConfigurationElement.ResourceTypePropertyName] = value;
+            }
+        }
+        #endregion
+    }
+}
+namespace WeText.Common.Config
+{
+    
+    
+    /// <summary>
+    /// MessageQueueResourceType.
+    /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+    public enum MessageQueueResourceType
+    {
+        
+        /// <summary>
+        /// MessageExchange.
+        /// </summary>
+        MessageExchange,
+        
+        /// <summary>
+        /// MessageQueue.
+        /// </summary>
+        MessageQueue,
     }
 }

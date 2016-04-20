@@ -11,31 +11,29 @@ using WeText.Common.Messaging;
 
 namespace WeText.Messaging.RabbitMq
 {
-    public class RabbitMqMessageSubscriber : DisposableObject, IMessageSubscriber
+    public class RabbitMqQueueSubscriber : DisposableObject, IMessageSubscriber
     {
-        private readonly string exchangeName;
+        private readonly string queueName;
         private readonly IConnection connection;
         private readonly IModel channel;
         private bool disposed;
 
-        public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
-        public RabbitMqMessageSubscriber(string hostName, string exchangeName)
+        public RabbitMqQueueSubscriber(string hostName, string queueName)
         {
-            this.exchangeName = exchangeName;
+            this.queueName = queueName;
             var factory = new ConnectionFactory() { HostName = hostName };
             this.connection = factory.CreateConnection();
             this.channel = connection.CreateModel();
         }
 
+        public event EventHandler<MessageReceivedEventArgs> MessageReceived;
+
         public void Subscribe()
         {
-            channel.ExchangeDeclare(exchange: this.exchangeName, type: "fanout");
+            channel.QueueDeclare(queue: this.queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
-            var queueName = channel.QueueDeclare().QueueName;
-            channel.QueueBind(queue: queueName,
-                              exchange: this.exchangeName,
-                              routingKey: "");
+            channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
 
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (sender, e) =>
@@ -51,9 +49,9 @@ namespace WeText.Messaging.RabbitMq
                                  consumer: consumer);
         }
 
-        private void OnMessageReceived(MessageReceivedEventArgs e)
+        private void OnMessageReceived(MessageReceivedEventArgs messageReceivedEventArgs)
         {
-            this.MessageReceived?.Invoke(this, e);
+            this.MessageReceived?.Invoke(this, messageReceivedEventArgs);
         }
 
         protected override void Dispose(bool disposing)

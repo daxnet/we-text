@@ -26,6 +26,18 @@ namespace WeText.Services.Accounts
                 .As<ITableDataGateway>()
                 .WithMetadata<NamedMetadata>(x => x.For(y => y.Name, "AccountServiceTableDataGateway"));
 
+            builder
+                .Register(x => new MessageRedirectingConsumer(x.ResolveNamed<IMessageSubscriber>("CommandSubscriber"),
+                    x.ResolveNamed<ICommandSender>("LocalMessageQueueCommandSender",
+                        new NamedParameter("hostName", "localhost"), new NamedParameter("queueName", this.GetType().Name + ".Commands"))))
+                .Named<IMessageConsumer>("AccountServiceCommandRedirectingConsumer");
+            builder
+                .Register(x => new MessageRedirectingConsumer(x.ResolveNamed<IMessageSubscriber>("EventSubscriber"), 
+                    x.ResolveNamed<IEventPublisher>("LocalMessageQueueEventPublisher",
+                        new NamedParameter("hostName", "localhost"), new NamedParameter("queueName", this.GetType().Name + ".Events"))))
+                .Named<IMessageConsumer>("AccountServiceEventRedirectingConsumer");
+
+
             // Register command handlers
             builder
                 .Register(x => new AccountsCommandHandler(x.Resolve<IDomainRepository>()))
@@ -39,18 +51,23 @@ namespace WeText.Services.Accounts
 
             // Register command consumer and assign message subscriber and command handler to the consumer.
             builder
-                .Register(x => new CommandConsumer(x.ResolveNamed<IMessageSubscriber>("CommandSubscriber"), 
+                .Register(x => new CommandConsumer(x.ResolveNamed<IMessageSubscriber>("LocalMessageQueueCommandSubscriber",
+                        new NamedParameter("hostName", "localhost"), new NamedParameter("queueName", this.GetType().Name + ".Commands")), 
                         x.ResolveNamed<IEnumerable<ICommandHandler>>("AccountServiceCommandHandler")))
                 .Named<ICommandConsumer>("AccountsServiceCommandConsumer");
 
             // Register event consumer and assign message subscriber and event handler to the consumer.
             builder
-                .Register(x => new EventConsumer(x.ResolveNamed<IMessageSubscriber>("EventSubscriber"),
+                .Register(x => new EventConsumer(x.ResolveNamed<IMessageSubscriber>("LocalMessageQueueEventSubscriber",
+                        new NamedParameter("hostName", "localhost"), new NamedParameter("queueName", this.GetType().Name + ".Events")),
                     x.ResolveNamed<IEnumerable<IDomainEventHandler>>("AccountServiceEventHandler")))
                 .Named<IEventConsumer>("AccountsServiceEventConsumer");
 
             // Register micros service.
-            builder.Register(x => new AccountService(x.ResolveNamed<ICommandConsumer>("AccountsServiceCommandConsumer"), 
+            builder.Register(x => new AccountService(
+                        x.ResolveNamed<IMessageConsumer>("AccountServiceCommandRedirectingConsumer"),
+                        x.ResolveNamed<IMessageConsumer>("AccountServiceEventRedirectingConsumer"),
+                        x.ResolveNamed<ICommandConsumer>("AccountsServiceCommandConsumer"), 
                         x.ResolveNamed<IEventConsumer>("AccountsServiceEventConsumer")))
                 .As<IService>()
                 .SingleInstance(); // We can only have one Account Service within the same application domain.

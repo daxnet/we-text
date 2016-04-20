@@ -23,6 +23,17 @@ namespace WeText.Services.Texting
                 .As<ITableDataGateway>()
                 .WithMetadata<NamedMetadata>(x => x.For(y => y.Name, "TextingServiceTableDataGateway"));
 
+            builder
+                .Register(x => new MessageRedirectingConsumer(x.ResolveNamed<IMessageSubscriber>("CommandSubscriber"),
+                    x.ResolveNamed<ICommandSender>("LocalMessageQueueCommandSender",
+                        new NamedParameter("hostName", "localhost"), new NamedParameter("queueName", this.GetType().Name + ".Commands"))))
+                .Named<IMessageConsumer>("TextingServiceCommandRedirectingConsumer");
+            builder
+                .Register(x => new MessageRedirectingConsumer(x.ResolveNamed<IMessageSubscriber>("EventSubscriber"),
+                    x.ResolveNamed<IEventPublisher>("LocalMessageQueueEventPublisher",
+                        new NamedParameter("hostName", "localhost"), new NamedParameter("queueName", this.GetType().Name + ".Events"))))
+                .Named<IMessageConsumer>("TextingServiceEventRedirectingConsumer");
+
             // Register command handlers
             builder
                 .Register(x => new TextingCommandHandler(x.Resolve<IDomainRepository>()))
@@ -36,18 +47,23 @@ namespace WeText.Services.Texting
 
             // Register command consumer and assign message subscriber and command handler to the consumer.
             builder
-                .Register(x => new CommandConsumer(x.ResolveNamed<IMessageSubscriber>("CommandSubscriber"),
+                .Register(x => new CommandConsumer(x.ResolveNamed<IMessageSubscriber>("LocalMessageQueueCommandSubscriber",
+                        new NamedParameter("hostName", "localhost"), new NamedParameter("queueName", this.GetType().Name + ".Commands")),
                         x.ResolveNamed<IEnumerable<ICommandHandler>>("TextingServiceCommandHandler")))
                 .Named<ICommandConsumer>("TextingServiceCommandConsumer");
 
             // Register event consumer and assign message subscriber and event handler to the consumer.
             builder
-                .Register(x => new EventConsumer(x.ResolveNamed<IMessageSubscriber>("EventSubscriber"),
+                .Register(x => new EventConsumer(x.ResolveNamed<IMessageSubscriber>("LocalMessageQueueEventSubscriber",
+                        new NamedParameter("hostName", "localhost"), new NamedParameter("queueName", this.GetType().Name + ".Events")),
                     x.ResolveNamed<IEnumerable<IDomainEventHandler>>("TextingServiceEventHandler")))
                 .Named<IEventConsumer>("TextingServiceEventConsumer");
 
             // Register micros service.
-            builder.Register(x => new TextingService(x.ResolveNamed<ICommandConsumer>("TextingServiceCommandConsumer"),
+            builder.Register(x => new TextingService(
+                        x.ResolveNamed<IMessageConsumer>("TextingServiceCommandRedirectingConsumer"),
+                        x.ResolveNamed<IMessageConsumer>("TextingServiceEventRedirectingConsumer"),
+                        x.ResolveNamed<ICommandConsumer>("TextingServiceCommandConsumer"),
                         x.ResolveNamed<IEventConsumer>("TextingServiceEventConsumer")))
                 .As<IService>()
                 .SingleInstance(); // We can only have one Texting Service within the same application domain.

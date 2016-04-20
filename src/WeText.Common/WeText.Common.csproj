@@ -81,6 +81,7 @@
     <Compile Include="Messaging\IMessageConsumer.cs" />
     <Compile Include="Messaging\IMessageSubscriber.cs" />
     <Compile Include="Messaging\MessageReceivedEventArgs.cs" />
+    <Compile Include="Messaging\MessageRedirectingConsumer.cs" />
     <Compile Include="NamedMetadata.cs" />
     <Compile Include="Querying\KeyAttribute.cs" />
     <Compile Include="Querying\ITableDataGateway.cs" />

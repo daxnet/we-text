@@ -9,18 +9,24 @@
     <externalType name="Double" namespace="System" />
     <externalType name="DateTime" namespace="System" />
     <externalType name="TimeSpan" namespace="System" />
+    <enumeratedType name="MessageQueueResourceType" namespace="WeText.Common.Config">
+      <literals>
+        <enumerationLiteral name="MessageExchange" />
+        <enumerationLiteral name="MessageQueue" />
+      </literals>
+    </enumeratedType>
   </typeDefinitions>
   <configurationElements>
     <configurationSection name="WeTextConfiguration" codeGenOptions="Singleton, XmlnsProperty" xmlSectionName="weTextConfiguration">
       <elementProperties>
-        <elementProperty name="CommandSenderSettings" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="commandSender" isReadOnly="false">
+        <elementProperty name="CommandQueue" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="commandQueue" isReadOnly="false">
           <type>
-            <configurationElementCollectionMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/SettingElementCollection" />
+            <configurationElementMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/MessageQueueConfigurationElement" />
           </type>
         </elementProperty>
-        <elementProperty name="EventPublisherSettings" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="eventPublisher" isReadOnly="false">
+        <elementProperty name="EventQueue" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="eventQueue" isReadOnly="false">
           <type>
-            <configurationElementCollectionMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/SettingElementCollection" />
+            <configurationElementMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/MessageQueueConfigurationElement" />
           </type>
         </elementProperty>
         <elementProperty name="Services" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="services" isReadOnly="false">
@@ -54,7 +60,7 @@
         <configurationElementMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/SettingElement" />
       </itemType>
     </configurationElementCollection>
-    <configurationElementCollection name="ServiceElementCollection" xmlItemName="service" codeGenOptions="Indexer, AddMethod, RemoveMethod, GetItemMethods">
+    <configurationElementCollection name="ServiceElementCollection" xmlItemName="service" codeGenOptions="Indexer, AddMethod, RemoveMethod, GetItemMethods, ICollection">
       <itemType>
         <configurationElementMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/ServiceElement" />
       </itemType>
@@ -66,11 +72,26 @@
             <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
           </type>
         </attributeProperty>
+        <attributeProperty name="InstanceId" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="instanceId" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
+          </type>
+        </attributeProperty>
       </attributeProperties>
       <elementProperties>
         <elementProperty name="Settings" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="settings" isReadOnly="false">
           <type>
             <configurationElementCollectionMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/SettingElementCollection" />
+          </type>
+        </elementProperty>
+        <elementProperty name="LocalCommandQueue" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="localCommandQueue" isReadOnly="false">
+          <type>
+            <configurationElementMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/MessageQueueConfigurationElement" />
+          </type>
+        </elementProperty>
+        <elementProperty name="LocalEventQueue" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="localEventQueue" isReadOnly="false">
+          <type>
+            <configurationElementMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/MessageQueueConfigurationElement" />
           </type>
         </elementProperty>
       </elementProperties>
@@ -80,6 +101,25 @@
         <attributeProperty name="Url" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="url" isReadOnly="false">
           <type>
             <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
+          </type>
+        </attributeProperty>
+      </attributeProperties>
+    </configurationElement>
+    <configurationElement name="MessageQueueConfigurationElement">
+      <attributeProperties>
+        <attributeProperty name="HostName" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="hostName" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="ResourceName" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="resourceName" isReadOnly="false" documentation="Gets or sets the name of the resource of the message queue. A resource can be either a queue, or an exchange to which queues can be bound.">
+          <type>
+            <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="ResourceType" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="resourceType" isReadOnly="false">
+          <type>
+            <enumeratedTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/MessageQueueResourceType" />
           </type>
         </attributeProperty>
       </attributeProperties>

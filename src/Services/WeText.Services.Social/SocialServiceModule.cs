@@ -26,9 +26,20 @@ namespace WeText.Services.Social
                 .As<ITableDataGateway>()
                 .WithMetadata<NamedMetadata>(x => x.For(y => y.Name, "SocialServiceTableDataGateway"));
 
+            builder
+                .Register(x => new MessageRedirectingConsumer(x.ResolveNamed<IMessageSubscriber>("CommandSubscriber"),
+                    x.ResolveNamed<ICommandSender>("LocalMessageQueueCommandSender",
+                        new NamedParameter("hostName", "localhost"), new NamedParameter("queueName", this.GetType().Name + ".Commands"))))
+                .Named<IMessageConsumer>("SocialServiceCommandRedirectingConsumer");
+            builder
+                .Register(x => new MessageRedirectingConsumer(x.ResolveNamed<IMessageSubscriber>("EventSubscriber"),
+                    x.ResolveNamed<IEventPublisher>("LocalMessageQueueEventPublisher",
+                        new NamedParameter("hostName", "localhost"), new NamedParameter("queueName", this.GetType().Name + ".Events"))))
+                .Named<IMessageConsumer>("SocialServiceEventRedirectingConsumer");
+
             // Register event handlers
             builder
-                .Register(x => new SocialEventHandler(x.Resolve<IDomainRepository>(), tableDataGatewayResolver(x), x.Resolve<ICommandSender>()))
+                .Register(x => new SocialEventHandler(x.Resolve<IDomainRepository>(), tableDataGatewayResolver(x), x.Resolve<IEnumerable<Lazy<ICommandSender, NamedMetadata>>>().First(p => p.Metadata.Name == "CommandSender").Value))
                 .Named<IDomainEventHandler>("SocialServiceEventHandler");
 
 
@@ -39,20 +50,25 @@ namespace WeText.Services.Social
 
             // Register command consumer and assign message subscriber and command handler to the consumer.
             builder
-                .Register(x => new CommandConsumer(x.ResolveNamed<IMessageSubscriber>("CommandSubscriber"),
+                .Register(x => new CommandConsumer(x.ResolveNamed<IMessageSubscriber>("LocalMessageQueueCommandSubscriber",
+                        new NamedParameter("hostName", "localhost"), new NamedParameter("queueName", this.GetType().Name + ".Commands")),
                         x.ResolveNamed<IEnumerable<ICommandHandler>>("SocialServiceCommandHandler")))
                         //null))
                 .Named<ICommandConsumer>("SocialServiceCommandConsumer");
 
             // Register event consumer and assign message subscriber and event handler to the consumer.
             builder
-                .Register(x => new EventConsumer(x.ResolveNamed<IMessageSubscriber>("EventSubscriber"),
+                .Register(x => new EventConsumer(x.ResolveNamed<IMessageSubscriber>("LocalMessageQueueEventSubscriber",
+                        new NamedParameter("hostName", "localhost"), new NamedParameter("queueName", this.GetType().Name + ".Events")),
                     x.ResolveNamed<IEnumerable<IDomainEventHandler>>("SocialServiceEventHandler")))
                     //null))
                 .Named<IEventConsumer>("SocialServiceEventConsumer");
 
             // Register micros service.
-            builder.Register(x => new SocialService(x.ResolveNamed<ICommandConsumer>("SocialServiceCommandConsumer"),
+            builder.Register(x => new SocialService(
+                        x.ResolveNamed<IMessageConsumer>("SocialServiceCommandRedirectingConsumer"),
+                        x.ResolveNamed<IMessageConsumer>("SocialServiceEventRedirectingConsumer"),
+                        x.ResolveNamed<ICommandConsumer>("SocialServiceCommandConsumer"),
                         x.ResolveNamed<IEventConsumer>("SocialServiceEventConsumer")))
                 .As<IService>()
                 .SingleInstance(); // We can only have one Social Service within the same application domain.

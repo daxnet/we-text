@@ -106,6 +106,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -139,6 +140,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Services\WeText.Services.Common\WeText.Services.Common.csproj">
+      <Project>{d813a23a-15c4-409c-bb17-27fbfb009358}</Project>
+      <Name>WeText.Services.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WeText.Common\WeText.Common.csproj">
       <Project>{97c426d5-34aa-43c8-adf9-1206d90a2dcb}</Project>
       <Name>WeText.Common</Name>

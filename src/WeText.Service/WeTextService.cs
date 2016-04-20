@@ -13,6 +13,7 @@ using WeText.Common.Services;
 using Microsoft.Owin.Hosting;
 using System;
 using System.Collections.Generic;
+using WeText.Common;
 
 namespace WeText.Service
 {
@@ -48,11 +49,25 @@ namespace WeText.Service
         public void Configuration(IAppBuilder app)
         {
             var builder = new ContainerBuilder();
-            builder.Register(x => new RabbitMqCommandSender("localhost", "WeTextCommandExchange")).As<ICommandSender>();
-            builder.Register(x => new RabbitMqEventPublisher("localhost", "WeTextEventExchange")).As<IEventPublisher>();
+            builder.Register(x => new RabbitMqCommandSender("localhost", "WeTextCommandExchange"))
+                //.Named<ICommandSender>("CommandSender")
+                .As<ICommandSender>()
+                .WithMetadata<NamedMetadata>(x => x.For(y => y.Name, "CommandSender"));
+
+            builder.Register(x => new RabbitMqEventPublisher("localhost", "WeTextEventExchange"))
+                //.Named<IEventPublisher>("EventPublisher")
+                .As<IEventPublisher>()
+                .WithMetadata<NamedMetadata>(x => x.For(y => y.Name, "EventPublisher"));
+
             builder.Register(x => new RabbitMqMessageSubscriber("localhost", "WeTextCommandExchange")).Named<IMessageSubscriber>("CommandSubscriber");
             builder.Register(x => new RabbitMqMessageSubscriber("localhost", "WeTextEventExchange")).Named<IMessageSubscriber>("EventSubscriber");
-            builder.Register(x => new MongoDomainRepository(x.Resolve<IEventPublisher>())).As<IDomainRepository>();
+
+            builder.RegisterType<RabbitMqQueueCommandSender>().Named<ICommandSender>("LocalMessageQueueCommandSender");
+            builder.RegisterType<RabbitMqQueueEventPublisher>().Named<IEventPublisher>("LocalMessageQueueEventPublisher");
+            builder.RegisterType<RabbitMqQueueSubscriber>().Named<IMessageSubscriber>("LocalMessageQueueCommandSubscriber");
+            builder.RegisterType<RabbitMqQueueSubscriber>().Named<IMessageSubscriber>("LocalMessageQueueEventSubscriber");
+
+            builder.Register(x => new MongoDomainRepository(x.Resolve<IEnumerable<Lazy<IEventPublisher, NamedMetadata>>>().First(p => p.Metadata.Name == "EventPublisher").Value)).As<IDomainRepository>();
 
             // Discovers the services.
             DiscoverServices(builder);
