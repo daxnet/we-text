@@ -14,15 +14,23 @@ namespace WeText.Messaging.RabbitMq
     public class RabbitMqMessageSubscriber : DisposableObject, IMessageSubscriber
     {
         private readonly string exchangeName;
+        private readonly string queueName;
         private readonly IConnection connection;
         private readonly IModel channel;
         private bool disposed;
 
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
-        public RabbitMqMessageSubscriber(string hostName, string exchangeName)
+        /// <summary>
+        /// Initializes a new instance of <c>RabbitMqMessageSubscriber</c> class.
+        /// </summary>
+        /// <param name="hostName"></param>
+        /// <param name="exchangeName"></param>
+        /// <param name="queueName"></param>
+        public RabbitMqMessageSubscriber(string hostName, string exchangeName, string queueName)
         {
             this.exchangeName = exchangeName;
+            this.queueName = queueName;
             var factory = new ConnectionFactory() { HostName = hostName };
             this.connection = factory.CreateConnection();
             this.channel = connection.CreateModel();
@@ -32,8 +40,9 @@ namespace WeText.Messaging.RabbitMq
         {
             channel.ExchangeDeclare(exchange: this.exchangeName, type: "fanout");
 
-            var queueName = channel.QueueDeclare().QueueName;
-            channel.QueueBind(queue: queueName,
+            channel.QueueDeclare(queue: this.queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+
+            channel.QueueBind(queue: this.queueName,
                               exchange: this.exchangeName,
                               routingKey: "");
 

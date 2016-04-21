@@ -68,6 +68,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>WeText.Config.csd</DependentUpon>
     </Compile>
+    <Compile Include="Config\WeTextConfigurationException.cs" />
     <Compile Include="DisposableObject.cs" />
     <Compile Include="Events\DomainEvent.cs" />
     <Compile Include="Events\IDomainEventHandler.cs" />
@@ -81,7 +82,6 @@
     <Compile Include="Messaging\IMessageConsumer.cs" />
     <Compile Include="Messaging\IMessageSubscriber.cs" />
     <Compile Include="Messaging\MessageReceivedEventArgs.cs" />
-    <Compile Include="Messaging\MessageRedirectingConsumer.cs" />
     <Compile Include="NamedMetadata.cs" />
     <Compile Include="Querying\KeyAttribute.cs" />
     <Compile Include="Querying\ITableDataGateway.cs" />
@@ -116,6 +116,7 @@
     <Compile Include="Specifications\ParameterRebinder.cs" />
     <Compile Include="Specifications\Specification.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="WeTextException.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

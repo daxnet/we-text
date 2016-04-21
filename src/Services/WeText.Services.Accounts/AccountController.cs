@@ -10,21 +10,19 @@ using WeText.Common;
 using System.Threading.Tasks;
 using WeText.Common.Specifications;
 using System.Linq.Expressions;
+using WeText.Services.Common;
+using WeText.Common.Config;
 
 namespace WeText.Services.Accounts
 {
     [RoutePrefix("api")]
-    public class AccountController : ApiController
+    public class AccountController : MicroserviceApiController<AccountService>
     {
-        private readonly ICommandSender commandSender;
-        private readonly ITableDataGateway tableDataGateway;
-
-        public AccountController(IEnumerable<Lazy<ICommandSender, NamedMetadata>> commandSenderRegistration, 
+        public AccountController(WeTextConfiguration configuration,
+            ICommandSender commandSender,
             IEnumerable<Lazy<ITableDataGateway, NamedMetadata>> tableGatewayRegistration)
-        {
-            this.commandSender = commandSenderRegistration.First(x => x.Metadata.Name == "CommandSender").Value;
-            this.tableDataGateway = tableGatewayRegistration.First(x => x.Metadata.Name == "AccountServiceTableDataGateway").Value;
-        }
+            : base(configuration, commandSender, tableGatewayRegistration)
+        { }
 
         [Route("accounts/create")]
         [HttpPost]
@@ -40,7 +38,7 @@ namespace WeText.Services.Accounts
                 Email = model.Email,
                 DisplayName = model.DisplayName
             };
-            commandSender.Publish(createUserCommand);
+            CommandSender.Publish(createUserCommand);
             return Ok(userId);
         }
 
@@ -56,7 +54,7 @@ namespace WeText.Services.Accounts
                 Email = email,
                 DisplayName = displayName
             };
-            commandSender.Publish(updateUserCommand);
+            CommandSender.Publish(updateUserCommand);
             return Ok();
         }
 
@@ -65,14 +63,14 @@ namespace WeText.Services.Accounts
         public async Task<IHttpActionResult> GetUserByName(string name)
         {
             Expression<Func<AccountTableObject, bool>> specification = a => a.Name == name;
-            return Ok(await this.tableDataGateway.SelectAsync<AccountTableObject>(specification));
+            return Ok(await this.TableDataGateway.SelectAsync<AccountTableObject>(specification));
         }
 
         [Route("accounts/id/{id}")]
         public async Task<IHttpActionResult> GetUserById(string id)
         {
             Expression<Func<AccountTableObject, bool>> specification = a => a.Id == id;
-            return Ok(await this.tableDataGateway.SelectAsync<AccountTableObject>(specification));
+            return Ok(await this.TableDataGateway.SelectAsync<AccountTableObject>(specification));
         }
     }
 }

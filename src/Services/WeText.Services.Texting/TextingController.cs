@@ -6,24 +6,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WeText.Common;
+using WeText.Common.Config;
 using WeText.Common.Messaging;
 using WeText.Common.Querying;
 using WeText.Domain.Commands;
+using WeText.Services.Common;
 
 namespace WeText.Services.Texting
 {
     [RoutePrefix("api")]
-    public class TextingController : ApiController
+    public class TextingController : MicroserviceApiController<TextingService>
     {
-        private readonly ICommandSender commandSender;
-        private readonly ITableDataGateway tableDataGateway;
-
-        public TextingController(IEnumerable<Lazy<ICommandSender, NamedMetadata>> commandSenderRegistration,
+        public TextingController(WeTextConfiguration configuration,
+            ICommandSender commandSender,
             IEnumerable<Lazy<ITableDataGateway, NamedMetadata>> tableGatewayRegistration)
+            :base(configuration, commandSender, tableGatewayRegistration)
         {
-            this.commandSender = commandSenderRegistration.First(x => x.Metadata.Name == "CommandSender").Value;
-            this.tableDataGateway = tableGatewayRegistration.First(x => x.Metadata.Name == "TextingServiceTableDataGateway").Value;
+
         }
+
 
         [HttpPost]
         [Route("texts/create")]
@@ -38,7 +39,7 @@ namespace WeText.Services.Texting
                 UserId = model.UserId,
                 TextId = textId
             };
-            commandSender.Publish(createTextCommand);
+            CommandSender.Publish(createTextCommand);
             return Ok(textId);
         }
 
@@ -47,7 +48,7 @@ namespace WeText.Services.Texting
         public async Task<IHttpActionResult> GetAllTextsForUser(string userId)
         {
             Expression<Func<TextTableObject, bool>> specification = x => x.UserId == userId;
-            return Ok((await this.tableDataGateway.SelectAsync<TextTableObject>(specification)).OrderByDescending(v=>v.DateCreated));
+            return Ok((await this.TableDataGateway.SelectAsync<TextTableObject>(specification)).OrderByDescending(v=>v.DateCreated));
         }
 
         [HttpGet]
@@ -55,7 +56,7 @@ namespace WeText.Services.Texting
         public async Task<IHttpActionResult> GetText(string id)
         {
             Expression<Func<TextTableObject, bool>> specification = x => x.Id == id;
-            return Ok(await this.tableDataGateway.SelectAsync<TextTableObject>(specification));
+            return Ok(await this.TableDataGateway.SelectAsync<TextTableObject>(specification));
         }
 
         [HttpPost]
@@ -70,7 +71,7 @@ namespace WeText.Services.Texting
                 Title = model.Title,
                 TextId = textId
             };
-            commandSender.Publish(changeTextCommand);
+            CommandSender.Publish(changeTextCommand);
             return Ok();
         }
     }

@@ -849,10 +849,10 @@ namespace WeText.Common.Config
         internal const string UrlPropertyName = "url";
         
         /// <summary>
-        /// Gets or sets the Url.
+        /// Gets or sets represents the base url of the WeText service.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
-        [global::System.ComponentModel.DescriptionAttribute("The Url.")]
+        [global::System.ComponentModel.DescriptionAttribute("Represents the base url of the WeText service.")]
         [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.ApplicationSettingElement.UrlPropertyName, IsRequired=true, IsKey=true, IsDefaultCollection=false)]
         public virtual string Url
         {
@@ -915,12 +915,12 @@ namespace WeText.Common.Config
         }
         #endregion
         
-        #region ResourceName Property
+        #region ExchangeName Property
         /// <summary>
-        /// The XML name of the <see cref="ResourceName"/> property.
+        /// The XML name of the <see cref="ExchangeName"/> property.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
-        internal const string ResourceNamePropertyName = "resourceName";
+        internal const string ExchangeNamePropertyName = "exchangeName";
         
         /// <summary>
         /// Gets or sets gets or sets the name of the resource of the message queue. A resource can be either a queue, or an exchange to which queues can be bound.
@@ -928,42 +928,42 @@ namespace WeText.Common.Config
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
         [global::System.ComponentModel.DescriptionAttribute("Gets or sets the name of the resource of the message queue. A resource can be eit" +
             "her a queue, or an exchange to which queues can be bound.")]
-        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.MessageQueueConfigurationElement.ResourceNamePropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
-        public virtual string ResourceName
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.MessageQueueConfigurationElement.ExchangeNamePropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public virtual string ExchangeName
         {
             get
             {
-                return ((string)(base[global::WeText.Common.Config.MessageQueueConfigurationElement.ResourceNamePropertyName]));
+                return ((string)(base[global::WeText.Common.Config.MessageQueueConfigurationElement.ExchangeNamePropertyName]));
             }
             set
             {
-                base[global::WeText.Common.Config.MessageQueueConfigurationElement.ResourceNamePropertyName] = value;
+                base[global::WeText.Common.Config.MessageQueueConfigurationElement.ExchangeNamePropertyName] = value;
             }
         }
         #endregion
         
-        #region ResourceType Property
+        #region QueueName Property
         /// <summary>
-        /// The XML name of the <see cref="ResourceType"/> property.
+        /// The XML name of the <see cref="QueueName"/> property.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
-        internal const string ResourceTypePropertyName = "resourceType";
+        internal const string QueueNamePropertyName = "queueName";
         
         /// <summary>
-        /// Gets or sets the ResourceType.
+        /// Gets or sets the QueueName.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
-        [global::System.ComponentModel.DescriptionAttribute("The ResourceType.")]
-        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.MessageQueueConfigurationElement.ResourceTypePropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
-        public virtual global::WeText.Common.Config.MessageQueueResourceType ResourceType
+        [global::System.ComponentModel.DescriptionAttribute("The QueueName.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.MessageQueueConfigurationElement.QueueNamePropertyName, IsRequired=false, IsKey=false, IsDefaultCollection=false)]
+        public virtual string QueueName
         {
             get
             {
-                return ((global::WeText.Common.Config.MessageQueueResourceType)(base[global::WeText.Common.Config.MessageQueueConfigurationElement.ResourceTypePropertyName]));
+                return ((string)(base[global::WeText.Common.Config.MessageQueueConfigurationElement.QueueNamePropertyName]));
             }
             set
             {
-                base[global::WeText.Common.Config.MessageQueueConfigurationElement.ResourceTypePropertyName] = value;
+                base[global::WeText.Common.Config.MessageQueueConfigurationElement.QueueNamePropertyName] = value;
             }
         }
         #endregion

@@ -66,6 +66,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -85,7 +86,7 @@
   <ItemGroup>
     <Compile Include="AccountsCommandHandler.cs" />
     <Compile Include="AccountService.cs" />
-    <Compile Include="AccountServiceModule.cs" />
+    <Compile Include="AccountServiceRegister.cs" />
     <Compile Include="AccountsEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AccountController.cs" />
@@ -105,6 +106,11 @@
     <ProjectReference Include="..\..\WeText.Querying.MySqlClient\WeText.Querying.MySqlClient.csproj">
       <Project>{56c1435b-e2ce-4cc3-ad7c-618993a69738}</Project>
       <Name>WeText.Querying.MySqlClient</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\WeText.Services.Common\WeText.Services.Common.csproj">
+      <Project>{d813a23a-15c4-409c-bb17-27fbfb009358}</Project>
+      <Name>WeText.Services.Common</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

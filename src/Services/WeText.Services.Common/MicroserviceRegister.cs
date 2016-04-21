@@ -16,7 +16,7 @@ using WeText.Common.Services;
 namespace WeText.Services.Common
 {
     public abstract class MicroserviceRegister<TService> : Module
-        where TService : IService
+        where TService : Microservice
     {
         private readonly WeTextConfiguration configuration;
 
@@ -26,45 +26,11 @@ namespace WeText.Services.Common
         }
 
         
-        private void RegisterMessageRedirecting(ContainerBuilder builder)
-        {
-            var commandQueueHostName = ThisConfiguration?.LocalCommandQueue?.HostName;
-            var commandQueueName = ThisConfiguration?.LocalCommandQueue?.ResourceType == MessageQueueResourceType.MessageQueue ? 
-                ThisConfiguration?.LocalCommandQueue?.ResourceName : 
-                null;
-
-            if (!string.IsNullOrEmpty(commandQueueHostName) &&
-                !string.IsNullOrEmpty(commandQueueName))
-            {
-                builder
-                    .Register(x => new MessageRedirectingConsumer(this.ResolveGlobalCommandSubscriber(x),
-                        x.ResolveNamed<ICommandSender>("LocalMessageQueueCommandSender",
-                            new NamedParameter("hostName", commandQueueHostName), new NamedParameter("queueName", commandQueueName))))
-                    .Named<IMessageConsumer>($"{ThisConfiguration.Type}.CommandRedirectingConsumer");
-            }
-
-            var eventQueueHostName = ThisConfiguration?.LocalEventQueue?.HostName;
-            var eventQueueName = ThisConfiguration?.LocalEventQueue?.ResourceType == MessageQueueResourceType.MessageQueue ? 
-                ThisConfiguration?.LocalEventQueue?.ResourceName : 
-                null;
-
-            if (!string.IsNullOrEmpty(eventQueueHostName) &&
-                !string.IsNullOrEmpty(eventQueueName))
-            {
-                builder
-                    .Register(x => new MessageRedirectingConsumer(this.ResolveGlobalEventSubscriber(x),
-                        x.ResolveNamed<IEventPublisher>("LocalMessageQueueEventPublisher",
-                            new NamedParameter("hostName", eventQueueHostName), new NamedParameter("queueName", eventQueueName))))
-                    .Named<IMessageConsumer>($"{ThisConfiguration.Type}.EventRedirectingConsumer");
-            }
-        }
-
         protected ServiceElement ThisConfiguration => this.configuration.Services.GetItemByKey(typeof(TService).FullName);
 
         protected override void Load(ContainerBuilder builder)
         {
             this.RegisterTableDataGateway(builder, this.TableDataGatewayInitializer);
-            this.RegisterMessageRedirecting(builder);
             this.RegisterCommandHandlers(builder, this.CommandHandlersInitializer);
             this.RegisterEventHandlers(builder, this.EventHandlersInitializer);
             this.RegisterLocalCommandConsumer(builder);
@@ -116,9 +82,15 @@ namespace WeText.Services.Common
         private void RegisterLocalCommandConsumer(ContainerBuilder builder)
         {
             var commandQueueHostName = ThisConfiguration?.LocalCommandQueue?.HostName;
-            var commandQueueName = ThisConfiguration?.LocalCommandQueue?.ResourceType == MessageQueueResourceType.MessageQueue ?
-                ThisConfiguration?.LocalCommandQueue?.ResourceName :
-                null;
+            var commandQueueExchangeName = ThisConfiguration?.LocalCommandQueue?.ExchangeName;
+            var commandQueueName = ThisConfiguration?.LocalCommandQueue?.QueueName;
+
+            if (string.IsNullOrEmpty(commandQueueName) ||
+                string.IsNullOrEmpty(commandQueueExchangeName) ||
+                string.IsNullOrEmpty(commandQueueName))
+            {
+                throw new ServiceRegistrationException("Either of the settings for Command Queue is empty (HostName, ExchangeName or QueueName).");
+            }
 
             Func<IComponentContext, IEnumerable<ICommandHandler>> commandHandlersResolver = (context) =>
             {
@@ -131,8 +103,11 @@ namespace WeText.Services.Common
             };
 
             builder
-                .Register(x => new CommandConsumer(x.ResolveNamed<IMessageSubscriber>("LocalMessageQueueCommandSubscriber",
-                        new NamedParameter("hostName", commandQueueHostName), new NamedParameter("queueName", commandQueueName)),
+                .Register(x => new CommandConsumer(x.ResolveNamed<IMessageSubscriber>("CommandSubscriber",
+                                new NamedParameter("hostName", commandQueueHostName), 
+                                new NamedParameter("exchangeName", commandQueueExchangeName), 
+                                new NamedParameter("queueName", commandQueueName)
+                            ),
                         commandHandlersResolver(x)))
                 .Named<ICommandConsumer>($"{ThisConfiguration.Type}.LocalCommandConsumer");
         }
@@ -140,9 +115,15 @@ namespace WeText.Services.Common
         private void RegisterLocalEventConsumer(ContainerBuilder builder)
         {
             var eventQueueHostName = ThisConfiguration?.LocalEventQueue?.HostName;
-            var eventQueueName = ThisConfiguration?.LocalEventQueue?.ResourceType == MessageQueueResourceType.MessageQueue ?
-                ThisConfiguration?.LocalEventQueue?.ResourceName :
-                null;
+            var eventQueueExchangeName = ThisConfiguration?.LocalEventQueue?.ExchangeName;
+            var eventQueueName = ThisConfiguration?.LocalEventQueue?.QueueName;
+
+            if (string.IsNullOrEmpty(eventQueueHostName) ||
+                string.IsNullOrEmpty(eventQueueExchangeName) ||
+                string.IsNullOrEmpty(eventQueueName))
+            {
+                throw new ServiceRegistrationException("Either of the settings for Command Queue is empty (HostName, ExchangeName or QueueName).");
+            }
 
             Func<IComponentContext, IEnumerable<IDomainEventHandler>> eventHandlersResolver = (context) =>
             {
@@ -155,41 +136,37 @@ namespace WeText.Services.Common
             };
 
             builder
-                .Register(x => new EventConsumer(x.ResolveNamed<IMessageSubscriber>("LocalMessageQueueEventSubscriber",
-                        new NamedParameter("hostName", eventQueueHostName), new NamedParameter("queueName", eventQueueName)),
+                .Register(x => new EventConsumer(x.ResolveNamed<IMessageSubscriber>("EventSubscriber",
+                                new NamedParameter("hostName", eventQueueHostName),
+                                new NamedParameter("exchangeName", eventQueueExchangeName),
+                                new NamedParameter("queueName", eventQueueName)
+                            ),
                             eventHandlersResolver(x)))
                 .Named<IEventConsumer>($"{ThisConfiguration.Type}.LocalEventConsumer");
         }
 
         private void RegisterService(ContainerBuilder builder,
-            Func<IMessageConsumer, IMessageConsumer, ICommandConsumer, IEventConsumer, TService> serviceInitializer)
+            Func<ICommandConsumer, IEventConsumer, TService> serviceInitializer)
         {
-            Func<IComponentContext, IMessageConsumer> commandRedirectingConsumerResolver = context => 
-                context.ResolveNamed<IMessageConsumer>($"{ThisConfiguration.Type}.CommandRedirectingConsumer");
-            Func<IComponentContext, IMessageConsumer> eventRedirectingConsumerResolver = context =>
-                context.ResolveNamed<IMessageConsumer>($"{ThisConfiguration.Type}.EventRedirectingConsumer");
             Func<IComponentContext, ICommandConsumer> localCommandConsumerResolver = context =>
                 context.ResolveNamed<ICommandConsumer>($"{ThisConfiguration.Type}.LocalCommandConsumer");
             Func<IComponentContext, IEventConsumer> localEventConsumerResolver = context =>
                 context.ResolveNamed<IEventConsumer>($"{ThisConfiguration.Type}.LocalEventConsumer");
 
-            builder.Register(x => serviceInitializer(commandRedirectingConsumerResolver(x), 
-                    eventRedirectingConsumerResolver(x), 
-                    localCommandConsumerResolver(x), 
-                    localEventConsumerResolver(x)))
+            builder.Register(x => serviceInitializer(localCommandConsumerResolver(x), localEventConsumerResolver(x)))
                 .As<IService>()
                 .SingleInstance();
         }
 
         protected IDomainRepository ResolveGlobalDomainRepository(IComponentContext context) => context.Resolve<IDomainRepository>();
 
-        protected ICommandSender ResolveGlobalCommandSender(IComponentContext context) => context.Resolve<IEnumerable<Lazy<ICommandSender, NamedMetadata>>>().First(p => p.Metadata.Name == "CommandSender").Value;
+        protected ICommandSender ResolveGlobalCommandSender(IComponentContext context) => context.Resolve<ICommandSender>();
 
-        protected IEventPublisher ResolveGlobalEventPublisher(IComponentContext context) => context.Resolve<IEnumerable<Lazy<IEventPublisher, NamedMetadata>>>().First(p => p.Metadata.Name == "EventPublisher").Value;
+        protected IEventPublisher ResolveGlobalEventPublisher(IComponentContext context) => context.Resolve<IEventPublisher>();
 
-        protected IMessageSubscriber ResolveGlobalCommandSubscriber(IComponentContext context) => context.ResolveNamed<IMessageSubscriber>("CommandSubscriber");
+        //protected IMessageSubscriber ResolveGlobalCommandSubscriber(IComponentContext context) => context.ResolveNamed<IMessageSubscriber>("CommandSubscriber");
 
-        protected IMessageSubscriber ResolveGlobalEventSubscriber(IComponentContext context) => context.ResolveNamed<IMessageSubscriber>("EventSubscriber");
+        //protected IMessageSubscriber ResolveGlobalEventSubscriber(IComponentContext context) => context.ResolveNamed<IMessageSubscriber>("EventSubscriber");
 
         protected ITableDataGateway ResolveTableDataGateway(IComponentContext context) => context.Resolve<IEnumerable<Lazy<ITableDataGateway, NamedMetadata>>>().First(p => p.Metadata.Name == $"{ThisConfiguration.Type}.TableDataGateway").Value;
 
@@ -199,7 +176,7 @@ namespace WeText.Services.Common
 
         protected virtual IEnumerable<Func<IComponentContext, IDomainEventHandler>> EventHandlersInitializer => null;
 
-        protected abstract Func<IMessageConsumer, IMessageConsumer, ICommandConsumer, IEventConsumer, TService> ServiceInitializer { get; }
+        protected abstract Func<ICommandConsumer, IEventConsumer, TService> ServiceInitializer { get; }
 
     }
 }

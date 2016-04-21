@@ -98,7 +98,7 @@
     </configurationElement>
     <configurationElement name="ApplicationSettingElement">
       <attributeProperties>
-        <attributeProperty name="Url" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="url" isReadOnly="false">
+        <attributeProperty name="Url" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="url" isReadOnly="false" documentation="Represents the base url of the WeText service.">
           <type>
             <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
           </type>
@@ -112,14 +112,14 @@
             <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
           </type>
         </attributeProperty>
-        <attributeProperty name="ResourceName" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="resourceName" isReadOnly="false" documentation="Gets or sets the name of the resource of the message queue. A resource can be either a queue, or an exchange to which queues can be bound.">
+        <attributeProperty name="ExchangeName" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="exchangeName" isReadOnly="false" documentation="Gets or sets the name of the resource of the message queue. A resource can be either a queue, or an exchange to which queues can be bound.">
           <type>
             <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
           </type>
         </attributeProperty>
-        <attributeProperty name="ResourceType" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="resourceType" isReadOnly="false">
+        <attributeProperty name="QueueName" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="queueName" isReadOnly="false">
           <type>
-            <enumeratedTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/MessageQueueResourceType" />
+            <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
           </type>
         </attributeProperty>
       </attributeProperties>

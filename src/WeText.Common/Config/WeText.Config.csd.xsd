@@ -95,7 +95,7 @@
 	<xs:complexType name="WeText.Common.Config.ApplicationSettingElementCT">
 		<xs:attribute name="url" use="required" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>The Url.</xs:documentation>
+				<xs:documentation>Represents the base url of the WeText service.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>
@@ -105,14 +105,14 @@
 				<xs:documentation>The HostName.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="resourceName" use="required" type="xs:string">
+		<xs:attribute name="exchangeName" use="optional" type="xs:string">
 			<xs:annotation>
 				<xs:documentation>Gets or sets the name of the resource of the message queue. A resource can be either a queue, or an exchange to which queues can be bound.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="resourceType" use="required" type="tns:MessageQueueResourceType">
+		<xs:attribute name="queueName" use="optional" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>The ResourceType.</xs:documentation>
+				<xs:documentation>The QueueName.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>

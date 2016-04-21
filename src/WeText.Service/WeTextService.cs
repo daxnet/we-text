@@ -14,17 +14,20 @@ using Microsoft.Owin.Hosting;
 using System;
 using System.Collections.Generic;
 using WeText.Common;
+using WeText.Common.Config;
 
 namespace WeText.Service
 {
     internal sealed class WeTextService : Common.Services.Service
     {
+        private readonly WeTextConfiguration configuration = WeTextConfiguration.Instance;
+
         private const string SearchPath = "services";
         private static List<IService> microServices = new List<IService>();
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
 
-        static void DiscoverServices(ContainerBuilder builder)
+        private void DiscoverServices(ContainerBuilder builder)
         {
             var searchFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), SearchPath);
             foreach (var file in Directory.EnumerateFiles(searchFolder, "*.dll", SearchOption.AllDirectories))
@@ -33,10 +36,16 @@ namespace WeText.Service
                 {
                     var assembly = Assembly.LoadFrom(file);
                     var exportedTypes = assembly.GetExportedTypes();
-                    if (exportedTypes.Any(t=>t.IsSubclassOf(typeof(Autofac.Module))))
+                    var microserviceRegisterType = exportedTypes.FirstOrDefault(x => x.IsSubclassOf(typeof(Autofac.Module)));
+                    if (microserviceRegisterType != null)
                     {
-                        builder.RegisterAssemblyModules(assembly);
+                        var mod = (Autofac.Module)Activator.CreateInstance(microserviceRegisterType, configuration);
+                        builder.RegisterModule(mod);
                     }
+                    //if (exportedTypes.Any(t => t.IsSubclassOf(typeof(Autofac.Module))))
+                    //{
+                    //    builder.RegisterAssemblyModules(assembly);
+                    //}
                     if (exportedTypes.Any(t => t.IsSubclassOf(typeof(ApiController))))
                     {
                         builder.RegisterApiControllers(assembly).InstancePerRequest();
@@ -48,26 +57,24 @@ namespace WeText.Service
 
         public void Configuration(IAppBuilder app)
         {
+            
             var builder = new ContainerBuilder();
-            builder.Register(x => new RabbitMqCommandSender("localhost", "WeTextCommandExchange"))
-                //.Named<ICommandSender>("CommandSender")
-                .As<ICommandSender>()
-                .WithMetadata<NamedMetadata>(x => x.For(y => y.Name, "CommandSender"));
 
-            builder.Register(x => new RabbitMqEventPublisher("localhost", "WeTextEventExchange"))
-                //.Named<IEventPublisher>("EventPublisher")
-                .As<IEventPublisher>()
-                .WithMetadata<NamedMetadata>(x => x.For(y => y.Name, "EventPublisher"));
+            builder.RegisterInstance<WeTextConfiguration>(this.configuration).SingleInstance();
 
-            builder.Register(x => new RabbitMqMessageSubscriber("localhost", "WeTextCommandExchange")).Named<IMessageSubscriber>("CommandSubscriber");
-            builder.Register(x => new RabbitMqMessageSubscriber("localhost", "WeTextEventExchange")).Named<IMessageSubscriber>("EventSubscriber");
+            builder.Register(x => new RabbitMqCommandSender(configuration.CommandQueue.HostName, configuration.CommandQueue.ExchangeName))
+                .As<ICommandSender>();
 
-            builder.RegisterType<RabbitMqQueueCommandSender>().Named<ICommandSender>("LocalMessageQueueCommandSender");
-            builder.RegisterType<RabbitMqQueueEventPublisher>().Named<IEventPublisher>("LocalMessageQueueEventPublisher");
-            builder.RegisterType<RabbitMqQueueSubscriber>().Named<IMessageSubscriber>("LocalMessageQueueCommandSubscriber");
-            builder.RegisterType<RabbitMqQueueSubscriber>().Named<IMessageSubscriber>("LocalMessageQueueEventSubscriber");
+            builder.Register(x => new RabbitMqEventPublisher(configuration.EventQueue.HostName, configuration.EventQueue.ExchangeName))
+                .As<IEventPublisher>();
 
-            builder.Register(x => new MongoDomainRepository(x.Resolve<IEnumerable<Lazy<IEventPublisher, NamedMetadata>>>().First(p => p.Metadata.Name == "EventPublisher").Value)).As<IDomainRepository>();
+            builder.RegisterType<RabbitMqMessageSubscriber>()
+                .Named<IMessageSubscriber>("CommandSubscriber");
+
+            builder.RegisterType<RabbitMqMessageSubscriber>()
+                .Named<IMessageSubscriber>("EventSubscriber");
+
+            builder.Register(x => new MongoDomainRepository(x.Resolve<IEventPublisher>())).As<IDomainRepository>();
 
             // Discovers the services.
             DiscoverServices(builder);
@@ -101,9 +108,34 @@ namespace WeText.Service
 
         public override void Start(object[] args)
         {
-            var url = "http://+:9023/";
-            log.Info("Starting WeText Service...");
+            // Validate the applicatoin configuration
+            if (string.IsNullOrEmpty(configuration?.ApplicationSetting?.Url))
+            {
+                throw new WeTextConfigurationException("Url is not specified in the configuraiton.");
+            }
 
+            if (string.IsNullOrEmpty(configuration?.CommandQueue?.HostName))
+            {
+                throw new WeTextConfigurationException("HostName of the Command Queue is not specified in the configuraiton.");
+            }
+
+            if (string.IsNullOrEmpty(configuration?.CommandQueue?.ExchangeName))
+            {
+                throw new WeTextConfigurationException("ExchangeName of the Command Queue is not specified in the configuraiton.");
+            }
+
+            if (string.IsNullOrEmpty(configuration?.EventQueue?.HostName))
+            {
+                throw new WeTextConfigurationException("HostName of the Event Queue is not specified in the configuraiton.");
+            }
+
+            if (string.IsNullOrEmpty(configuration?.EventQueue?.ExchangeName))
+            {
+                throw new WeTextConfigurationException("ExchangeName of the Event Queue is not specified in the configuraiton.");
+            }
+
+            var url = configuration.ApplicationSetting.Url;
+            log.Info("Starting WeText Service...");
             using (WebApp.Start<WeTextService>(url: url))
             {
                 microServices.ForEach(ms =>

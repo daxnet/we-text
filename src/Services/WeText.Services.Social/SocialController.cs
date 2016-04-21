@@ -6,25 +6,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WeText.Common;
+using WeText.Common.Config;
 using WeText.Common.Messaging;
 using WeText.Common.Querying;
 using WeText.Domain.Commands;
+using WeText.Services.Common;
 using WeText.Services.Social.Querying;
 
 namespace WeText.Services.Social
 {
     [RoutePrefix("api")]
-    public class SocialController : ApiController
+    public class SocialController : MicroserviceApiController<SocialService>
     {
-        private readonly ICommandSender commandSender;
-        private readonly ITableDataGateway tableDataGateway;
-
-        public SocialController(ICommandSender commandSender,
+        public SocialController(WeTextConfiguration configuration,
+            ICommandSender commandSender,
             IEnumerable<Lazy<ITableDataGateway, NamedMetadata>> tableGatewayRegistration)
-        {
-            this.commandSender = commandSender;
-            this.tableDataGateway = tableGatewayRegistration.First(x => x.Metadata.Name == "SocialServiceTableDataGateway").Value;
-        }
+            : base(configuration, commandSender, tableGatewayRegistration)
+        { }
 
         [HttpPost]
         [Route("social/invitation/send")]
@@ -40,7 +38,7 @@ namespace WeText.Services.Social
                 TargetUserId = Guid.Parse(targetUserId),
                 InvitationLetter = invitationLetter
             };
-            this.commandSender.Publish(command);
+            this.CommandSender.Publish(command);
             return Ok();
         }
 
@@ -55,7 +53,7 @@ namespace WeText.Services.Social
                 InvitationId = Guid.Parse(invitationId),
                 UserId = Guid.Parse(currentUserId)
             };
-            this.commandSender.Publish(command);
+            this.CommandSender.Publish(command);
             return Ok();
         }
 
@@ -70,7 +68,7 @@ namespace WeText.Services.Social
                 InvitationId = Guid.Parse(invitationId),
                 UserId = Guid.Parse(currentUserId)
             };
-            this.commandSender.Publish(command);
+            this.CommandSender.Publish(command);
             return Ok();
         }
 
@@ -79,7 +77,7 @@ namespace WeText.Services.Social
         public async Task<IHttpActionResult> MySentInvitations(string userId)
         {
             Expression<Func<NetworkTableObject, bool>> specification = x => x.OriginatorId == userId;
-            return Ok(await this.tableDataGateway.SelectAsync<NetworkTableObject>(specification));
+            return Ok(await this.TableDataGateway.SelectAsync<NetworkTableObject>(specification));
         }
 
         [HttpGet]
@@ -87,7 +85,7 @@ namespace WeText.Services.Social
         public async Task<IHttpActionResult> MyReceivedInvitations(string userId)
         {
             Expression<Func<NetworkTableObject, bool>> specification = x => x.TargetId == userId;
-            return Ok(await this.tableDataGateway.SelectAsync<NetworkTableObject>(specification));
+            return Ok(await this.TableDataGateway.SelectAsync<NetworkTableObject>(specification));
         }
 
         [HttpGet]
@@ -96,7 +94,7 @@ namespace WeText.Services.Social
         {
             Expression<Func<UserNameTableObject, bool>> specification = x => x.UserId != thisUserId;
 
-            return Ok(await this.tableDataGateway.SelectAsync<UserNameTableObject>(specification));
+            return Ok(await this.TableDataGateway.SelectAsync<UserNameTableObject>(specification));
         }
     }
 }

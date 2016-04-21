@@ -71,10 +71,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RabbitMqCommandSender.cs" />
     <Compile Include="RabbitMqEventPublisher.cs" />
-    <Compile Include="RabbitMqQueueCommandSender.cs" />
-    <Compile Include="RabbitMqQueueEventPublisher.cs" />
-    <Compile Include="RabbitMqQueueSubscriber.cs" />
-    <Compile Include="RabbitMqQueueProducer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WeText.Common\WeText.Common.csproj">
