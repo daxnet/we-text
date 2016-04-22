@@ -1,6 +1,9 @@
 # WeText
 WeText is a sample application that demonstrates the implementation of DDD/CQRS and microservice architectural patterns in C#.
 
+# Architecture
+![](https://raw.githubusercontent.com/wiki/daxnet/we-text/img/Architecture.png)
+
 # Prerequisites
 - Visual Studio 2015 with latest update (For development and debugging purpose)
 	- If you want to setup the CI server, you don't need to install the whole Visual Studio pack on your CI server, which is neither necessary nor cost-efficient. Please install the following packs instead:
