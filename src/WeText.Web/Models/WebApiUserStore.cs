@@ -185,7 +185,7 @@
                         PasswordHash = (string)account.Password
                     };
                 }
-                catch
+                catch(Exception ex)
                 {
                     return null;
                 }

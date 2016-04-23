@@ -11,6 +11,8 @@ namespace WeText.Common.Querying
 {
     public abstract class TableDataGateway : ITableDataGateway
     {
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name);
+
         /// <summary>
         /// Creates a new instance of the where clause builder.
         /// </summary>
@@ -198,6 +200,7 @@ namespace WeText.Common.Querying
                     catch (Exception ex)
                     {
                         transaction.Rollback();
+                        log.Error("Failed to insert the data.", ex);
                     }
                 }
 
@@ -206,39 +209,47 @@ namespace WeText.Common.Querying
 
         public async Task<IEnumerable<TTableObject>> SelectAsync<TTableObject>(Specification<TTableObject> specification) where TTableObject : class, new()
         {
-            using (var connection = this.CreateDatabaseConnection())
+            try
             {
-                await connection.OpenAsync();
-
-                var sql = $"SELECT {this.GetAllFieldNames<TTableObject>()} FROM {this.GetTableName<TTableObject>()}";
-                WhereClauseBuildResult whereClauseBuildResult = null;
-                if (specification != null)
+                using (var connection = this.CreateDatabaseConnection())
                 {
-                    var whereClauseBuilder = this.CreateWhereClauseBuilder<TTableObject>();
-                    whereClauseBuildResult = whereClauseBuilder.BuildWhereClause(specification);
-                    sql += $" WHERE {whereClauseBuildResult.WhereClause}";
-                }
+                    await connection.OpenAsync();
 
-                using (var command = this.CreateCommand(sql, connection))
-                {
-                    if (whereClauseBuildResult != null)
+                    var sql = $"SELECT {this.GetAllFieldNames<TTableObject>()} FROM {this.GetTableName<TTableObject>()}";
+                    WhereClauseBuildResult whereClauseBuildResult = null;
+                    if (specification != null)
                     {
-                        command.Parameters.Clear();
-                        var parameters = this.GetSelectCriteriaDbParameterList<TTableObject>(whereClauseBuildResult.ParameterValues);
-                        foreach (var param in parameters)
+                        var whereClauseBuilder = this.CreateWhereClauseBuilder<TTableObject>();
+                        whereClauseBuildResult = whereClauseBuilder.BuildWhereClause(specification);
+                        sql += $" WHERE {whereClauseBuildResult.WhereClause}";
+                    }
+
+                    using (var command = this.CreateCommand(sql, connection))
+                    {
+                        if (whereClauseBuildResult != null)
                         {
-                            command.Parameters.Add(param);
+                            command.Parameters.Clear();
+                            var parameters = this.GetSelectCriteriaDbParameterList<TTableObject>(whereClauseBuildResult.ParameterValues);
+                            foreach (var param in parameters)
+                            {
+                                command.Parameters.Add(param);
+                            }
                         }
+                        var reader = await command.ExecuteReaderAsync();
+                        List<TTableObject> result = new List<TTableObject>();
+                        while (await reader.ReadAsync())
+                        {
+                            result.Add(this.CreateFromReader<TTableObject>(reader));
+                        }
+                        reader.Close();
+                        return result;
                     }
-                    var reader = await command.ExecuteReaderAsync();
-                    List<TTableObject> result = new List<TTableObject>();
-                    while (await reader.ReadAsync())
-                    {
-                        result.Add(this.CreateFromReader<TTableObject>(reader));
-                    }
-                    reader.Close();
-                    return result;
                 }
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to select the data.", ex);
+                throw;
             }
         }
 
@@ -266,9 +277,10 @@ namespace WeText.Common.Querying
                         }
                         transaction.Commit();
                     }
-                    catch
+                    catch(Exception ex)
                     {
                         transaction.Rollback();
+                        log.Error("Failed to update.", ex);
                     }
                 }
             }
@@ -276,40 +288,45 @@ namespace WeText.Common.Querying
 
         private async Task DoUpdateAsync<TTableObject>(DbConnection connection, DbTransaction transaction, UpdateCriteria<TTableObject> updateCriteria, Specification<TTableObject> specification) where TTableObject : class, new()
         {
-            var whereClauseBuilder = this.CreateWhereClauseBuilder<TTableObject>();
-            var sql = $"UPDATE {GetTableName<TTableObject>()} SET {GetUpdateCriteriaParameterNameList<TTableObject>(whereClauseBuilder, updateCriteria)}";
-            WhereClauseBuildResult whereClauseBuildResult = null;
-            if (specification != null)
+            try
             {
-                whereClauseBuildResult = whereClauseBuilder.BuildWhereClause(specification);
-                sql = $"{sql} WHERE {whereClauseBuildResult.WhereClause}";
-            }
-            using (var command = this.CreateCommand(sql, connection))
-            {
-                if (transaction != null)
+                var whereClauseBuilder = this.CreateWhereClauseBuilder<TTableObject>();
+                var sql = $"UPDATE {GetTableName<TTableObject>()} SET {GetUpdateCriteriaParameterNameList<TTableObject>(whereClauseBuilder, updateCriteria)}";
+                WhereClauseBuildResult whereClauseBuildResult = null;
+                if (specification != null)
                 {
-                    command.Transaction = transaction;
+                    whereClauseBuildResult = whereClauseBuilder.BuildWhereClause(specification);
+                    sql = $"{sql} WHERE {whereClauseBuildResult.WhereClause}";
                 }
-                command.Parameters.Clear();
-                var updateParameters = GetUpdateCriteriaParameterList<TTableObject>(updateCriteria);
-                foreach (var parameter in updateParameters)
+                using (var command = this.CreateCommand(sql, connection))
                 {
-                    command.Parameters.Add(parameter);
-                }
-                if (whereClauseBuildResult != null)
-                {
-                    foreach (var kvp in whereClauseBuildResult.ParameterValues)
+                    if (transaction != null)
                     {
-                        var parameter = this.CreateParameter();
-                        parameter.ParameterName = kvp.Key;
-                        parameter.Value = kvp.Value;
+                        command.Transaction = transaction;
+                    }
+                    command.Parameters.Clear();
+                    var updateParameters = GetUpdateCriteriaParameterList<TTableObject>(updateCriteria);
+                    foreach (var parameter in updateParameters)
+                    {
                         command.Parameters.Add(parameter);
                     }
+                    if (whereClauseBuildResult != null)
+                    {
+                        foreach (var kvp in whereClauseBuildResult.ParameterValues)
+                        {
+                            var parameter = this.CreateParameter();
+                            parameter.ParameterName = kvp.Key;
+                            parameter.Value = kvp.Value;
+                            command.Parameters.Add(parameter);
+                        }
+                    }
+                    await command.ExecuteNonQueryAsync();
                 }
-                await command.ExecuteNonQueryAsync();
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to update.", ex);
             }
         }
-
-        
     }
 }

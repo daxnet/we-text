@@ -14,7 +14,7 @@ namespace WeText.Web.Models
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         private static readonly IWebApiUserStore UserStore =
-            new WebApiUserStore("http://localhost:9023/");
+            new WebApiUserStore(ConfigReader.ServiceUrl);
 
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
             : base(store)
@@ -65,6 +65,9 @@ namespace WeText.Web.Models
             }
         }
 
+        /// <summary>
+        /// Returns true if the store is an IQueryableUserStore
+        /// </summary>
         public override bool SupportsQueryableUsers
         {
             get { return false; }
@@ -142,29 +145,29 @@ namespace WeText.Web.Models
             manager.PasswordHasher = new ApplicationPasswordHasher();
 
             // Configure user lockout defaults
-            manager.UserLockoutEnabledByDefault = true;
-            manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
-            manager.MaxFailedAccessAttemptsBeforeLockout = 5;
+            //manager.UserLockoutEnabledByDefault = false;
+            //manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            //manager.MaxFailedAccessAttemptsBeforeLockout = 5;
 
-            // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
-            // You can write your own provider and plug it in here.
-            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
-            {
-                MessageFormat = "Your security code is {0}"
-            });
-            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
-            {
-                Subject = "Security Code",
-                BodyFormat = "Your security code is {0}"
-            });
-            manager.EmailService = new EmailService();
-            manager.SmsService = new SmsService();
-            var dataProtectionProvider = options.DataProtectionProvider;
-            if (dataProtectionProvider != null)
-            {
-                manager.UserTokenProvider =
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
-            }
+            //// Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
+            //// You can write your own provider and plug it in here.
+            //manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
+            //{
+            //    MessageFormat = "Your security code is {0}"
+            //});
+            //manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
+            //{
+            //    Subject = "Security Code",
+            //    BodyFormat = "Your security code is {0}"
+            //});
+            //manager.EmailService = new EmailService();
+            //manager.SmsService = new SmsService();
+            //var dataProtectionProvider = options.DataProtectionProvider;
+            //if (dataProtectionProvider != null)
+            //{
+            //    manager.UserTokenProvider =
+            //        new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+            //}
             return manager;
         }
     }

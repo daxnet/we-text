@@ -176,6 +176,7 @@
     <Compile Include="Models\ApplicationSignInManager.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ApplicationUserManager.cs" />
+    <Compile Include="Models\ConfigReader.cs" />
     <Compile Include="Models\CreateTextViewModel.cs" />
     <Compile Include="Models\EditTextViewModel.cs" />
     <Compile Include="Models\IWebApiUserStore.cs" />

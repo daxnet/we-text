@@ -12,7 +12,7 @@ namespace WeText.Web.Controllers
     [Authorize]
     public class MyTextController : Controller
     {
-        const string baseAddress = "http://localhost:9023/";
+        private readonly string baseAddress = ConfigReader.ServiceUrl;
 
 
         public async Task<ActionResult> Index()
