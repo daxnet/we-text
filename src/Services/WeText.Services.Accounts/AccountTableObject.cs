@@ -7,7 +7,7 @@ using WeText.Common.Querying;
 
 namespace WeText.Services.Accounts
 {
-    [ToTable("Accounts")]
+    [ToTable("accounts")]
     public class AccountTableObject
     {
         [Key(false)]

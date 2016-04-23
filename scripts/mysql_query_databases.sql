@@ -18,7 +18,7 @@ CREATE TABLE `networks` (
   `OriginatorId` varchar(64) NOT NULL,
   `TargetId` varchar(64) NOT NULL,
   `InvitationStartDate` datetime NOT NULL,
-  `InvitationEndDate` datetime(6) DEFAULT NULL,
+  `InvitationEndDate` datetime DEFAULT NULL,
   `InvitationEndReason` int(11) DEFAULT NULL,
   `InvitationId` varchar(64) NOT NULL,
   `OriginatorName` varchar(32) NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE `texts` (
   `UserId` varchar(64) NOT NULL,
   `Title` varchar(32) NOT NULL,
   `Content` longtext NOT NULL,
-  `DateCreated` datetime(6) NOT NULL,
+  `DateCreated` datetime NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Id_UNIQUE` (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

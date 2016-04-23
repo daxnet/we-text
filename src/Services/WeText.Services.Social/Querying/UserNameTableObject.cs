@@ -7,7 +7,7 @@ using WeText.Common.Querying;
 
 namespace WeText.Services.Social.Querying
 {
-    [ToTable("UserNames")]
+    [ToTable("usernames")]
     public class UserNameTableObject
     {
         [Key(false)]
