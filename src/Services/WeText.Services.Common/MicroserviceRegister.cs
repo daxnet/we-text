@@ -1,9 +1,35 @@
-﻿using Autofac;
+﻿// ---------------------------------------------------------------------------------------------------------------                                                                                       
+//                                                                                                    
+//     XNSPZ.    qXFXZ:   LPPN@:             N0kXSk5kSPkPqM:                                 .        
+//     @B@B@.   B@B@B@7   B@B@B             r@@@B@B@B@B@B@B                              UM@@@        
+//     B@B@B   G@B@B@B:  B@B@@              uBMEqB@B@@E8MMS                              B@@@J        
+//     BB@B@  L@B@O@@@: :@@@B    r8@B@B@Mi       @B@B5       :P@B@B@BY  L@B@BB   @B@B@u@B@B@B@B@      
+//     G@B@B  @@@iL@@B, @B@B.  :@B@B2j@B@@i     EB@B@.      @B@BN7@@@BX  @@B@B  @B@BO O@@B@B@B@E      
+//     0B@BN @B@M J@B@ rB@B7  ,@B@B. :B@@@:     B@B@B      @@@B7  B@B@S   B@B@M@B@B,   :B@B@r         
+//     F@B@2E@@B  UB@BvB@Bq   @B@B@B@B@BO:     r@B@@L     XB@B@B@B@BB7    vB@B@B@B     F@B@B          
+//     5@@B@B@B.  v@B@B@B@    B@B@O            @B@B@      M@B@B:         Z@@B@B@B@i    @B@BM          
+//     2@B@B@B;   vB@B@B@     2B@@@J:iPBZ     .B@@@@      :B@@@q:i2B@  7@B@BB @@@B@.  .B@B@B@B        
+//     uB@B@@X    r@B@B@,      rB@B@@@B@.     X@B@Br       ,M@B@B@B@; M@B@BO  i@B@B@   XB@B@BM   
+//
+// WeText - A simple application that demonstrates the DDD, CQRS, Event Sourcing and Microservices architecture.
+//
+// Copyright (C) by daxnet 2016
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//    http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ---------------------------------------------------------------------------------------------------------------
+
+using Autofac;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WeText.Common;
 using WeText.Common.Commands;
 using WeText.Common.Config;
@@ -15,19 +41,63 @@ using WeText.Common.Services;
 
 namespace WeText.Services.Common
 {
+    /// <summary>
+    /// Represents that the derived types are microservice registers.
+    /// </summary>
+    /// <typeparam name="TService">The type of the microservice.</typeparam>
+    /// <seealso cref="Autofac.Module" />
     public abstract class MicroserviceRegister<TService> : Module
         where TService : Microservice
     {
         private readonly WeTextConfiguration configuration;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MicroserviceRegister{TService}"/> class.
+        /// </summary>
+        /// <param name="configuration">The instance of WeText configuration.</param>
         protected MicroserviceRegister(WeTextConfiguration configuration)
         {
             this.configuration = configuration;
         }
 
-        
+
+        /// <summary>
+        /// Gets the WeText configuration specific for the current service.
+        /// </summary>
+        /// <value>
+        /// The configuration instance.
+        /// </value>
         protected ServiceElement ThisConfiguration => this.configuration.Services.GetItemByKey(typeof(TService).FullName);
 
+        /// <summary>
+        /// Resolves the instance of <see cref="IDomainRepository"/> that has been registered globally from the Autofac container.
+        /// </summary>
+        /// <param name="context">The <see cref="IComponentContext"/> instance that handles the Autofac registration.</param>
+        /// <returns></returns>
+        protected IDomainRepository ResolveGlobalDomainRepository(IComponentContext context) => context.Resolve<IDomainRepository>();
+
+        protected ICommandSender ResolveGlobalCommandSender(IComponentContext context) => context.Resolve<ICommandSender>();
+
+        protected IEventPublisher ResolveGlobalEventPublisher(IComponentContext context) => context.Resolve<IEventPublisher>();
+
+        protected ITableDataGateway ResolveTableDataGateway(IComponentContext context) => context.Resolve<IEnumerable<Lazy<ITableDataGateway, NamedMetadata>>>().First(p => p.Metadata.Name == $"{ThisConfiguration.Type}.TableDataGateway").Value;
+
+        protected virtual Func<IComponentContext, ITableDataGateway> TableDataGatewayInitializer => null;
+
+        protected virtual IEnumerable<Func<IComponentContext, ICommandHandler>> CommandHandlersInitializer => null;
+
+        protected virtual IEnumerable<Func<IComponentContext, IDomainEventHandler>> EventHandlersInitializer => null;
+
+        protected abstract Func<ICommandConsumer, IEventConsumer, TService> ServiceInitializer { get; }
+
+        /// <summary>
+        /// Override to add registrations to the container.
+        /// </summary>
+        /// <param name="builder">The builder through which components can be
+        /// registered.</param>
+        /// <remarks>
+        /// Note that the ContainerBuilder parameter is unique to this module.
+        /// </remarks>
         protected override void Load(ContainerBuilder builder)
         {
             this.RegisterTableDataGateway(builder, this.TableDataGatewayInitializer);
@@ -157,26 +227,5 @@ namespace WeText.Services.Common
                 .As<IService>()
                 .SingleInstance();
         }
-
-        protected IDomainRepository ResolveGlobalDomainRepository(IComponentContext context) => context.Resolve<IDomainRepository>();
-
-        protected ICommandSender ResolveGlobalCommandSender(IComponentContext context) => context.Resolve<ICommandSender>();
-
-        protected IEventPublisher ResolveGlobalEventPublisher(IComponentContext context) => context.Resolve<IEventPublisher>();
-
-        //protected IMessageSubscriber ResolveGlobalCommandSubscriber(IComponentContext context) => context.ResolveNamed<IMessageSubscriber>("CommandSubscriber");
-
-        //protected IMessageSubscriber ResolveGlobalEventSubscriber(IComponentContext context) => context.ResolveNamed<IMessageSubscriber>("EventSubscriber");
-
-        protected ITableDataGateway ResolveTableDataGateway(IComponentContext context) => context.Resolve<IEnumerable<Lazy<ITableDataGateway, NamedMetadata>>>().First(p => p.Metadata.Name == $"{ThisConfiguration.Type}.TableDataGateway").Value;
-
-        protected virtual Func<IComponentContext, ITableDataGateway> TableDataGatewayInitializer => null;
-
-        protected virtual IEnumerable<Func<IComponentContext, ICommandHandler>> CommandHandlersInitializer => null;
-
-        protected virtual IEnumerable<Func<IComponentContext, IDomainEventHandler>> EventHandlersInitializer => null;
-
-        protected abstract Func<ICommandConsumer, IEventConsumer, TService> ServiceInitializer { get; }
-
     }
 }

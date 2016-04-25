@@ -52,8 +52,14 @@ namespace WeText.Services.Common
             this.eventConsumer = eventConsumer;
         }
 
+        /// <summary>
+        /// Gets the <see cref="ICommandConsumer"/> instance that can consume a command message.
+        /// </summary>
         public ICommandConsumer CommandConsumer => commandConsumer;
 
+        /// <summary>
+        /// Gets the <see cref="IEventConsumer"/> instance that can consume an event message.
+        /// </summary>
         public IEventConsumer EventConsumer => eventConsumer;
 
         /// <summary>
