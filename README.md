@@ -12,7 +12,6 @@ WeText is a sample application that demonstrates the implementation of DDD/CQRS 
 - Rabbit MQ (For lightweight message queue)
 - Mongo DB (For CQRS Event Store)
 - MySQL (In case you wish to use MySQL as Table Data Gateway)
-- PostgreSQL (In case you wish to use PostgreSQL as Table Data Gateway)
 
 # Environment Setup
 Follow the instructions below to setup your environment so that you can debug and run the WeText application.
@@ -26,14 +25,10 @@ Follow the instructions below to setup your environment so that you can debug an
 	-  For more information about MongoDB installation, please refer to [https://docs.mongodb.org/manual/installation/](https://docs.mongodb.org/manual/installation/)
 -  Download and install MySQL community edition with default preferences (In case you wish to use MySQL as Table Data Gateway)
 	-  For more information about MySQL server installation, please refer to [http://dev.mysql.com/doc/refman/5.7/en/installing.html](http://dev.mysql.com/doc/refman/5.7/en/installing.html)
--  Download and install PostgreSQL database with default preferences (In case you wish to use PostgreSQL as Table Data Gateway)
-	-  For more information about PostgreSQL installation, please refer to [http://www.postgresql.org/docs/9.5/static/tutorial-install.html](http://www.postgresql.org/docs/9.5/static/tutorial-install.html)
 -  Initialize databases with the scripts (These scripts are only for use by querying)
-	-  If you are using MySQL, please execute the database initialization script file `mysql_query_databases.sql` under the `scripts` folder
-	-  If you are using PostgreSQL, please execute the database initialization script file `pg_query_databases.sql` under the `scripts` folder
--  (Optional) Install either MySQL or PostgreSQL client management tools
-	-  For MySQL, please refer to [http://dev.mysql.com/downloads/workbench/](http://dev.mysql.com/downloads/workbench/ "MySQL Workbench")
-	-  For PostgreSQL, please refer to [http://www.pgadmin.org/](http://www.pgadmin.org/ "pgAdminIII")
+	-  Execute the database initialization script file `mysql_query_databases.sql` under the `scripts` folder
+-  (Optional) Install MySQL client management tools
+	-  Please refer to [http://dev.mysql.com/downloads/workbench/](http://dev.mysql.com/downloads/workbench/ "MySQL Workbench")
 
 ## Run on Windows with Visual Studio 2015
 Follow the instructions below to run WeText application from within Visual Studio 2015.
