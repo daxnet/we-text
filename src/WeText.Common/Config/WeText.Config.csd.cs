@@ -177,6 +177,32 @@ namespace WeText.Common.Config
             }
         }
         #endregion
+        
+        #region MongoEventStore Property
+        /// <summary>
+        /// The XML name of the <see cref="MongoEventStore"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        internal const string MongoEventStorePropertyName = "mongoEventStore";
+        
+        /// <summary>
+        /// Gets or sets the MongoEventStore.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The MongoEventStore.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.WeTextConfiguration.MongoEventStorePropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
+        public virtual global::WeText.Common.Config.MongoEventStoreElement MongoEventStore
+        {
+            get
+            {
+                return ((global::WeText.Common.Config.MongoEventStoreElement)(base[global::WeText.Common.Config.WeTextConfiguration.MongoEventStorePropertyName]));
+            }
+            set
+            {
+                base[global::WeText.Common.Config.WeTextConfiguration.MongoEventStorePropertyName] = value;
+            }
+        }
+        #endregion
     }
 }
 namespace WeText.Common.Config
@@ -964,6 +990,106 @@ namespace WeText.Common.Config
             set
             {
                 base[global::WeText.Common.Config.MessageQueueConfigurationElement.QueueNamePropertyName] = value;
+            }
+        }
+        #endregion
+    }
+}
+namespace WeText.Common.Config
+{
+    
+    
+    /// <summary>
+    /// The MongoEventStoreElement Configuration Element.
+    /// </summary>
+    public partial class MongoEventStoreElement : global::System.Configuration.ConfigurationElement
+    {
+        
+        #region IsReadOnly override
+        /// <summary>
+        /// Gets a value indicating whether the element is read-only.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        public override bool IsReadOnly()
+        {
+            return false;
+        }
+        #endregion
+        
+        #region ConnectionString Property
+        /// <summary>
+        /// The XML name of the <see cref="ConnectionString"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        internal const string ConnectionStringPropertyName = "connectionString";
+        
+        /// <summary>
+        /// Gets or sets the ConnectionString.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The ConnectionString.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.MongoEventStoreElement.ConnectionStringPropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
+        public virtual string ConnectionString
+        {
+            get
+            {
+                return ((string)(base[global::WeText.Common.Config.MongoEventStoreElement.ConnectionStringPropertyName]));
+            }
+            set
+            {
+                base[global::WeText.Common.Config.MongoEventStoreElement.ConnectionStringPropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region Database Property
+        /// <summary>
+        /// The XML name of the <see cref="Database"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        internal const string DatabasePropertyName = "database";
+        
+        /// <summary>
+        /// Gets or sets the Database.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The Database.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.MongoEventStoreElement.DatabasePropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
+        public virtual string Database
+        {
+            get
+            {
+                return ((string)(base[global::WeText.Common.Config.MongoEventStoreElement.DatabasePropertyName]));
+            }
+            set
+            {
+                base[global::WeText.Common.Config.MongoEventStoreElement.DatabasePropertyName] = value;
+            }
+        }
+        #endregion
+        
+        #region CollectionName Property
+        /// <summary>
+        /// The XML name of the <see cref="CollectionName"/> property.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        internal const string CollectionNamePropertyName = "collectionName";
+        
+        /// <summary>
+        /// Gets or sets the CollectionName.
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
+        [global::System.ComponentModel.DescriptionAttribute("The CollectionName.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.MongoEventStoreElement.CollectionNamePropertyName, IsRequired=true, IsKey=false, IsDefaultCollection=false)]
+        public virtual string CollectionName
+        {
+            get
+            {
+                return ((string)(base[global::WeText.Common.Config.MongoEventStoreElement.CollectionNamePropertyName]));
+            }
+            set
+            {
+                base[global::WeText.Common.Config.MongoEventStoreElement.CollectionNamePropertyName] = value;
             }
         }
         #endregion

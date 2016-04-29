@@ -14,12 +14,13 @@ namespace WeText.DomainRepositories
 {
     public class MongoDomainRepository : DomainRepository
     {
-        private readonly WeTextMongoSetting setting = new WeTextMongoSetting();
+        private readonly MongoSetting setting;
         private readonly Lazy<MongoClient> client;
         private readonly Lazy<IMongoDatabase> database;
 
-        public MongoDomainRepository(IMessagePublisher bus) : base(bus)
+        public MongoDomainRepository(MongoSetting setting, IMessagePublisher bus) : base(bus)
         {
+            this.setting = setting;
             this.client = new Lazy<MongoClient>(() => new MongoClient(setting.ConnectionString));
             this.database = new Lazy<IMongoDatabase>(() => client.Value.GetDatabase(setting.DatabaseName));
         }
@@ -28,7 +29,7 @@ namespace WeText.DomainRepositories
             where TKey : IEquatable<TKey>
             where TAggregateRoot : IAggregateRoot<TKey>
         {
-            var collection = database.Value.GetCollection<TAggregateRoot>(setting.AggregatesCollectionName);
+            var collection = database.Value.GetCollection<TAggregateRoot>(setting.CollectionName);
             return await collection.Find<TAggregateRoot>(filter).FirstOrDefaultAsync();
         }
 
@@ -41,7 +42,7 @@ namespace WeText.DomainRepositories
 
         protected override async Task SaveAggregateAsync<TKey, TAggregateRoot>(TAggregateRoot aggregateRoot)
         {
-            var collection = database.Value.GetCollection<TAggregateRoot>(setting.AggregatesCollectionName);
+            var collection = database.Value.GetCollection<TAggregateRoot>(setting.CollectionName);
             var builder = Builders<TAggregateRoot>.Filter;
             var filter = builder.Eq(x => x.Id, aggregateRoot.Id);
             var saved = await GetAggregateAsync<TKey, TAggregateRoot>(filter);

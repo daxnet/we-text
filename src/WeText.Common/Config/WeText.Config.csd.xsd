@@ -31,6 +31,11 @@
 					<xs:documentation>The ApplicationSetting.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element minOccurs="1" name="mongoEventStore" type="tns:WeText.Common.Config.MongoEventStoreElementCT">
+				<xs:annotation>
+					<xs:documentation>The MongoEventStore.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="WeText.Common.Config.SettingElementCT">
@@ -113,6 +118,23 @@
 		<xs:attribute name="queueName" use="optional" type="xs:string">
 			<xs:annotation>
 				<xs:documentation>The QueueName.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="WeText.Common.Config.MongoEventStoreElementCT">
+		<xs:attribute name="connectionString" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The ConnectionString.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="database" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The Database.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="collectionName" use="required" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The CollectionName.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:complexType>

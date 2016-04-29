@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace WeText.DomainRepositories
 {
-    internal class WeTextMongoSetting
+    public class MongoSetting
     {
-        public string ConnectionString => "mongodb://localhost:27017";
+        public string ConnectionString { get; set; }
 
-        public string DatabaseName => "WeText";
+        public string DatabaseName { get; set; }
 
-        public string AggregatesCollectionName => "Aggregates";
+        public string CollectionName { get; set; }
     }
 }

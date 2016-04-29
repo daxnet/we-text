@@ -74,7 +74,13 @@ namespace WeText.Service
             builder.RegisterType<RabbitMqMessageSubscriber>()
                 .Named<IMessageSubscriber>("EventSubscriber");
 
-            builder.Register(x => new MongoDomainRepository(x.Resolve<IEventPublisher>())).As<IDomainRepository>();
+            var mongoSetting = new MongoSetting
+            {
+                ConnectionString = configuration.MongoEventStore.ConnectionString,
+                CollectionName = configuration.MongoEventStore.CollectionName,
+                DatabaseName = configuration.MongoEventStore.Database
+            };
+            builder.Register(x => new MongoDomainRepository(mongoSetting, x.Resolve<IEventPublisher>())).As<IDomainRepository>();
 
             // Discovers the services.
             DiscoverServices(builder);

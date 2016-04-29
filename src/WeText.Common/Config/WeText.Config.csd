@@ -39,6 +39,11 @@
             <configurationElementMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/ApplicationSettingElement" />
           </type>
         </elementProperty>
+        <elementProperty name="MongoEventStore" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="mongoEventStore" isReadOnly="false">
+          <type>
+            <configurationElementMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/MongoEventStoreElement" />
+          </type>
+        </elementProperty>
       </elementProperties>
     </configurationSection>
     <configurationElement name="SettingElement">
@@ -118,6 +123,25 @@
           </type>
         </attributeProperty>
         <attributeProperty name="QueueName" isRequired="false" isKey="false" isDefaultCollection="false" xmlName="queueName" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
+          </type>
+        </attributeProperty>
+      </attributeProperties>
+    </configurationElement>
+    <configurationElement name="MongoEventStoreElement">
+      <attributeProperties>
+        <attributeProperty name="ConnectionString" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="connectionString" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="Database" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="database" isReadOnly="false">
+          <type>
+            <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
+          </type>
+        </attributeProperty>
+        <attributeProperty name="CollectionName" isRequired="true" isKey="false" isDefaultCollection="false" xmlName="collectionName" isReadOnly="false">
           <type>
             <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
           </type>
