@@ -151,11 +151,11 @@ namespace WeText.Services.Common
 
         private void RegisterLocalCommandConsumer(ContainerBuilder builder)
         {
-            var commandQueueHostName = ThisConfiguration?.LocalCommandQueue?.HostName;
+            var commandQueueConnectionUri = ThisConfiguration?.LocalCommandQueue?.ConnectionUri;
             var commandQueueExchangeName = ThisConfiguration?.LocalCommandQueue?.ExchangeName;
             var commandQueueName = ThisConfiguration?.LocalCommandQueue?.QueueName;
 
-            if (string.IsNullOrEmpty(commandQueueName) ||
+            if (string.IsNullOrEmpty(commandQueueConnectionUri) ||
                 string.IsNullOrEmpty(commandQueueExchangeName) ||
                 string.IsNullOrEmpty(commandQueueName))
             {
@@ -174,7 +174,7 @@ namespace WeText.Services.Common
 
             builder
                 .Register(x => new CommandConsumer(x.ResolveNamed<IMessageSubscriber>("CommandSubscriber",
-                                new NamedParameter("hostName", commandQueueHostName), 
+                                new NamedParameter("uri", commandQueueConnectionUri), 
                                 new NamedParameter("exchangeName", commandQueueExchangeName), 
                                 new NamedParameter("queueName", commandQueueName)
                             ),
@@ -184,11 +184,11 @@ namespace WeText.Services.Common
 
         private void RegisterLocalEventConsumer(ContainerBuilder builder)
         {
-            var eventQueueHostName = ThisConfiguration?.LocalEventQueue?.HostName;
+            var eventQueueConnectionUri = ThisConfiguration?.LocalEventQueue?.ConnectionUri;
             var eventQueueExchangeName = ThisConfiguration?.LocalEventQueue?.ExchangeName;
             var eventQueueName = ThisConfiguration?.LocalEventQueue?.QueueName;
 
-            if (string.IsNullOrEmpty(eventQueueHostName) ||
+            if (string.IsNullOrEmpty(eventQueueConnectionUri) ||
                 string.IsNullOrEmpty(eventQueueExchangeName) ||
                 string.IsNullOrEmpty(eventQueueName))
             {
@@ -207,7 +207,7 @@ namespace WeText.Services.Common
 
             builder
                 .Register(x => new EventConsumer(x.ResolveNamed<IMessageSubscriber>("EventSubscriber",
-                                new NamedParameter("hostName", eventQueueHostName),
+                                new NamedParameter("uri", eventQueueConnectionUri),
                                 new NamedParameter("exchangeName", eventQueueExchangeName),
                                 new NamedParameter("queueName", eventQueueName)
                             ),

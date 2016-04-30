@@ -9,8 +9,8 @@ namespace WeText.Messaging.RabbitMq
 {
     public class RabbitMqEventPublisher : RabbitMqMessagePublisher, IEventPublisher
     {
-        public RabbitMqEventPublisher(string hostName, string exchangeName)
-            : base(hostName, exchangeName)
+        public RabbitMqEventPublisher(string uri, string exchangeName)
+            : base(uri, exchangeName)
         { }
     }
 }

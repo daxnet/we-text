@@ -112,7 +112,7 @@
     </configurationElement>
     <configurationElement name="MessageQueueConfigurationElement">
       <attributeProperties>
-        <attributeProperty name="HostName" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="hostName" isReadOnly="false">
+        <attributeProperty name="ConnectionUri" isRequired="true" isKey="true" isDefaultCollection="false" xmlName="connectionUri" isReadOnly="false">
           <type>
             <externalTypeMoniker name="/64189409-4a3e-47e0-92c2-7c7c92b4ed19/String" />
           </type>

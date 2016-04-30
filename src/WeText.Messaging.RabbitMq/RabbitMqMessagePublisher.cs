@@ -17,10 +17,10 @@ namespace WeText.Messaging.RabbitMq
         private readonly IModel channel;
         private bool disposed;
 
-        protected RabbitMqMessagePublisher(string hostName, string exchangeName)
+        protected RabbitMqMessagePublisher(string uri, string exchangeName)
         {
             this.exchangeName = exchangeName;
-            var factory = new ConnectionFactory() { HostName = hostName };
+            var factory = new ConnectionFactory() { Uri = uri };
             this.connection = factory.CreateConnection();
             this.channel = connection.CreateModel();
         }

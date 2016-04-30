@@ -9,8 +9,8 @@ namespace WeText.Messaging.RabbitMq
 {
     public class RabbitMqCommandSender : RabbitMqMessagePublisher, ICommandSender
     {
-        public RabbitMqCommandSender(string hostName, string exchangeName)
-            : base(hostName, exchangeName)
+        public RabbitMqCommandSender(string uri, string exchangeName)
+            : base(uri, exchangeName)
         { }
 
     }

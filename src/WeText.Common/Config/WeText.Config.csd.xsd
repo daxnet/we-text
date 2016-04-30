@@ -105,9 +105,9 @@
 		</xs:attribute>
 	</xs:complexType>
 	<xs:complexType name="WeText.Common.Config.MessageQueueConfigurationElementCT">
-		<xs:attribute name="hostName" use="required" type="xs:string">
+		<xs:attribute name="connectionUri" use="required" type="xs:string">
 			<xs:annotation>
-				<xs:documentation>The HostName.</xs:documentation>
+				<xs:documentation>The ConnectionUri.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 		<xs:attribute name="exchangeName" use="optional" type="xs:string">

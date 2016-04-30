@@ -915,28 +915,28 @@ namespace WeText.Common.Config
         }
         #endregion
         
-        #region HostName Property
+        #region ConnectionUri Property
         /// <summary>
-        /// The XML name of the <see cref="HostName"/> property.
+        /// The XML name of the <see cref="ConnectionUri"/> property.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
-        internal const string HostNamePropertyName = "hostName";
+        internal const string ConnectionUriPropertyName = "connectionUri";
         
         /// <summary>
-        /// Gets or sets the HostName.
+        /// Gets or sets the ConnectionUri.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("ConfigurationSectionDesigner.CsdFileGenerator", "2.0.1.0")]
-        [global::System.ComponentModel.DescriptionAttribute("The HostName.")]
-        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.MessageQueueConfigurationElement.HostNamePropertyName, IsRequired=true, IsKey=true, IsDefaultCollection=false)]
-        public virtual string HostName
+        [global::System.ComponentModel.DescriptionAttribute("The ConnectionUri.")]
+        [global::System.Configuration.ConfigurationPropertyAttribute(global::WeText.Common.Config.MessageQueueConfigurationElement.ConnectionUriPropertyName, IsRequired=true, IsKey=true, IsDefaultCollection=false)]
+        public virtual string ConnectionUri
         {
             get
             {
-                return ((string)(base[global::WeText.Common.Config.MessageQueueConfigurationElement.HostNamePropertyName]));
+                return ((string)(base[global::WeText.Common.Config.MessageQueueConfigurationElement.ConnectionUriPropertyName]));
             }
             set
             {
-                base[global::WeText.Common.Config.MessageQueueConfigurationElement.HostNamePropertyName] = value;
+                base[global::WeText.Common.Config.MessageQueueConfigurationElement.ConnectionUriPropertyName] = value;
             }
         }
         #endregion
