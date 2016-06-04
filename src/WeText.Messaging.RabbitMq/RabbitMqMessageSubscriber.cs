@@ -24,14 +24,14 @@ namespace WeText.Messaging.RabbitMq
         /// <summary>
         /// Initializes a new instance of <c>RabbitMqMessageSubscriber</c> class.
         /// </summary>
-        /// <param name="hostName"></param>
+        /// <param name="uri"></param>
         /// <param name="exchangeName"></param>
         /// <param name="queueName"></param>
-        public RabbitMqMessageSubscriber(string hostName, string exchangeName, string queueName)
+        public RabbitMqMessageSubscriber(string uri, string exchangeName, string queueName)
         {
             this.exchangeName = exchangeName;
             this.queueName = queueName;
-            var factory = new ConnectionFactory() { HostName = hostName };
+            var factory = new ConnectionFactory() { Uri = uri };
             this.connection = factory.CreateConnection();
             this.channel = connection.CreateModel();
         }

@@ -62,10 +62,10 @@ namespace WeText.Service
 
             builder.RegisterInstance<WeTextConfiguration>(this.configuration).SingleInstance();
 
-            builder.Register(x => new RabbitMqCommandSender(configuration.CommandQueue.HostName, configuration.CommandQueue.ExchangeName))
+            builder.Register(x => new RabbitMqCommandSender(configuration.CommandQueue.ConnectionUri, configuration.CommandQueue.ExchangeName))
                 .As<ICommandSender>();
 
-            builder.Register(x => new RabbitMqEventPublisher(configuration.EventQueue.HostName, configuration.EventQueue.ExchangeName))
+            builder.Register(x => new RabbitMqEventPublisher(configuration.EventQueue.ConnectionUri, configuration.EventQueue.ExchangeName))
                 .As<IEventPublisher>();
 
             builder.RegisterType<RabbitMqMessageSubscriber>()
@@ -120,9 +120,9 @@ namespace WeText.Service
                 throw new WeTextConfigurationException("Url is not specified in the configuraiton.");
             }
 
-            if (string.IsNullOrEmpty(configuration?.CommandQueue?.HostName))
+            if (string.IsNullOrEmpty(configuration?.CommandQueue?.ConnectionUri))
             {
-                throw new WeTextConfigurationException("HostName of the Command Queue is not specified in the configuraiton.");
+                throw new WeTextConfigurationException("ConnectionUri of the Command Queue is not specified in the configuraiton.");
             }
 
             if (string.IsNullOrEmpty(configuration?.CommandQueue?.ExchangeName))
@@ -130,9 +130,9 @@ namespace WeText.Service
                 throw new WeTextConfigurationException("ExchangeName of the Command Queue is not specified in the configuraiton.");
             }
 
-            if (string.IsNullOrEmpty(configuration?.EventQueue?.HostName))
+            if (string.IsNullOrEmpty(configuration?.EventQueue?.ConnectionUri))
             {
-                throw new WeTextConfigurationException("HostName of the Event Queue is not specified in the configuraiton.");
+                throw new WeTextConfigurationException("ConnectionUri of the Event Queue is not specified in the configuraiton.");
             }
 
             if (string.IsNullOrEmpty(configuration?.EventQueue?.ExchangeName))
