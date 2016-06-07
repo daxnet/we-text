@@ -24,6 +24,20 @@ namespace WeText.Services.Social
             : base(configuration, commandSender, tableGatewayRegistration)
         { }
 
+        [HttpGet]
+        [Route("social/system/info")]
+        public IHttpActionResult GetSystemInformation()
+        {
+            return Ok(new
+            {
+                Service = "Social",
+                Environment.MachineName,
+                Environment.Is64BitOperatingSystem,
+                Environment.Is64BitProcess,
+                Environment.OSVersion.VersionString
+            });
+        }
+
         [HttpPost]
         [Route("social/invitation/send")]
         public IHttpActionResult SendInvitation([FromBody] dynamic model)

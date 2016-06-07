@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using WeText.Common;
 using WeText.Common.Config;
+using WeText.Services.Common;
 
 namespace WeText.Service
 {
@@ -36,16 +37,19 @@ namespace WeText.Service
                 {
                     var assembly = Assembly.LoadFrom(file);
                     var exportedTypes = assembly.GetExportedTypes();
-                    var microserviceRegisterType = exportedTypes.FirstOrDefault(x => x.IsSubclassOf(typeof(Autofac.Module)));
+                    var microserviceRegisterType = exportedTypes.FirstOrDefault(x => x.IsSubclassOf(typeof(Autofac.Module)) &&
+                        x.BaseType.GetGenericTypeDefinition() == typeof(MicroserviceRegister<>));
                     if (microserviceRegisterType != null)
                     {
+                        var registeringService = microserviceRegisterType.BaseType.GetGenericArguments().First();
+                        if (configuration.Services.All(x=>x.Type != registeringService.FullName))
+                        {
+                            continue;
+                        }
                         var mod = (Autofac.Module)Activator.CreateInstance(microserviceRegisterType, configuration);
                         builder.RegisterModule(mod);
                     }
-                    //if (exportedTypes.Any(t => t.IsSubclassOf(typeof(Autofac.Module))))
-                    //{
-                    //    builder.RegisterAssemblyModules(assembly);
-                    //}
+
                     if (exportedTypes.Any(t => t.IsSubclassOf(typeof(ApiController))))
                     {
                         builder.RegisterApiControllers(assembly).InstancePerRequest();

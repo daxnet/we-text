@@ -24,6 +24,20 @@ namespace WeText.Services.Accounts
             : base(configuration, commandSender, tableGatewayRegistration)
         { }
 
+        [HttpGet]
+        [Route("accounts/system/info")]
+        public IHttpActionResult GetSystemInformation()
+        {
+            return Ok(new
+            {
+                Service = "Accounts",
+                Environment.MachineName,
+                Environment.Is64BitOperatingSystem,
+                Environment.Is64BitProcess,
+                Environment.OSVersion.VersionString
+            });
+        }
+
         [Route("accounts/create")]
         [HttpPost]
         public IHttpActionResult CreateUser([FromBody] dynamic model)

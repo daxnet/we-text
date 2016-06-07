@@ -25,6 +25,20 @@ namespace WeText.Services.Texting
 
         }
 
+        [HttpGet]
+        [Route("texting/system/info")]
+        public IHttpActionResult GetSystemInformation()
+        {
+            return Ok(new
+            {
+                Service = "Texting",
+                Environment.MachineName,
+                Environment.Is64BitOperatingSystem,
+                Environment.Is64BitProcess,
+                Environment.OSVersion.VersionString
+            });
+        }
+
 
         [HttpPost]
         [Route("texts/create")]
