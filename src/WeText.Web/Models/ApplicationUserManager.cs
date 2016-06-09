@@ -49,20 +49,13 @@ namespace WeText.Web.Models
 
         public override async Task<IdentityResult> CreateAsync(ApplicationUser user)
         {
-            try
+            var identityResult = await this.UserValidator.ValidateAsync(user);
+            if (!identityResult.Succeeded)
             {
-                var identityResult = await this.UserValidator.ValidateAsync(user);
-                if (!identityResult.Succeeded)
-                {
-                    return identityResult;
-                }
-                await this.Store.CreateAsync(user);
-                return IdentityResult.Success;
+                return identityResult;
             }
-            catch(Exception ex)
-            {
-                throw;
-            }
+            await this.Store.CreateAsync(user);
+            return IdentityResult.Success;
         }
 
         /// <summary>

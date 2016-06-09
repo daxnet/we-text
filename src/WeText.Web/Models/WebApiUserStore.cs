@@ -27,20 +27,13 @@
 
         public async Task<bool> AuthenticateAsync(ApplicationUser user, string passwordHash)
         {
-            try
+            using (var proxy = new ServiceProxy(this.baseAddress))
             {
-                using (var proxy = new ServiceProxy(this.baseAddress))
-                {
-                    var result = await proxy.GetAsync($"api/accounts/name/{user.UserName}");
-                    result.EnsureSuccessStatusCode();
-                    dynamic accounts = JsonConvert.DeserializeObject(await result.Content.ReadAsStringAsync());
-                    dynamic account = accounts[0];
-                    return passwordHash == (string)account.Password;
-                }
-            }
-            catch(Exception ex)
-            {
-                return false;
+                var result = await proxy.GetAsync($"api/accounts/name/{user.UserName}");
+                result.EnsureSuccessStatusCode();
+                dynamic accounts = JsonConvert.DeserializeObject(await result.Content.ReadAsStringAsync());
+                dynamic account = accounts[0];
+                return passwordHash == (string)account.Password;
             }
         }
 
@@ -171,24 +164,17 @@
                     return null;
                 }
 
-                try
+                result.EnsureSuccessStatusCode();
+                dynamic accounts = JsonConvert.DeserializeObject(await result.Content.ReadAsStringAsync());
+                dynamic account = accounts[0];
+                return new ApplicationUser
                 {
-                    result.EnsureSuccessStatusCode();
-                    dynamic accounts = JsonConvert.DeserializeObject(await result.Content.ReadAsStringAsync());
-                    dynamic account = accounts[0];
-                    return new ApplicationUser
-                    {
-                        UserName = (string)account.Name,
-                        DisplayName = (string)account.DisplayName,
-                        Email = (string)account.Email,
-                        Id = (string)account.Id,
-                        PasswordHash = (string)account.Password
-                    };
-                }
-                catch(Exception ex)
-                {
-                    return null;
-                }
+                    UserName = (string)account.Name,
+                    DisplayName = (string)account.DisplayName,
+                    Email = (string)account.Email,
+                    Id = (string)account.Id,
+                    PasswordHash = (string)account.Password
+                };
             }
         }
 
@@ -207,24 +193,22 @@
                 {
                     return null;
                 }
-                try
-                {
-                    result.EnsureSuccessStatusCode();
-                    dynamic accounts = JsonConvert.DeserializeObject(await result.Content.ReadAsStringAsync());
-                    dynamic account = accounts[0];
-                    return new ApplicationUser
-                    {
-                        UserName = (string)account.Name,
-                        DisplayName = (string)account.DisplayName,
-                        Email = (string)account.Email,
-                        Id = (string)account.Id,
-                        PasswordHash = (string)account.Password
-                    };
-                }
-                catch(Exception ex)
+
+                result.EnsureSuccessStatusCode();
+                dynamic accounts = JsonConvert.DeserializeObject(await result.Content.ReadAsStringAsync());
+                if (accounts.Count == 0)
                 {
                     return null;
                 }
+                dynamic account = accounts[0];
+                return new ApplicationUser
+                {
+                    UserName = (string)account.Name,
+                    DisplayName = (string)account.DisplayName,
+                    Email = (string)account.Email,
+                    Id = (string)account.Id,
+                    PasswordHash = (string)account.Password
+                };
             }
         }
 

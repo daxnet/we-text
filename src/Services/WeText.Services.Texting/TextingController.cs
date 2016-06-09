@@ -26,7 +26,7 @@ namespace WeText.Services.Texting
         }
 
         [HttpGet]
-        [Route("texting/system/info")]
+        [Route("texts/system/info")]
         public IHttpActionResult GetSystemInformation()
         {
             return Ok(new
