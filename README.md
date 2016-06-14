@@ -41,7 +41,25 @@ Follow the instructions below to run WeText application from within Visual Studi
 Note that the default configuration assumes that all the message queuing and database services are run on the same machine as the application (localhost). You can change the settings by editing the `App.config` file in `WeText.Service` application according to your environment setup. For debugging and demonstration purpose, running on the same local machine is recommended.
 
 ## Build and Run on Linux
-[T.B.D]
+The steps below are for building we-text service under Ubuntu 14.04.4 LTS. We-text service can also be built on other Linux variants such as CentOS.
+### Install Mono
+Building we-text service requires the Mono framework and xbuild tool chain. Please refer to [http://www.mono-project.com/docs/compiling-mono/linux/](http://www.mono-project.com/docs/compiling-mono/linux/) for more information about how to install Mono on your Linux machine.
+
+### Install MongoDB
+In we-text, MongoDB is used as the backend database for storing domain events. Please refer to [https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/](https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/) for more information about how to install MongoDB on your linux machine.
+
+### Install RabbitMQ
+For more information about how to install RabbitMQ on Linux systems, please refer to [http://www.rabbitmq.com/install-debian.html](http://www.rabbitmq.com/install-debian.html)
+
+### Install MySQL
+For more information about how to install MySQL on Linux systems, please refer to [https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-14-04](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-14-04)
+
+### Compile Source Code
+1. Use the git command below to clone the repository:
+
+		git clone https://github.com/daxnet/we-text
+2. Switch into `we-text\scripts` folder, execute `mysql -u root -p` to start MySQL client, after the client has connected to the server successfully, execute `\. mysql_query_databases.sql` command to initialize the query database
+3. 
 
 # Screenshots
 ### Application Home Page
