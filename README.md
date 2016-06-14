@@ -1,6 +1,7 @@
-# WeText
 WeText is a sample application that demonstrates the implementation of DDD/CQRS and microservice architectural patterns in C#.
 
+
+# Service Build Status
 | Windows Server 2012 | Ubuntu 14.04.4 LTS | CentOS 7 |
 |---------------------|--------------------|----------|
 |[![Build Status](http://daxnet.me:8080/buildStatus/icon?job=we-text-win)](http://daxnet.me:8080/job/we-text-win/)|[![Build Status](http://daxnet.me:8080/buildStatus/icon?job=we-text-ubuntu)](http://daxnet.me:8080/job/we-text-ubuntu/)|[![Build Status](http://daxnet.me:8080/buildStatus/icon?job=we-text-centos)](http://daxnet.me:8080/job/we-text-centos/)|
@@ -64,7 +65,10 @@ For more information about how to install MySQL on Linux systems, please refer t
 
 		git clone https://github.com/daxnet/we-text
 2. Switch into `we-text\scripts` folder, execute `mysql -u root -p` to start MySQL client, after the client has connected to the server successfully, execute `\. mysql_query_databases.sql` command to initialize the query database
-3. 
+3. Download the dependency package from [http://daxnet.me/files/we_text_pkg_Ubuntu.tar](http://daxnet.me/files/we_text_pkg_Ubuntu.tar) and extract the package into `src` folder
+4. Change current directory to `we-text/src`, and use the following command to execute the build:
+
+		xbuild /p:TargetFrameworkVersion=v4.6.1 /p:Configuration=ServerDebug WeText.sln
 
 # Screenshots
 ### Application Home Page
