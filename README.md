@@ -1,6 +1,11 @@
 # WeText
 WeText is a sample application that demonstrates the implementation of DDD/CQRS and microservice architectural patterns in C#.
 
+| Windows Server 2012 | Ubuntu 14.04.4 LTS | CentOS 7 |
+|---------------------|--------------------|----------|
+|[![Build Status](http://daxnet.me:8080/buildStatus/icon?job=we-text-win)](http://daxnet.me:8080/job/we-text-win/)|[![Build Status](http://daxnet.me:8080/buildStatus/icon?job=we-text-ubuntu)](http://daxnet.me:8080/job/we-text-ubuntu/)|[![Build Status](http://daxnet.me:8080/buildStatus/icon?job=we-text-centos)](http://daxnet.me:8080/job/we-text-centos/)|
+
+
 # Architecture
 ![](https://raw.githubusercontent.com/wiki/daxnet/we-text/img/Architecture.png)
 
