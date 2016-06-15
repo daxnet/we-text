@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>We-text by daxnet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">We-text</h1>
+      <h2 class="project-tagline">WeText is a sample application that demonstrates the implementation of DDD/CQRS and microservice architectural patterns in C#.</h2>
+      <a href="https://github.com/daxnet/we-text" class="btn">View on GitHub</a>
+      <a href="https://github.com/daxnet/we-text/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/daxnet/we-text/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p>WeText is a sample application that demonstrates the implementation of DDD/CQRS and microservice architectural patterns in C#.</p>
+
+<h1>
+<a id="service-build-status" class="anchor" href="#service-build-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Service Build Status</h1>
+
+<table>
+<thead>
+<tr>
+<th>Windows Server 2012</th>
+<th>Ubuntu 14.04.4 LTS</th>
+<th>CentOS 7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://daxnet.me:8080/job/we-text-win/"><img src="http://daxnet.me:8080/buildStatus/icon?job=we-text-win" alt="Build Status"></a></td>
+<td><a href="http://daxnet.me:8080/job/we-text-ubuntu/"><img src="http://daxnet.me:8080/buildStatus/icon?job=we-text-ubuntu" alt="Build Status"></a></td>
+<td><a href="http://daxnet.me:8080/job/we-text-centos/"><img src="http://daxnet.me:8080/buildStatus/icon?job=we-text-centos" alt="Build Status"></a></td>
+</tr>
+</tbody>
+</table>
+
+<h1>
+<a id="architecture" class="anchor" href="#architecture" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Architecture</h1>
+
+<p><img src="https://raw.githubusercontent.com/wiki/daxnet/we-text/img/Architecture.png" alt=""></p>
+
+<h1>
+<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prerequisites</h1>
+
+<ul>
+<li>Visual Studio 2015 with latest update (For development and debugging purpose)
+
+<ul>
+<li>If you want to setup the CI server, you don't need to install the whole Visual Studio pack on your CI server, which is neither necessary nor cost-efficient. Please install the following packs instead:
+
+<ul>
+<li>MS Build Tool: <a href="https://www.microsoft.com/en-sg/download/details.aspx?id=48159">https://www.microsoft.com/en-sg/download/details.aspx?id=48159</a>
+</li>
+<li>.NET 4.6.1 Developer Pack: <a href="https://www.microsoft.com/en-us/download/details.aspx?id=49978">https://www.microsoft.com/en-us/download/details.aspx?id=49978</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Rabbit MQ (For lightweight message queue)</li>
+<li>Mongo DB (For CQRS Event Store)</li>
+<li>MySQL (In case you wish to use MySQL as Table Data Gateway)</li>
+</ul>
+
+<h1>
+<a id="environment-setup" class="anchor" href="#environment-setup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Environment Setup</h1>
+
+<p>Follow the instructions below to setup your environment so that you can debug and run the WeText application.</p>
+
+<ul>
+<li>
+<p>Download the source code from GitHub</p>
+
+<pre><code>git clone https://github.com/daxnet/we-text
+</code></pre>
+</li>
+<li> Download and install Rabbit MQ with default preferences (Default port numbers, default server configuration)
+
+<ul>
+<li> For more information about Rabbit MQ installation, please refer to <a href="https://www.rabbitmq.com/download.html">https://www.rabbitmq.com/download.html</a>
+</li>
+</ul>
+</li>
+<li> Download and install Mongo DB with default preferences (Default port numbers, default server configuration)
+
+<ul>
+<li> For more information about MongoDB installation, please refer to <a href="https://docs.mongodb.org/manual/installation/">https://docs.mongodb.org/manual/installation/</a>
+</li>
+</ul>
+</li>
+<li> Download and install MySQL community edition with default preferences (In case you wish to use MySQL as Table Data Gateway)
+
+<ul>
+<li> For more information about MySQL server installation, please refer to <a href="http://dev.mysql.com/doc/refman/5.7/en/installing.html">http://dev.mysql.com/doc/refman/5.7/en/installing.html</a>
+</li>
+</ul>
+</li>
+<li> Initialize databases with the scripts (These scripts are only for use by querying)
+
+<ul>
+<li> Execute the database initialization script file <code>mysql_query_databases.sql</code> under the <code>scripts</code> folder</li>
+</ul>
+</li>
+<li> (Optional) Install MySQL client management tools
+
+<ul>
+<li> Please refer to <a href="http://dev.mysql.com/downloads/workbench/" title="MySQL Workbench">http://dev.mysql.com/downloads/workbench/</a>
+</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="run-on-windows-with-visual-studio-2015" class="anchor" href="#run-on-windows-with-visual-studio-2015" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Run on Windows with Visual Studio 2015</h2>
+
+<p>Follow the instructions below to run WeText application from within Visual Studio 2015.</p>
+
+<ul>
+<li> Open <code>WeText.sln</code> from Visual Studio 2015</li>
+<li> Set <code>WeText.Service</code> project as startup project and run</li>
+<li> Set <code>WeText.Web</code> project as startup project and run</li>
+<li> Enjoy! ^_^</li>
+</ul>
+
+<p>Note that the default configuration assumes that all the message queuing and database services are run on the same machine as the application (localhost). You can change the settings by editing the <code>App.config</code> file in <code>WeText.Service</code> application according to your environment setup. For debugging and demonstration purpose, running on the same local machine is recommended.</p>
+
+<h2>
+<a id="build-and-run-on-linux" class="anchor" href="#build-and-run-on-linux" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Build and Run on Linux</h2>
+
+<p>The steps below are for building we-text service under Ubuntu 14.04.4 LTS. We-text service can also be built on other Linux variants such as CentOS.</p>
+
+<h3>
+<a id="install-mono" class="anchor" href="#install-mono" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install Mono</h3>
+
+<p>Building we-text service requires the Mono framework and xbuild tool chain. Please refer to <a href="http://www.mono-project.com/docs/compiling-mono/linux/">http://www.mono-project.com/docs/compiling-mono/linux/</a> for more information about how to install Mono on your Linux machine.</p>
+
+<h3>
+<a id="install-mongodb" class="anchor" href="#install-mongodb" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install MongoDB</h3>
+
+<p>In we-text, MongoDB is used as the backend database for storing domain events. Please refer to <a href="https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/">https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/</a> for more information about how to install MongoDB on your linux machine.</p>
+
+<h3>
+<a id="install-rabbitmq" class="anchor" href="#install-rabbitmq" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install RabbitMQ</h3>
+
+<p>For more information about how to install RabbitMQ on Linux systems, please refer to <a href="http://www.rabbitmq.com/install-debian.html">http://www.rabbitmq.com/install-debian.html</a></p>
+
+<h3>
+<a id="install-mysql" class="anchor" href="#install-mysql" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install MySQL</h3>
+
+<p>For more information about how to install MySQL on Linux systems, please refer to <a href="https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-14-04">https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-14-04</a></p>
+
+<h3>
+<a id="compile-source-code" class="anchor" href="#compile-source-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compile Source Code</h3>
+
+<ol>
+<li>
+<p>Use the git command below to clone the repository:</p>
+
+<pre><code>git clone https://github.com/daxnet/we-text
+</code></pre>
+</li>
+<li>Switch into <code>we-text\scripts</code> folder, execute <code>mysql -u root -p</code> to start MySQL client, after the client has connected to the server successfully, execute <code>\. mysql_query_databases.sql</code> command to initialize the query database</li>
+<li>Download the dependency package from <a href="http://daxnet.me/files/we_text_pkg_Ubuntu.tar">http://daxnet.me/files/we_text_pkg_Ubuntu.tar</a> and extract the package into <code>src</code> folder</li>
+<li>
+<p>Change current directory to <code>we-text/src</code>, and use the following command to execute the build:</p>
+
+<pre><code>xbuild /p:TargetFrameworkVersion=v4.6.1 /p:Configuration=ServerDebug WeText.sln
+</code></pre>
+</li>
+</ol>
+
+<h1>
+<a id="screenshots" class="anchor" href="#screenshots" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Screenshots</h1>
+
+<h3>
+<a id="application-home-page" class="anchor" href="#application-home-page" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Application Home Page</h3>
+
+<p><img src="https://raw.githubusercontent.com/wiki/daxnet/we-text/img/ApplicationHomePage.png" alt=""></p>
+
+<h3>
+<a id="my-texts" class="anchor" href="#my-texts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>My Texts</h3>
+
+<p><img src="https://raw.githubusercontent.com/wiki/daxnet/we-text/img/ApplicationMyTexts.png" alt=""></p>
+
+<h3>
+<a id="my-friends" class="anchor" href="#my-friends" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>My Friends</h3>
+
+<p><img src="https://raw.githubusercontent.com/wiki/daxnet/we-text/img/ApplicationMyFriends.png" alt=""></p>
+
+<h1>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Documentation</h1>
+
+<p>[Under Construction]</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/daxnet/we-text">We-text</a> is maintained by <a href="https://github.com/daxnet">daxnet</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
